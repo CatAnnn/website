@@ -116,7 +116,7 @@ class SsoFlowTest {
 				.authorizationUri(base + "/authorize").tokenUri(base + "/token").jwkSetUri(base + "/keys")
 				.issuerUri(ISSUER).userNameAttributeName("sub").build();
 		when(clients.findByRegistrationId("bosch")).thenReturn(client);
-		when(login.execute(any(), any(), any(), any())).thenReturn(new LoginUseCase.TokenPair("test-access",
+		when(login.execute(any(), any(), any(), any(), any())).thenReturn(new LoginUseCase.TokenPair("test-access",
 				"test-refresh", new Profile("employee@example.invalid", "Employee", "unused")));
 		receivedTokenForm.set(null);
 	}
@@ -164,7 +164,18 @@ class SsoFlowTest {
 		assertTrue(session.isInvalid());
 		assertFalse(result.getResponse().getRedirectedUrl().contains("token"));
 		assertTrue(receivedTokenForm.get().contains("code_verifier="));
-		verify(login).execute(UUID.fromString(TENANT), UUID.fromString(OBJECT), "employee@example.invalid", "Employee");
+		verify(login).execute(UUID.fromString(TENANT), UUID.fromString(OBJECT), "employee@example.invalid", "Employee", "HRL-CN C/HRR-JMPCN");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"missing_department", "invalid_department"})
+	void absentOrMalformedDepartmentDoesNotBlockVerifiedIdentity(String defect) throws Exception {
+		var start = start("/");
+		var parameters = query(start.getResponse().getRedirectedUrl());
+		prepareToken(parameters.get("nonce"), defect);
+		callback((MockHttpSession) start.getRequest().getSession(false), parameters.get("state"))
+				.andExpect(cookie().exists("refresh_token"));
+		verify(login).execute(eq(UUID.fromString(TENANT)), eq(UUID.fromString(OBJECT)), anyString(), anyString(), isNull());
 	}
 
 	@ParameterizedTest
@@ -211,7 +222,7 @@ class SsoFlowTest {
 
 	@Test
 	void unlinkedAccountGetsActionableErrorWithoutSession() throws Exception {
-		when(login.execute(any(), any(), any(), any()))
+		when(login.execute(any(), any(), any(), any(), any()))
 				.thenThrow(new OAuth2AuthenticationException(new OAuth2Error("account_not_linked")));
 		var start = start("/overview");
 		var parameters = query(start.getResponse().getRedirectedUrl());
@@ -246,6 +257,7 @@ class SsoFlowTest {
 				.audience(defect.equals("audience") ? "other-client" : CLIENT).issueTime(Date.from(now.minusSeconds(5)))
 				.expirationTime(Date.from(defect.equals("expired") ? now.minusSeconds(120) : now.plusSeconds(300)))
 				.claim("email", "employee@example.invalid").claim("name", "Employee")
+				.claim("department", defect.equals("missing_department") ? null : defect.equals("invalid_department") ? java.util.List.of("HRL") : "HRL-CN C/HRR-JMPCN")
 				.claim("nonce", defect.equals("nonce") ? "wrong-nonce" : nonce)
 				.claim("tid", defect.equals("tenant") ? "44444444-4444-4444-4444-444444444444" : TENANT);
 		if (!defect.equals("missing_acct")) {

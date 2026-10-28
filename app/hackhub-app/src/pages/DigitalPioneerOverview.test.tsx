@@ -22,6 +22,8 @@ describe('DigitalPioneerOverview', () => {
     expect(screen.getAllByText('创新破局').length).toBeGreaterThan(0)
     expect(screen.getAllByText('协作共赢').length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: 'Start a nomination' }).length).toBeGreaterThan(0)
-    expect(screen.getByText('Oct. 19–30')).toBeInTheDocument()
+    for (const period of ['Nov.16-28', 'Nov.30-Dec.11', 'Dec.14-25', 'Jan.']) {
+      expect(screen.getByText(period)).toBeInTheDocument()
+    }
   })
 })

@@ -54,12 +54,13 @@ class StorageSecurityServiceTest {
 	}
 
 	@Test
-	void participant_cannot_upload_nomination_materials() {
+	void participant_can_upload_own_nomination_materials() {
 		Authentication participant = new UsernamePasswordAuthenticationToken(user, null,
 				List.of(new SimpleGrantedAuthority("ROLE_PARTICIPANT")));
-		assertThatThrownBy(() -> security.requireAccess("project-attachments", "nominations/" + campaign + "/" + user,
-				true, participant)).isInstanceOf(AccessDeniedException.class);
-		verifyNoInteractions(hackathons, ideas);
+		when(hackathons.canView(campaign, participant)).thenReturn(true);
+		assertThatCode(() -> security.requireAccess("project-attachments", "nominations/" + campaign + "/" + user,
+				true, participant)).doesNotThrowAnyException();
+		verifyNoInteractions(ideas);
 	}
 
 	@Test

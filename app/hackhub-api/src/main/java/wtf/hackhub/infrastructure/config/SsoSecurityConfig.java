@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.ClientRegistrations;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -39,6 +40,10 @@ public class SsoSecurityConfig {
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
 				.scope("openid", "profile", "email")
 				.redirectUri(properties.publicBaseUrl() + "/api/v1/auth/oidc/callback/bosch").build();
+		// Entra claims mapping can use application-specific token signing keys.
+		registration = ClientRegistration.withClientRegistration(registration)
+				.jwkSetUri(registration.getProviderDetails().getJwkSetUri() + "?appid=" + properties.clientId())
+				.build();
 		return new InMemoryClientRegistrationRepository(registration);
 	}
 

@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render } from '@testing-library/react'
 import { MantineProvider } from '@mantine/core'
 import { MemoryRouter } from 'react-router-dom'
 import { LandingPage } from './LandingPage'
+vi.mock('../hooks/useNominationEligibility', () => ({ useNominationEligibility: () => ({ data: { canSubmit: false, canReview: false } }) }))
 
 vi.mock('../store/authStore', () => ({ useAuthStore: () => ({ user: null, logout: vi.fn() }) }))
 vi.mock('../hooks/useAwardAccess', () => ({ useAwardAccess: () => ({ canReview: false, canManage: false }) }))

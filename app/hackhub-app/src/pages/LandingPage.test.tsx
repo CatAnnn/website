@@ -8,6 +8,7 @@ const state = vi.hoisted(() => ({ user: null as null | { id: string; name: strin
 vi.mock('../store/authStore', () => ({ useAuthStore: () => ({ user: state.user, logout: vi.fn() }) }))
 vi.mock('../hooks/useAwardAccess', () => ({ useAwardAccess: () => ({ canReview: state.user?.role === 'admin' || state.judge, canManage: state.user?.role === 'admin' }) }))
 vi.mock('../hooks/useTechBackground', () => ({ useTechBackground: vi.fn() }))
+vi.mock('../hooks/useNominationEligibility', () => ({ useNominationEligibility: () => ({ data: { canSubmit: true, canReview: false } }) }))
 
 const renderPage = (path = '/') => render(<MantineProvider env="test"><MemoryRouter initialEntries={[path]}><LandingPage><p>Original overview content</p></LandingPage></MemoryRouter></MantineProvider>)
 

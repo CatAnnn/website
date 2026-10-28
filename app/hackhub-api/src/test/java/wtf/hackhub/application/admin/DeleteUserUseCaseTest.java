@@ -51,4 +51,14 @@ class DeleteUserUseCaseTest {
 				.isInstanceOf(DeleteUserUseCase.UserNotFoundException.class);
 		verify(profileRepository, never()).deleteById(targetId);
 	}
+	@Test
+	void explainsProtectedAwardHistoryInsteadOfDeletingIt() {
+		UUID target = UUID.randomUUID();
+		when(profileRepository.existsById(target)).thenReturn(true);
+		org.mockito.Mockito.doThrow(new org.springframework.dao.DataIntegrityViolationException("protected"))
+				.when(profileRepository).flush();
+		assertThatThrownBy(() -> useCase.execute(target, UUID.randomUUID()))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("cannot be deleted");
+	}
+
 }

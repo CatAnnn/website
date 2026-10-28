@@ -10,7 +10,8 @@ import { ProfileService } from '../services/profileService'
 import { StorageService } from '../services/storageService'
 import { TeamService } from '../services/teamService'
 
-const { createIdea, createTeam, getOrCreateNominationTeam, getComments, addComment, getIdeas, getHackathons, updateIdea, uploadFile, voteIdea, clearMyVotes, clearTrackVotes, submitVotes, deleteVoteRecord, deleteIdea, deleteIdeas, currentUser, listNominees } = vi.hoisted(() => ({
+const { createIdea, getIdea, createTeam, getOrCreateNominationTeam, getComments, addComment, getIdeas, getHackathons, updateIdea, uploadFile, voteIdea, clearMyVotes, clearTrackVotes, submitVotes, deleteVoteRecord, deleteIdea, deleteIdeas, currentUser, listNominees } = vi.hoisted(() => ({
+  getIdea: vi.fn(),
   submitVotes: vi.fn().mockResolvedValue(undefined),
   deleteVoteRecord: vi.fn().mockResolvedValue(undefined),
   deleteIdea: vi.fn().mockResolvedValue(undefined),
@@ -63,6 +64,7 @@ vi.stubGlobal('ResizeObserver', class {
 })
 
 vi.mock('../store/authStore', () => ({ useAuthStore: () => ({ user: currentUser }) }))
+vi.mock('../hooks/useNominationEligibility', () => ({ useNominationEligibility: () => ({ data: { canSubmit: true, canReview: false, nominatingHead: 'Assigned HoD' } }) }))
 vi.mock('../contexts/LanguageContext', () => ({ useLanguage: () => ({ language: 'en' }) }))
 vi.mock('../lib/apiClient', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../lib/apiClient')>()
@@ -77,6 +79,7 @@ vi.mock('../services/hackathonService', () => ({
 
 vi.mock('../services/ideaService', () => ({
   IdeaService: {
+    getIdea,
     getIdeas,
     voteIdea,
     clearMyVotes,
@@ -120,6 +123,21 @@ vi.mock('../services/judgingService', () => ({
 describe('ProjectShowcase', () => {
   beforeEach(() => { localStorage.clear(); vi.clearAllMocks() })
   afterEach(() => { currentUser.role = 'participant' })
+  it('shows a white empty-window message only after a successful empty response', async () => {
+    getHackathons.mockResolvedValueOnce({ content: [] })
+    render(<MantineProvider><MemoryRouter><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    fireEvent.click(screen.getByRole('radio', { name: /Customer Values/ }))
+    const message = await screen.findByText('No nomination window is currently open.')
+    expect(message).toHaveStyle({ color: 'rgb(255, 255, 255)' })
+  })
+  it('distinguishes an API failure from an empty nomination window', async () => {
+    getHackathons.mockRejectedValueOnce(new Error('Unavailable'))
+    render(<MantineProvider><MemoryRouter><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    fireEvent.click(screen.getByRole('radio', { name: /Customer Values/ }))
+    const message = await screen.findByText('Unable to load nominations. Refresh the page to try again.')
+    expect(message).toHaveStyle({ color: 'rgb(255, 255, 255)' })
+    expect(screen.queryByText('No nomination window is currently open.')).not.toBeInTheDocument()
+  })
   it('shares duplicate profile and image requests within a load, then refreshes them on remount', async () => {
     const page = { content: [1, 2].map((id) => ({
       id: `shared-${id}`, title: `Shared nominee ${id}`, description: 'Shared assets',
@@ -424,7 +442,7 @@ describe('ProjectShowcase', () => {
     getIdeas.mockResolvedValueOnce({ content: [{
       id: 'idea-1', title: 'Nominee Name', teamId: 'team-1', createdBy: 'user-1',
       description: 'Executive Summary\nSummary first paragraph.\n\nSummary second paragraph.\n\nDetails of Your Core Achievement in 2026 and Business Impact (including financial figures)\nSaved RMB 200,000.\n\nHow You Demonstrate Bosch China Culture (Especially in Your Applied Category)\nWorked across departments.',
-      category: 'AI', tags: ['Impact'], attachments: [], projectAttachments: [],
+      category: 'AI', tags: ['Impact'], attachments: [], projectAttachments: [{ type: 'nomination', name: 'Nominee Name', nomineeOrgCode: 'HRL-CN C/HRR-JMPCN' }],
       votes: 0, userHasVoted: false, status: 'submitted', createdAt: '', updatedAt: '',
     }] })
     render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
@@ -436,6 +454,7 @@ describe('ProjectShowcase', () => {
     expect(within(card).queryByText('Department')).not.toBeInTheDocument()
     await userEvent.click(within(card).getByRole('button', { name: 'View details' }))
     const dialog = within(screen.getByRole('dialog'))
+    expect(dialog.getByText('Department').parentElement).toHaveTextContent('HRL-CN C/HRR-JMPCN')
     expect(dialog.getByRole('heading', { name: 'Executive Summary (The Elevator Pitch)' })).toBeInTheDocument()
     expect(dialog.getByRole('heading', { name: /Details of Your Core Achievement/ })).toBeInTheDocument()
     expect(dialog.getByRole('heading', { name: /How you demonstrate BD China culture/ })).toBeInTheDocument()
@@ -463,7 +482,7 @@ describe('ProjectShowcase', () => {
     expect(screen.getByRole('textbox', { name: /How you demonstrate BD China culture/ })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /Tags you want to add/ })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /Award Category/ })).toHaveValue('Innovation Breakthrough')
-    expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeEnabled()
     expect(screen.queryByText('Team')).not.toBeInTheDocument()
     expect(screen.queryByText('Customer Portal Renewal')).not.toBeInTheDocument()
     expect(screen.queryByRole('textbox', { name: 'Award event' })).not.toBeInTheDocument()
@@ -472,21 +491,50 @@ describe('ProjectShowcase', () => {
     expect(screen.queryByRole('textbox', { name: /Supporting evidence URL/ })).not.toBeInTheDocument()
   })
 
-  it('lets an administrator choose the actual associate for manager nomination', async () => {
-    currentUser.role = 'admin'
+  it.each(['admin', 'manager', 'participant'] as const)('fixes the nominee to the signed-in %s name and email', async (role) => {
+    currentUser.role = role
     try {
       const user = userEvent.setup()
       render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
       await user.click(await screen.findByRole('radio', { name: /Customer Values/ }))
       const nominee = await screen.findByRole('textbox', { name: /Outlook Name/ })
-      await user.clear(nominee)
+      expect(nominee).toHaveAttribute('readonly')
+      expect(nominee).toHaveValue('User (user@example.com)')
       await user.type(nominee, 'Named')
-      await user.click(await screen.findByRole('option', { name: 'Named Associate (associate@example.com)' }))
-      expect(nominee).toHaveValue('Named Associate (associate@example.com)')
+      expect(nominee).toHaveValue('User (user@example.com)')
+      expect(listNominees).not.toHaveBeenCalled()
       expect(screen.getByRole('textbox', { name: /Award Category/ })).toHaveValue('Customer Values')
     } finally {
       currentUser.role = 'participant'
     }
+  })
+
+  it('resubmits the rejected employee record with its version and retained photo', async () => {
+    currentUser.role = 'participant'
+    getIdea.mockResolvedValueOnce({
+      id: 'rejected-1', createdBy: 'user-1', hackathonId: 'hackathon-1', category: 'Customer Values',
+      description: 'Executive Summary\nOriginal summary\n\nDetails of Your Core Achievement in 2026 and Business Impact (including financial figures)\nOriginal impact\n\nHow You Demonstrate Bosch China Culture (Especially in Your Applied Category)\nOriginal culture',
+      tags: ['Original tag'], approvalStatus: 'rejected', approvalVersion: 4,
+      approvalReason: 'Explain the measured savings.',
+      projectAttachments: [{ type: 'screenshot', url: '/existing-photo.png', name: 'existing-photo.png', storageKey: 'nominations/hackathon-1/user-1/existing-photo.png' }],
+    })
+    updateIdea.mockResolvedValueOnce({ id: 'rejected-1', category: 'Customer Values', approvalStatus: 'pending' })
+    const user = userEvent.setup()
+    render(<MantineProvider env="test"><MemoryRouter initialEntries={['/nominate?edit=rejected-1']}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    const impact = await screen.findByRole('textbox', { name: /Details of Your Core Achievement/ })
+    expect(impact).toHaveValue('Original impact')
+    expect(screen.getByText('Explain the measured savings.')).toBeInTheDocument()
+    await user.clear(impact)
+    await user.type(impact, 'Measured savings from the submitted report.')
+    await user.click(screen.getByRole('button', { name: 'Resubmit nomination' }))
+    await waitFor(() => expect(updateIdea).toHaveBeenCalledWith('rejected-1', expect.objectContaining({
+      approvalVersion: 4,
+      description: expect.stringContaining('Measured savings from the submitted report.'),
+      projectAttachments: expect.arrayContaining([expect.objectContaining({ storageKey: 'nominations/hackathon-1/user-1/existing-photo.png' })]),
+    })))
+    expect(createIdea).not.toHaveBeenCalled()
+    expect(uploadFile).not.toHaveBeenCalled()
+    expect(await screen.findByRole('heading', { name: 'Nomination Submitted Successfully' })).toBeInTheDocument()
   })
 
   it.each(['image/webp', 'image/png'])('submits a cropped %s photo in a draft award without creating a team', async (outputType) => {
@@ -644,4 +692,23 @@ it('renders nomination text and voting controls before a slow photo URL resolves
   expect(screen.queryByAltText('Associate nomination')).not.toBeInTheDocument()
   await act(async () => resolvePhoto('/resolved.jpg'))
   await waitFor(() => expect(screen.getByAltText('Associate nomination')).toHaveAttribute('src', '/resolved.jpg'))
+})
+
+it('shows a ready photo without waiting for another nominee photo', async () => {
+  let resolveSlow!: (url: string) => void
+  vi.mocked(StorageService.getPresignedUrl).mockImplementation((_bucket, key) => key === 'slow'
+    ? new Promise((resolve) => { resolveSlow = resolve }) : Promise.resolve('/fast.jpg'))
+  getIdeas.mockResolvedValueOnce({ content: ['slow', 'fast'].map((key) => ({
+    id: key, title: `${key} nominee`, description: 'Ready to vote', createdBy: 'creator',
+    category: 'Customer Values', tags: [], attachments: [],
+    projectAttachments: [{ type: 'nomination', name: key }, { type: 'screenshot', storageKey: key, url: '/fallback.jpg' }],
+    votes: 0, userHasVoted: false, status: 'submitted', createdAt: '', updatedAt: '',
+  })) })
+  render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+  try {
+    expect(await screen.findByAltText('fast nomination')).toHaveAttribute('src', '/fast.jpg')
+    expect(screen.queryByAltText('slow nomination')).not.toBeInTheDocument()
+  } finally {
+    await act(async () => resolveSlow('/slow.jpg'))
+  }
 })

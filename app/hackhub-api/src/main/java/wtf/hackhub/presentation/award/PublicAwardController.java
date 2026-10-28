@@ -65,7 +65,8 @@ public class PublicAwardController {
 		String orgCode = "";
 		var images = new ArrayList<String>();
 		try {
-			var attachments = mapper.readTree(nominees.enrichLegacy(idea.getProjectAttachments(), idea.getCreatedBy()));
+			var attachments = mapper.readTree(idea.getApprovalStatus() == null
+					? nominees.enrichLegacy(idea.getProjectAttachments(), idea.getCreatedBy()) : idea.getProjectAttachments());
 			for (var attachment : attachments) {
 				if ("nomination".equals(attachment.path("type").asText())) {
 					name = attachment.path("name").asText(name);

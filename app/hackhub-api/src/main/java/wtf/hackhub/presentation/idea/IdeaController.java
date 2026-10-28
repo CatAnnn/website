@@ -26,6 +26,8 @@ import java.util.UUID;
 public class IdeaController {
 
 	private final SubmitIdeaUseCase submitIdeaUseCase;
+	private final NominationApprovalService approvalService;
+	private final wtf.hackhub.infrastructure.persistence.idea.IdeaRepository ideaRepository;
 	private final NomineeDirectory nomineeDirectory;
 	private final GetIdeasUseCase getIdeasUseCase;
 	private final VoteIdeaUseCase voteIdeaUseCase;
@@ -34,7 +36,10 @@ public class IdeaController {
 
 	public IdeaController(SubmitIdeaUseCase submitIdeaUseCase, GetIdeasUseCase getIdeasUseCase,
 			VoteIdeaUseCase voteIdeaUseCase, CommentUseCase commentUseCase, ScoreIdeaUseCase scoreIdeaUseCase,
-			NomineeDirectory nomineeDirectory) {
+			NomineeDirectory nomineeDirectory, NominationApprovalService approvalService,
+			wtf.hackhub.infrastructure.persistence.idea.IdeaRepository ideaRepository) {
+		this.approvalService = approvalService;
+		this.ideaRepository = ideaRepository;
 		this.nomineeDirectory = nomineeDirectory;
 		this.submitIdeaUseCase = submitIdeaUseCase;
 		this.getIdeasUseCase = getIdeasUseCase;
@@ -59,7 +64,6 @@ public class IdeaController {
 			@ApiResponse(responseCode = "400", description = "Validation failed"),
 			@ApiResponse(responseCode = "401", description = "Not authenticated")})
 	@PostMapping("/api/v1/hackathons/{hackathonId}/ideas")
-	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public IdeaResponse create(@PathVariable UUID hackathonId, @Valid @RequestBody CreateIdeaRequest req,
 			@AuthenticationPrincipal UUID userId) {
@@ -74,7 +78,10 @@ public class IdeaController {
 			@ApiResponse(responseCode = "404", description = "Idea not found")})
 	@GetMapping("/api/v1/ideas/{id}")
 	public IdeaResponse getById(@PathVariable UUID id, @AuthenticationPrincipal UUID userId) {
-		return response(getIdeasUseCase.getById(id), getIdeasUseCase.hasVoted(id, userId));
+		var idea = ideaRepository.findById(id).orElseThrow(() -> new VoteIdeaUseCase.IdeaNotFoundException(id));
+		if (!approvalService.canRead(idea, userId))
+			throw new org.springframework.web.server.ResponseStatusException(HttpStatus.NOT_FOUND);
+		return response(idea, getIdeasUseCase.hasVoted(id, userId));
 	}
 
 	@Operation(summary = "Update an existing idea")
@@ -87,7 +94,7 @@ public class IdeaController {
 			@AuthenticationPrincipal UUID userId) {
 		Idea idea = submitIdeaUseCase.update(id, userId, req.title(), req.description(), req.category(), req.tags(),
 				req.status() != null ? Idea.Status.valueOf(req.status().toUpperCase().replace("-", "_")) : null,
-				req.repositoryUrl(), req.demoUrl(), req.projectAttachments());
+				req.repositoryUrl(), req.demoUrl(), req.projectAttachments(), req.approvalVersion());
 		return response(idea, getIdeasUseCase.hasVoted(id, userId));
 	}
 
@@ -202,14 +209,37 @@ public class IdeaController {
 		commentUseCase.delete(id, commentId, userId);
 	}
 
+	@GetMapping("/api/v1/me/nomination-eligibility")
+	public NominationApprovalService.Eligibility eligibility(@AuthenticationPrincipal UUID userId) {
+		return approvalService.eligibility(userId);
+	}
+	@GetMapping("/api/v1/me/nominations")
+	public List<IdeaResponse> myNominations(@AuthenticationPrincipal UUID userId) {
+		return approvalService.mine(userId).stream().map(i -> response(i, false)).toList();
+	}
+	@GetMapping("/api/v1/me/nomination-approvals")
+	public List<IdeaResponse> assignedNominations(@AuthenticationPrincipal UUID userId) {
+		return approvalService.assigned(userId).stream().map(i -> response(i, false)).toList();
+	}
+	@PostMapping("/api/v1/me/nomination-approvals")
+	public List<IdeaResponse> decideNominations(@RequestBody ApprovalRequest request,
+			@AuthenticationPrincipal UUID userId) {
+		return approvalService.decide(userId, request.items(), request.decision(), request.reason())
+				.stream().map(i -> response(i, false)).toList();
+	}
+	public record ApprovalRequest(List<NominationApprovalService.Selection> items, String decision, String reason) { }
+
 	private IdeaResponse response(Idea idea, boolean voted) {
 		var result = IdeaResponse.from(idea, voted);
 		return new IdeaResponse(result.id(), result.title(), result.description(), result.hackathonId(),
 				result.teamId(), result.createdBy(),
 				wtf.hackhub.domain.AwardTrack.normalize(result.category(), result.tags()), result.tags(),
 				result.votes(), result.status(), result.attachments(), result.repositoryUrl(), result.demoUrl(),
-				nomineeDirectory.enrichLegacy(result.projectAttachments(), result.createdBy()), result.totalScore(),
-				result.voteCount(), result.userHasVoted(), result.createdAt(), result.updatedAt());
+				(idea.getApprovalStatus() == null ? nomineeDirectory.enrichLegacy(result.projectAttachments(), result.createdBy())
+				: result.projectAttachments()), result.totalScore(),
+				result.voteCount(), result.userHasVoted(), result.createdAt(), result.updatedAt(),
+				result.approvalStatus(), result.approvalReason(), result.approvalReviewedAt(), result.approvalReviewerName(),
+				result.approvalVersion(), result.approvalHeadName());
 	}
 
 	// ── DTOs ──────────────────────────────────────────────────────────────────
@@ -217,12 +247,15 @@ public class IdeaController {
 	public record IdeaResponse(UUID id, String title, String description, UUID hackathonId, UUID teamId, UUID createdBy,
 			String category, List<String> tags, int votes, String status, List<String> attachments,
 			String repositoryUrl, String demoUrl, String projectAttachments, BigDecimal totalScore, int voteCount,
-			boolean userHasVoted, Instant createdAt, Instant updatedAt) {
+			boolean userHasVoted, Instant createdAt, Instant updatedAt, String approvalStatus, String approvalReason,
+			Instant approvalReviewedAt, String approvalReviewerName, int approvalVersion, String approvalHeadName) {
 		static IdeaResponse from(Idea i, boolean userHasVoted) {
 			return new IdeaResponse(i.getId(), i.getTitle(), i.getDescription(), i.getHackathonId(), i.getTeamId(),
 					i.getCreatedBy(), i.getCategory(), i.getTags(), i.getVotes(), i.getStatus().toDbValue(),
 					i.getAttachments(), i.getRepositoryUrl(), i.getDemoUrl(), i.getProjectAttachments(),
-					i.getTotalScore(), i.getVoteCount(), userHasVoted, i.getCreatedAt(), i.getUpdatedAt());
+					i.getTotalScore(), i.getVoteCount(), userHasVoted, i.getCreatedAt(), i.getUpdatedAt(),
+					i.getApprovalStatus(), i.getApprovalReason(), i.getApprovalReviewedAt(), i.getApprovalReviewerName(),
+					i.getApprovalVersion(), i.getApprovalHeadName());
 		}
 	}
 
@@ -245,7 +278,8 @@ public class IdeaController {
 	}
 
 	public record UpdateIdeaRequest(@NotBlank String title, @NotBlank String description, @NotBlank String category,
-			List<String> tags, String status, String repositoryUrl, String demoUrl, String projectAttachments) {
+			List<String> tags, String status, String repositoryUrl, String demoUrl, String projectAttachments,
+			Integer approvalVersion) {
 		public UpdateIdeaRequest {
 			if (tags == null)
 				tags = List.of();

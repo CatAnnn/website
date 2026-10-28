@@ -1,0 +1,5622 @@
+[
+  {
+    "email": "lu.lin@cn.bosch.com",
+    "nt": "LLN8SGH",
+    "name": "Ms. 林鹭/LIN Lu",
+    "orgUnit": "BD/CSO-J1",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "ivy.zhang3@cn.bosch.com",
+    "nt": "ZIV2SZH",
+    "name": "Ms. 张梦微/ZHANG Ivy",
+    "orgUnit": "BD/CSO-J1",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "xiaojing.zhou@cn.bosch.com",
+    "nt": "OXI1SZH",
+    "name": "Ms. 周晓静/ZHOU Xiaojing",
+    "orgUnit": "BD/CSO-J2",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "sven.wang@cn.bosch.com",
+    "nt": "WAZ8SZH",
+    "name": "Mr. 王志帆/WANG Sven",
+    "orgUnit": "BD/GPM",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "stella.chen@cn.bosch.com",
+    "nt": "HCT1SGH",
+    "name": "Ms. 陈凌/CHEN Stella",
+    "orgUnit": "BD/ISP",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "weiwei.chen2@cn.bosch.com",
+    "nt": "CWE8SZH",
+    "name": "Ms. 陈薇薇/CHEN Weiwei",
+    "orgUnit": "BD/ISP",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "monica.mao@cn.bosch.com",
+    "nt": "MAO4SZH",
+    "name": "Ms. 茅婷婷/MAO Monica",
+    "orgUnit": "BD/QMM2",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "frank.xu@cn.bosch.com",
+    "nt": "XFE1SZH",
+    "name": "Mr. 徐凤翔/XU Frank",
+    "orgUnit": "BD/QMM2",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "kate.zhu@cn.bosch.com",
+    "nt": "ZAU6SGH",
+    "name": "Ms. 朱嫣然/ZHU Kate",
+    "orgUnit": "BD/QMM3",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "xiaoning.tian@cn.bosch.com",
+    "nt": "TIN3SZH",
+    "name": "Ms. 田晓宁/TIAN Xiaoning",
+    "orgUnit": "BD/QMM3",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "weifeng.li@cn.bosch.com",
+    "nt": "LWE8SZH",
+    "name": "Ms. 李蔚风/LI Weifeng",
+    "orgUnit": "BD/QMM3",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "jojo.jiao@cn.bosch.com",
+    "nt": "JJO8SZH",
+    "name": "Ms. 焦红灯/JIAO Jojo",
+    "orgUnit": "BD/QMM3",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "yu.dong@cn.bosch.com",
+    "nt": "DOY8SGH",
+    "name": "Mr. 董煜/DONG Yu",
+    "orgUnit": "BD/QMM3",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "keith.chung@hk.bosch.com",
+    "nt": "CHK8HK",
+    "name": "Mr. 鍾建龍/CHUNG Keith",
+    "orgUnit": "BD/RMO",
+    "nominatingHead": "Appukuttan Pillai Vinod",
+    "allowSelfApproval": false,
+    "hodNt": "VIO2KOR",
+    "hodEmail": "vio2kor@bosch.com"
+  },
+  {
+    "email": "yangzhou.bao@cn.bosch.com",
+    "nt": "BOA1SGH",
+    "name": "Ms. 鲍央舟/BAO Yangzhou",
+    "orgUnit": "BD/CNA-CNS",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "khersham.lim@de.bosch.com",
+    "nt": "LKI7FE",
+    "name": "Mr. LimKher Sham/Lim Kher Sham",
+    "orgUnit": "BD/CNA-DSD",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "chengfeng.tong@bosch.com",
+    "nt": "TOC1SGH",
+    "name": "Mr. 童承凤/TONG Chengfeng",
+    "orgUnit": "BD/CNA-DSD",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "junwu.liu@cn.bosch.com",
+    "nt": "IJB1SZH",
+    "name": "Mr. 刘俊吾/LIU Junwu",
+    "orgUnit": "BD/CNA-DSD",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jun.wu4@cn.bosch.com",
+    "nt": "UWU3SGH",
+    "name": "Ms. 邬俊/WU Jun",
+    "orgUnit": "BD/CNA-DSD",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "raymond.dai2@cn.bosch.com",
+    "nt": "DRI1SGH",
+    "name": "Mr. 戴文欢/DAI Raymond",
+    "orgUnit": "BD/CNA-DSD",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "hua.jiang2@cn.bosch.com",
+    "nt": "JUH3SZH",
+    "name": "Mr. 姜华/JIANG Hua",
+    "orgUnit": "BD/CNA-DSD",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ning.he@cn.bosch.com",
+    "nt": "HEN5SZH",
+    "name": "Mr. 何苧/HE Ning",
+    "orgUnit": "BD/CNA-DSD",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ning.dai@cn.bosch.com",
+    "nt": "DNA1SZH",
+    "name": "Mr. 戴宁/DAI Ning",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yueqin.yang@cn.bosch.com",
+    "nt": "YNY9SZH",
+    "name": "Ms. 杨悦沁/YANG Yueqin",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "eric.zhang@cn.bosch.com",
+    "nt": "ZER8SZH",
+    "name": "Mr. 张利/ZHANG Eric",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "xi.ouyang@bosch.com",
+    "nt": "OUX1SGH",
+    "name": "Mr. 欧阳希/OUYANG Xi",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "xiaolei.chen@cn.bosch.com",
+    "nt": "CHA9CHA",
+    "name": "Mr. 陈晓雷/CHEN Xiaolei",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jessica.jiang2@de.bosch.com",
+    "nt": "EJJ1SGH",
+    "name": "Ms. 姜怡佳/JIANG Jessica",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jackey.tang@cn.bosch.com",
+    "nt": "TJG2SZH",
+    "name": "Mr. 唐盛/TANG Jackey",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "qiuheng.yi@bosch.com",
+    "nt": "YII2SGH",
+    "name": "Mr. 夷秋恒/YI Qiuheng",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "keda.sun@bosch.com",
+    "nt": "SKU1SGH",
+    "name": "Mr. 孙克达/SUN Keda",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "holly.chen@cn.bosch.com",
+    "nt": "COH3SZH",
+    "name": "Ms. 陈晓旭/CHEN Holly",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "wanning.yang@cn.bosch.com",
+    "nt": "YGW1WX",
+    "name": "Ms. 杨婉宁/YANG Wanning",
+    "orgUnit": "BD/CNA-IPM2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "lin.shu@cn.bosch.com",
+    "nt": "SHU8SZH",
+    "name": "Mr. 束麟/SHU Henry",
+    "orgUnit": "BD/DPA-AOC1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jun.yan2@cn.bosch.com",
+    "nt": "YNJ2SZH",
+    "name": "Mr. 严峻/YAN Jun",
+    "orgUnit": "BD/DPA-AOC1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "guangzhou.zhou@cn.bosch.com",
+    "nt": "ZGO3SGH",
+    "name": "Mr. 周广州/ZHOU Guangzhou",
+    "orgUnit": "BD/DPA-BDP1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "mingming.kong@cn.bosch.com",
+    "nt": "KMO1SGH",
+    "name": "Ms. 孔明明/KONG Mingming",
+    "orgUnit": "BD/DPA-BDP1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "silvia.zou@cn.bosch.com",
+    "nt": "ZSI9SGH",
+    "name": "Ms. 邹阳/ZOU Silvia",
+    "orgUnit": "BD/DPA-BDP4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ray.feng2@cn.bosch.com",
+    "nt": "FEG3SZH",
+    "name": "Mr. 冯睿/FENG Ray",
+    "orgUnit": "BD/DPA-BDP4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jack.shen@cn.bosch.com",
+    "nt": "SAE2SZH",
+    "name": "Mr. 沈贤/SHEN Jack",
+    "orgUnit": "BD/DPA-BDP4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "rifei.tang@cn.bosch.com",
+    "nt": "TNR1SGH",
+    "name": "Mr. 汤日飞/TANG Rifei",
+    "orgUnit": "BD/DPA-BDP4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "mayer.ma@cn.bosch.com",
+    "nt": "AMM2SZH",
+    "name": "Mr. 马营/MA Mayer",
+    "orgUnit": "BD/DPA-BDP4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "eddie.tian@cn.bosch.com",
+    "nt": "TIE1SGH",
+    "name": "Mr. 田小锋/TIAN Eddie",
+    "orgUnit": "BD/DPA-CSO4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "hugh.chao@cn.bosch.com",
+    "nt": "UOH6SZH",
+    "name": "Mr. 巢晖/CHAO Hugh",
+    "orgUnit": "BD/DPA-CSO4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "zhao.gong@bosch.com",
+    "nt": "GZO1SGH",
+    "name": "Mr. 弓昭/GONG Zhao",
+    "orgUnit": "BD/DPA-CSO4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "zhi.huang@cn.bosch.com",
+    "nt": "ZBB1SZH",
+    "name": "Mr. 黄志/HUANG Zhi",
+    "orgUnit": "BD/DPA-GOI1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yimin.yuan@cn.bosch.com",
+    "nt": "UND1SZH",
+    "name": "Ms. 袁一珉/YUAN Yimin",
+    "orgUnit": "BD/DPA-GOI1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ben.jia@cn.bosch.com",
+    "nt": "JBE1SZH",
+    "name": "Mr. 贾胜战/JIA Ben",
+    "orgUnit": "BD/DPA-GOI1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "max.li@cn.bosch.com",
+    "nt": "LMA7SGH",
+    "name": "Mr. 李彬/LI Max",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "munster.li@cn.bosch.com",
+    "nt": "ILM6SGH",
+    "name": "Mr. 李辰源/LI Munster",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "tingting.gu3@cn.bosch.com",
+    "nt": "UTG1SZH",
+    "name": "Ms. 顾婷婷/GU Tingting",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "alson.deng@cn.bosch.com",
+    "nt": "DEA8SZH",
+    "name": "Mr. 邓远明/DENG Alson",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "shuyang.zhao@cn.bosch.com",
+    "nt": "HBS1SZH",
+    "name": "Mr. 赵书洋/ZHAO Shuyang",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "linda.yi@cn.bosch.com",
+    "nt": "YIL8SZH",
+    "name": "Ms. 易叶红/YI Linda",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "dong.wang5@cn.bosch.com",
+    "nt": "WDO5SGH",
+    "name": "Mr. 王冬/WANG Dong",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "finch.yang@cn.bosch.com",
+    "nt": "YFI3SZH",
+    "name": "Mr. 杨鑫/YANG Finch",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "brain.zhong@de.bosch.com",
+    "nt": "ZHB8SZH",
+    "name": "Mr. 钟志伟/ZHONG Brain",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "huacheng.yu@cn.bosch.com",
+    "nt": "YHU8SZH",
+    "name": "Mr. 俞化成/YU McCarthy",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "xiaofei.chen@cn.bosch.com",
+    "nt": "CXH2SGH",
+    "name": "Mr. 陈小飞/CHEN Xiaofei",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ang.zheng@cn.bosch.com",
+    "nt": "NDE1SZH",
+    "name": "Mr. 郑昂/ZHENG Ang",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "sunny.liu2@cn.bosch.com",
+    "nt": "USU1SGH",
+    "name": "Ms. 刘左/LIU Sunny",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "tristan.zhang@cn.bosch.com",
+    "nt": "ZRT1SZH",
+    "name": "Mr. 张涛/ZHANG Tristan",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yunge.he@cn.bosch.com",
+    "nt": "HEU3WX",
+    "name": "Ms. 贺韵阁/HE Yunge",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "qin.liu2@cn.bosch.com",
+    "nt": "LQU2WX",
+    "name": "Mr. 劉欽/LIU Qin",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "wenjie.zhou@cn.bosch.com",
+    "nt": "ZEW6SZH",
+    "name": "Mr. 周文杰/ZHOU Wenjie",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "lynn.liu@cn.bosch.com",
+    "nt": "LYL2SGH",
+    "name": "Ms. 刘春香/LIU Lynn",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "hongxing.wang2@cn.bosch.com",
+    "nt": "WON4SZH",
+    "name": "Mr. 王红星/WANG Hongxing",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "zhanpeng.lu@cn.bosch.com",
+    "nt": "LUZ7SGH",
+    "name": "Mr. 陆展鹏/LU Zhanpeng",
+    "orgUnit": "BD/DPA-GOI3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jason.sun2@cn.bosch.com",
+    "nt": "USJ2SGH",
+    "name": "Mr. 孙晗景/SUN Jason",
+    "orgUnit": "BD/DPA-GOI7",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "leo.xu@cn.bosch.com",
+    "nt": "XEL5SZH",
+    "name": "Mr. 徐成/XU Leo",
+    "orgUnit": "BD/DPA-GOI7",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ghosh.sajibchandra@cn.bosch.com",
+    "nt": "SAH6SGH",
+    "name": "Mr. SAJIB CHANDRAGHOSH/SAJIB CHANDRA GHO",
+    "orgUnit": "BD/DPA-GOI7",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yu.an@cn.bosch.com",
+    "nt": "ANY8SZH",
+    "name": "Mr. 安宇/AN Yu",
+    "orgUnit": "BD/DPA-GOI7",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "stephen.zhang@cn.bosch.com",
+    "nt": "HTN8SZH",
+    "name": "Mr. 张广帅/ZHANG Stephen",
+    "orgUnit": "BD/DPA-GOI7",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "claudia.chen@cn.bosch.com",
+    "nt": "CCL5SZH",
+    "name": "Ms. 陈云霄/CHEN Claudia",
+    "orgUnit": "BD/DPA-PIP1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "larry.lu@cn.bosch.com",
+    "nt": "ALU1SZH",
+    "name": "Mr. 陆飞/LU Larry",
+    "orgUnit": "BD/DPA-PIP4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "zita.pan@cn.bosch.com",
+    "nt": "PZA3SZH",
+    "name": "Ms. 潘祎/PAN Zita",
+    "orgUnit": "BD/DPA-PIP5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "tim.wang2@cn.bosch.com",
+    "nt": "AWT2SZH",
+    "name": "Mr. 王磊/WANG Tim",
+    "orgUnit": "BD/DPA-PIP5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "lu.cheng3@cn.bosch.com",
+    "nt": "CUL1CGD4",
+    "name": "Mr. 成鹭/CHENG Lu",
+    "orgUnit": "BD/DPA-PIP6",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "leo.wang2@cn.bosch.com",
+    "nt": "WLE8SZH",
+    "name": "Mr. 王晓成/WANG Leo",
+    "orgUnit": "BD/DPA-PIP6",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "dongfrank.dong@bosch.com",
+    "nt": "DND1SGH",
+    "name": "Mr. 董凡/DONG Frank",
+    "orgUnit": "BD/DPA-SRE3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "barrie.xie@bosch.com",
+    "nt": "XAB1SGH",
+    "name": "Mr. 谢开源/XIE Barrie",
+    "orgUnit": "BD/DPA-SRE3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ling.kong@cn.bosch.com",
+    "nt": "KLO1SGH",
+    "name": "Ms. 孔令宁/KONG Ling",
+    "orgUnit": "BD/DPA-SRE3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "lei.wang25@cn.bosch.com",
+    "nt": "LWG1SZH",
+    "name": "Mr. 王雷/WANG Lei",
+    "orgUnit": "BD/DPA-TMI5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "chao.xie3@bosch.com",
+    "nt": "XCI1SGH",
+    "name": "Mr. 谢潮/XIE Chao",
+    "orgUnit": "BD/INN-BCO",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "matthew.deng@cn.bosch.com",
+    "nt": "DGM1SGH",
+    "name": "Mr. 邓成标/DENG Matthew",
+    "orgUnit": "BD/INN-GTC",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "rex.wen@cn.bosch.com",
+    "nt": "EWR1SZH",
+    "name": "Mr. 文轩/WEN Rex",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "minyu.ma@cn.bosch.com",
+    "nt": "IMM1SZH",
+    "name": "Ms. 马敏妤/MA Minyu",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "victor.qu@cn.bosch.com",
+    "nt": "QVU1SZH",
+    "name": "Mr. 屈胜/QU Victor",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ting.song@cn.bosch.com",
+    "nt": "STI8SZH",
+    "name": "Ms. 宋婷/SONG Ting",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jay.jin@cn.bosch.com",
+    "nt": "JAJ5SZH",
+    "name": "Mr. 金杰/JIN Jay",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ulen.yao@cn.bosch.com",
+    "nt": "YUO4SZH",
+    "name": "Mr. 姚勇/YAO Ulen",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "adela.zhu@cn.bosch.com",
+    "nt": "ZDU3SZH",
+    "name": "Ms. 朱晨/ZHU Adela",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "hongran.dai@cn.bosch.com",
+    "nt": "DAO3SZH",
+    "name": "Mr. 戴泓然/DAI Hongran",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jackie.yan@cn.bosch.com",
+    "nt": "NAD1SZH",
+    "name": "Ms. 闫家祺/YAN Jackie",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "lucus.su@cn.bosch.com",
+    "nt": "SLU5SZH",
+    "name": "Mr. 苏陆陆/SU Lucus",
+    "orgUnit": "BD/SLA-GTC5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "vicky.shen@cn.bosch.com",
+    "nt": "SHV8SZH",
+    "name": "Ms. 沈琦/SHEN Vicky",
+    "orgUnit": "BD/SMA-CSE3",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yi.xia2@cn.bosch.com",
+    "nt": "XYI8SZH",
+    "name": "Ms. 夏逸/XIA Elaine",
+    "orgUnit": "BD/SMA-GTC2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "echo.ding@cn.bosch.com",
+    "nt": "DIE8SZH",
+    "name": "Ms. 丁爱喜/DING Echo",
+    "orgUnit": "BD/SMA-STA4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "danhua.lu@cn.bosch.com",
+    "nt": "LUD8SZH",
+    "name": "Ms. 陆丹华/LU Fay",
+    "orgUnit": "BD/SMA-STA4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "vincent.huang@cn.bosch.com",
+    "nt": "HVN1SZH",
+    "name": "Mr. 黄为锋/HUANG Vincent",
+    "orgUnit": "BD/SMA-STA4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "zhe.yin@cn.bosch.com",
+    "nt": "YIZ8SZH",
+    "name": "Mr. 尹哲/YIN Johnnie",
+    "orgUnit": "BD/SMA-STA4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "lin.zhu3@cn.bosch.com",
+    "nt": "ZLI8SZH",
+    "name": "Ms. 朱琳/ZHU Lin",
+    "orgUnit": "BD/SMA-STA4",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ray.bi@cn.bosch.com",
+    "nt": "BIR2SZH",
+    "name": "Mr. 毕特/BI Ray",
+    "orgUnit": "BD/SWD-ARC2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yangchun.li@cn.bosch.com",
+    "nt": "ALY2SZH",
+    "name": "Mr. 李阳春/LI Yangchun Ted",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "linus.fu@cn.bosch.com",
+    "nt": "UFL1SZH",
+    "name": "Mr. 傅明忠/FU Linus",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "rongbing.yan@cn.bosch.com",
+    "nt": "YAR8SZH",
+    "name": "Ms. 颜融冰/YAN Rongbing",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "kiki.fu@cn.bosch.com",
+    "nt": "FKI1SZH",
+    "name": "Ms. 傅琦/FU Kiki",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "justin.cai@cn.bosch.com",
+    "nt": "CIU6SZH",
+    "name": "Mr. 蔡君/CAI Justin",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yuzhou.sheng@cn.bosch.com",
+    "nt": "NUE1SZH",
+    "name": "Mr. 盛煜洲/SHENG Yuzhou",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "zhe.zhang3@cn.bosch.com",
+    "nt": "NHA2SZH",
+    "name": "Mr. 张喆/ZHANG Zhe",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "wenqing.mao@cn.bosch.com",
+    "nt": "EMO1SZH",
+    "name": "Ms. 毛文青/MAO Wenqing",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yue.wang11@cn.bosch.com",
+    "nt": "NBG1SZH",
+    "name": "Mr. 王跃/WANG Yue",
+    "orgUnit": "BD/SWD-BEA5",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "joya.luo@cn.bosch.com",
+    "nt": "LOJ4SZH",
+    "name": "Ms. 罗卓雅/LUO Joya",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "wenqiang.xu@cn.bosch.com",
+    "nt": "XWE8SZH",
+    "name": "Mr. 徐文强/XU Wenqiang",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "weixia.sheng@cn.bosch.com",
+    "nt": "SWH4SZH",
+    "name": "Ms. 盛维侠/SHENG Weixia",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "xin.yu5@cn.bosch.com",
+    "nt": "YXU7SZH",
+    "name": "Mr. 于鑫/YU Xin",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "shuang.wang@cn.bosch.com",
+    "nt": "WAS8SZH",
+    "name": "Mr. 王爽/WANG Shuang",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "gary.chen3@cn.bosch.com",
+    "nt": "CGA2SZH",
+    "name": "Mr. 陈光平/CHEN Gary",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "ming.kong@cn.bosch.com",
+    "nt": "KOM1SZH",
+    "name": "Mr. 孔明/KONG Ming",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "wentao.zhang@cn.bosch.com",
+    "nt": "EWZ1SZH",
+    "name": "Mr. 张文涛/ZHANG Wentao",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "tracy.jiang@cn.bosch.com",
+    "nt": "JITCSZH",
+    "name": "Mr. 蒋锦聪/JIANG Tracy",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "raven.zheng@cn.bosch.com",
+    "nt": "ZRN7SZH",
+    "name": "Mr. 郑友悦/ZHENG Raven",
+    "orgUnit": "BD/SWD-FSB2",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "wei.zhang15@cn.bosch.com",
+    "nt": "EZW3SZH",
+    "name": "Mr. 张伟/ZHANG Wei",
+    "orgUnit": "BD/SWD-TMA1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "jing.xu6@bosch.com",
+    "nt": "JUX2SZH",
+    "name": "Ms. 徐菁/XU Jing",
+    "orgUnit": "BD/SWD-TMA1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "cathy.zhu2@cn.bosch.com",
+    "nt": "AZC2SGH",
+    "name": "Ms. 朱依茹/ZHU Cathy",
+    "orgUnit": "BD/SWD-TMA1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "nebulas.gu@cn.bosch.com",
+    "nt": "GUN4SZH",
+    "name": "Mr. 顾桂林/GU Nebulas",
+    "orgUnit": "BD/SWD-WDE1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "yi.zou2@cn.bosch.com",
+    "nt": "ZOI7SGH",
+    "name": "Mr. 邹一/ZOU Yi",
+    "orgUnit": "BD/SWD-WDE1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "wenjing.fu@cn.bosch.com",
+    "nt": "FUE2SGH",
+    "name": "Ms. 扶文静/FU Wenjing",
+    "orgUnit": "BD/SWD-WDE1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "tao.zhang4@cn.bosch.com",
+    "nt": "AZT1SZH",
+    "name": "Mr. 张陶/ZHANG Tao",
+    "orgUnit": "BD/SWD-WDE1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "shoma.mandal@cn.bosch.com",
+    "nt": "MSN1SGH",
+    "name": "Ms. MandalShoma/Mandal Shoma",
+    "orgUnit": "BD/SWD-WDE1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "suhasgundu.hendole@cn.bosch.com",
+    "nt": "HSD1SGH",
+    "name": "Mr. HENDOLESuhas Gundu/HENDOLE Suhas Gun",
+    "orgUnit": "BD/SWD-WDE1",
+    "nominatingHead": "DING Qian",
+    "allowSelfApproval": false,
+    "hodNt": "DIQ1SZH",
+    "hodEmail": "qian.ding@cn.bosch.com"
+  },
+  {
+    "email": "lijun.liu@cn.bosch.com",
+    "nt": "LIL8SZH",
+    "name": "Mr. 刘利军/LIU Lijun",
+    "orgUnit": "BD/DAD-DEN1",
+    "nominatingHead": "Gao-Urhahn Xiaohan",
+    "allowSelfApproval": false,
+    "hodNt": "GAX2SH",
+    "hodEmail": "xiaohan.gao-urhahn@de.bosch.com"
+  },
+  {
+    "email": "qin.ye@cn.bosch.com",
+    "nt": "YEQ8SGH",
+    "name": "Mr. 叶钦/YE Qin",
+    "orgUnit": "BD/DAD-DEN1",
+    "nominatingHead": "Gao-Urhahn Xiaohan",
+    "allowSelfApproval": false,
+    "hodNt": "GAX2SH",
+    "hodEmail": "xiaohan.gao-urhahn@de.bosch.com"
+  },
+  {
+    "email": "shi.li2@cn.bosch.com",
+    "nt": "ISH3SZH",
+    "name": "Mr. 李适/LI Shi",
+    "orgUnit": "BD/DAD-DEN2",
+    "nominatingHead": "Gao-Urhahn Xiaohan",
+    "allowSelfApproval": false,
+    "hodNt": "GAX2SH",
+    "hodEmail": "xiaohan.gao-urhahn@de.bosch.com"
+  },
+  {
+    "email": "bing.liu2@cn.bosch.com",
+    "nt": "LBU9SZH",
+    "name": "Mr. 刘兵/LIU Bing",
+    "orgUnit": "BD/DAD-DEN2",
+    "nominatingHead": "Gao-Urhahn Xiaohan",
+    "allowSelfApproval": false,
+    "hodNt": "GAX2SH",
+    "hodEmail": "xiaohan.gao-urhahn@de.bosch.com"
+  },
+  {
+    "email": "shiqiao.ruan@cn.bosch.com",
+    "nt": "RUH1SGH",
+    "name": "Mr. 阮士侨/RUAN Shiqiao",
+    "orgUnit": "BD/DAD-DEN2",
+    "nominatingHead": "Gao-Urhahn Xiaohan",
+    "allowSelfApproval": false,
+    "hodNt": "GAX2SH",
+    "hodEmail": "xiaohan.gao-urhahn@de.bosch.com"
+  },
+  {
+    "email": "jessy.wang@cn.bosch.com",
+    "nt": "WAE8SZH",
+    "name": "Ms. 王娜/WANG Jessy",
+    "orgUnit": "BD/DAD-DEN2",
+    "nominatingHead": "Gao-Urhahn Xiaohan",
+    "allowSelfApproval": false,
+    "hodNt": "GAX2SH",
+    "hodEmail": "xiaohan.gao-urhahn@de.bosch.com"
+  },
+  {
+    "email": "william.dong@cn.bosch.com",
+    "nt": "DWO1SGH",
+    "name": "Mr. 董志/DONG William",
+    "orgUnit": "BD/DAD-DEN2",
+    "nominatingHead": "Gao-Urhahn Xiaohan",
+    "allowSelfApproval": false,
+    "hodNt": "GAX2SH",
+    "hodEmail": "xiaohan.gao-urhahn@de.bosch.com"
+  },
+  {
+    "email": "shen.ren@cn.bosch.com",
+    "nt": "RHN1SGH",
+    "name": "Mr. 任申/REN Shen",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "wei.hu4@cn.bosch.com",
+    "nt": "HUE7SZH",
+    "name": "Mr. 胡伟/HU Wei",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "roy.luo2@cn.bosch.com",
+    "nt": "LOR3SZH",
+    "name": "Mr. 骆毅/LUO Roy",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "lanita.guan@cn.bosch.com",
+    "nt": "GLN3SZH",
+    "name": "Ms. 管子玉/GUAN Lanita",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "joe.feng@cn.bosch.com",
+    "nt": "FJO1SGH",
+    "name": "Ms. 冯乔红/FENG Joe",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "luna.wang2@cn.bosch.com",
+    "nt": "NLW1SZH",
+    "name": "Ms. 王梦旎/WANG Luna",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "dan.yang@bosch.com",
+    "nt": "YGD1SGH",
+    "name": "Mr. 杨丹/YANG Dan",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "willion.sha@bosch.com",
+    "nt": "SWA1SGH",
+    "name": "Mr. 沙林彬/SHA Willion",
+    "orgUnit": "BD/CTA-DEX1",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "aaron.ye@cn.bosch.com",
+    "nt": "EAA1SGH",
+    "name": "Mr. 叶柱丰/YE Aaron",
+    "orgUnit": "BD/CTA-DMC3",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "lois.guo@cn.bosch.com",
+    "nt": "GUO4SGH",
+    "name": "Ms. 郭滔/GUO Lois",
+    "orgUnit": "BD/CTA-IPM2",
+    "nominatingHead": "HU Yanbin",
+    "allowSelfApproval": false,
+    "hodNt": "HUY7RT",
+    "hodEmail": "yanbin.hu@bosch.com"
+  },
+  {
+    "email": "huaji.liu@cn.bosch.com",
+    "nt": "LHU1SZH",
+    "name": "Mr. 刘化季/LIU Huaji",
+    "orgUnit": "BD/SLA-BAP",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "simon.xue@cn.bosch.com",
+    "nt": "XUJ8SZH",
+    "name": "Mr. 薛竣华/XUE Simon",
+    "orgUnit": "BD/SLA-BAP",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "alice.sun@cn.bosch.com",
+    "nt": "SAN4SZH",
+    "name": "Ms. 孙亚萍/SUN Alice",
+    "orgUnit": "BD/SLA-BAP",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "erin.wan2@cn.bosch.com",
+    "nt": "WNN2SGH",
+    "name": "Ms. 万芸/WAN Yun Erin",
+    "orgUnit": "BD/SLA-BAP",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "hongyan.jiang@cn.bosch.com",
+    "nt": "JIH4NJ",
+    "name": "Ms. 蒋红艳/JIANG Hongyan",
+    "orgUnit": "BD/SLA-BAP",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "eva.fang@cn.bosch.com",
+    "nt": "FVA1SZH",
+    "name": "Ms. 方怡/FANG Eva",
+    "orgUnit": "BD/SLA-BAP",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yuechun.ma@cn.bosch.com",
+    "nt": "MYU2SZH",
+    "name": "Ms. 马跃春/MA Yuechun",
+    "orgUnit": "BD/SLA-PSM2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yan.li8@cn.bosch.com",
+    "nt": "LIY8WX",
+    "name": "Ms. 李艳/LI Yan",
+    "orgUnit": "BD/SLA-PSM2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "belle.wang@cn.bosch.com",
+    "nt": "WAB8SGH",
+    "name": "Ms. 王蓓/WANG Bei",
+    "orgUnit": "BD/SLA-PSM6",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "kenny.lu@cn.bosch.com",
+    "nt": "LUK8SZH",
+    "name": "Mr. 陆国良/LU Kenny",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yang.meng@cn.bosch.com",
+    "nt": "MYE1SGH",
+    "name": "Ms. 孟阳/MENG Yang",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "rain.zhang@cn.bosch.com",
+    "nt": "ZHR9HK2",
+    "name": "Ms. 张韫睿/ZHANG Rain",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "peng.guan@boschrexroth.com.cn",
+    "nt": "GUP8PK",
+    "name": "Mr. 关芃/GUAN Peng",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "liang.jin@cn.bosch.com",
+    "nt": "JL78SZH",
+    "name": "Mr. 金亮/JIN Liang",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "lianfang.chen@cn.bosch.com",
+    "nt": "CHL8SGH",
+    "name": "Ms. 陈莲芳/CHEN Lianfang",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "victor.wang2@cn.bosch.com",
+    "nt": "WVA3SZH",
+    "name": "Mr. 王新胜/WANG Victor",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yang.shen6@cn.bosch.com",
+    "nt": "SAE5SZH",
+    "name": "Mr. 沈洋/SHEN Yang",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "william.hu@cn.bosch.com",
+    "nt": "HIW3SZH",
+    "name": "Mr. 胡伟林/HU William",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "xurui.zhou@cn.bosch.com",
+    "nt": "HZX5SGH",
+    "name": "Ms. 周徐睿/ZHOU Xurui",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "jian.zhou6@cn.bosch.com",
+    "nt": "ZHN8SZH",
+    "name": "Mr. 周建/ZHOU Jian",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "xiaodong.chen@cn.bosch.com",
+    "nt": "CHX8SZH",
+    "name": "Mr. 陈晓冬/CHEN Xiaodong",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "caden.yang@cn.bosch.com",
+    "nt": "AYC1SZH",
+    "name": "Mr. 杨星/YANG Caden",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "zheng.liu@cn.bosch.com",
+    "nt": "LZI4CGD",
+    "name": "Mr. 刘正/LIU Zheng",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "johnny.he@cn.bosch.com",
+    "nt": "HEJ1CGD",
+    "name": "Mr. 何曾强/HE Johnny",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yu.zhao@cn.bosch.com",
+    "nt": "ZYH6SZH",
+    "name": "Mr. 赵雨/ZHAO Yu",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "zhiqing.wu@cn.bosch.com",
+    "nt": "WZH5SZH",
+    "name": "Mr. 吴志清/Wu Zhiqing",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "levin.li@cn.bosch.com",
+    "nt": "LLE8SZH",
+    "name": "Mr. 李涛/LI Levin",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "fisher.dai@cn.bosch.com",
+    "nt": "DFA2SZH",
+    "name": "Mr. 戴宪宇/DAI Fisher",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "hong.liu3@cn.bosch.com",
+    "nt": "LIH8SZH",
+    "name": "Mr. 刘宏/LIU Hong",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "allen.xu3@cn.bosch.com",
+    "nt": "XAL3SZH",
+    "name": "Mr. 徐业怀/XU Allen",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yuling.chen@cn.bosch.com",
+    "nt": "CEU9SZH",
+    "name": "Ms. 陈愉玲/CHEN Yuling",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "bryce.li@cn.bosch.com",
+    "nt": "LBR6SZH",
+    "name": "Mr. 李凯鑫/LI Bryce",
+    "orgUnit": "BD/SLP-CE1",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "chenjia.qian@cn.bosch.com",
+    "nt": "QIC2WX",
+    "name": "Mr. 钱晨佳/QIAN Chenjia",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "ye.jin@cn.bosch.com",
+    "nt": "JYE1WX",
+    "name": "Mr. 金烨/JIN Ye",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "zhuxian.cao@boschrexroth.com.cn",
+    "nt": "CZH8CHA",
+    "name": "Ms. 曹主贤/CAO ZhuXian",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "chen.dong@boschrexroth.com.cn",
+    "nt": "DOC8CHA",
+    "name": "Mr. 董晨/DONG Chen",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "lingfeng.xu2@boschrexroth.com.cn",
+    "nt": "XUL8CHA",
+    "name": "Mr. 徐凌峰/XU Logan",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "kevin.jin@boschrexroth.com.cn",
+    "nt": "JIK8CHA",
+    "name": "Mr. 金鑫/JIN Kevin",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "haifeng.chen@cn.bosch.com",
+    "nt": "CHH8WX",
+    "name": "Mr. 陈海锋/CHEN Haifeng",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yiqing.qiu@cn.bosch.com",
+    "nt": "QUU1WX",
+    "name": "Ms. 仇亦清/QIU Yiqing",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yu.chen2@cn.bosch.com",
+    "nt": "CHY8WX",
+    "name": "Mr. 陈瑜/CHEN Yu",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "lei.li2@cn.bosch.com",
+    "nt": "LIL8WX",
+    "name": "Mr. 李雷/LI Lei",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "jun.zhu6@cn.bosch.com",
+    "nt": "ZHJ6NJ",
+    "name": "Mr. 诸钧/ZHU Jun",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yan.lu2@cn.bosch.com",
+    "nt": "LUA3WX",
+    "name": "Ms. 陆燕/LU Yan",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "chengyan.yu@cn.bosch.com",
+    "nt": "YUC2NJ",
+    "name": "Ms. 郁成燕/YU Chengyan",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "kang.zhou@cn.bosch.com",
+    "nt": "ZHK8WX",
+    "name": "Mr. 周康/ZHOU Kang",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "lizhen.mi@cn.bosch.com",
+    "nt": "MII1WX",
+    "name": "Ms. 米丽贞/MI Lizhen",
+    "orgUnit": "BD/SLP-CE2",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "zijuan.hong@bosch.com",
+    "nt": "HOZ2NJ",
+    "name": "Ms. 洪子娟/HONG Zijuan",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "boyang.li@bosch.com",
+    "nt": "LIB6NJ",
+    "name": "Mr. 李博洋/LI Boyang",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yuan.li1@bosch.com",
+    "nt": "IYL5NJ",
+    "name": "Ms. 李远/LI Yuan",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "runxuan.xie@cn.bosch.com",
+    "nt": "XIR3NJ",
+    "name": "Ms. 谢润璇/XIE Runxuan",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yaling.cheng@cn.bosch.com",
+    "nt": "CYA2NJ",
+    "name": "Ms. 成亚玲/CHENG Yaling",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "xinggang.xu@bosch.com",
+    "nt": "XXI5NJ",
+    "name": "Mr. 许行刚/XU Xinggang",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yan.ge@cn.bosch.com",
+    "nt": "GEY5NJ",
+    "name": "Ms. 葛滟/GE Yan",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "hong.cui@bosch.com",
+    "nt": "CUH4NJ",
+    "name": "Ms. 崔红/CUI Hong",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yajiao.zhang@cn.bosch.com",
+    "nt": "ZHN6NJ",
+    "name": "Ms. 张亚娇/ZHANG Yajiao",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yuchen.zhou@cn.bosch.com",
+    "nt": "UOU1SZH",
+    "name": "Mr. 周宇辰/ZHOU Yuchen",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "li.kuang@bosch.com",
+    "nt": "KUL1NJ",
+    "name": "Ms. 匡莉/KUANG Li",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "fan.yang8@cn.bosch.com",
+    "nt": "YGF1SZH",
+    "name": "Mr. 杨帆/YANG Felix",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yin.huang@bosch.com",
+    "nt": "HUN8NJ",
+    "name": "Mr. 黄胤/HUANG Yin",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "jerry.jing@cn.bosch.com",
+    "nt": "JIJ8SZH",
+    "name": "Mr. 景宏/JING Jerry",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "zhao.wang@bosch.com",
+    "nt": "WZA2NJ",
+    "name": "Mr. 王照/WANG Zhao",
+    "orgUnit": "BD/SLP-CE3",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "guoqing.xu@bosch.com",
+    "nt": "XUG3NJ",
+    "name": "Mr. 徐国庆/XU Guoqing",
+    "orgUnit": "BD/SMA-CSE7",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "jiaqing.mao@bosch.com",
+    "nt": "MAO4NJ",
+    "name": "Ms. 茅嘉庆/MAO Jiaqing",
+    "orgUnit": "BD/SMA-CSE7",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "koi.wang@bosch.com",
+    "nt": "WKA4NJ",
+    "name": "Mr. 王雨潇/WANG Koi",
+    "orgUnit": "BD/SMA-CSE7",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "yongjing.lu@bosch.com",
+    "nt": "LUO7NJ",
+    "name": "Mr. 陆用晶/LU Yongjing",
+    "orgUnit": "BD/SMA-CSE7",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "min.zhoum@bosch.com",
+    "nt": "ZMH6NJ",
+    "name": "Ms. 周旻/ZHOU Min",
+    "orgUnit": "BD/SMA-CSE7",
+    "nominatingHead": "JIAO Colin",
+    "allowSelfApproval": false,
+    "hodNt": "JIC8SZH",
+    "hodEmail": "colin.jiao@cn.bosch.com"
+  },
+  {
+    "email": "nina.cao2@cn.bosch.com",
+    "nt": "CNO2SZH",
+    "name": "Ms. 曹宏/CAO Nina",
+    "orgUnit": "BD/CTG-AP",
+    "nominatingHead": "LI Xiaobai",
+    "allowSelfApproval": false,
+    "hodNt": "LXB1WX",
+    "hodEmail": "xiaobai.li@cn.bosch.com"
+  },
+  {
+    "email": "ping.wang5@cn.bosch.com",
+    "nt": "WPI1SGH",
+    "name": "Ms. 王萍/WANG Ping",
+    "orgUnit": "BD/CTG-AP",
+    "nominatingHead": "LI Xiaobai",
+    "allowSelfApproval": false,
+    "hodNt": "LXB1WX",
+    "hodEmail": "xiaobai.li@cn.bosch.com"
+  },
+  {
+    "email": "yawen.sun@cn.bosch.com",
+    "nt": "SUY1SGH",
+    "name": "Ms. 孙雅雯/SUN Yawen",
+    "orgUnit": "BD/CTG-AP",
+    "nominatingHead": "LI Xiaobai",
+    "allowSelfApproval": false,
+    "hodNt": "LXB1WX",
+    "hodEmail": "xiaobai.li@cn.bosch.com"
+  },
+  {
+    "email": "shirley.wang3@cn.bosch.com",
+    "nt": "WGH5SGH",
+    "name": "Ms. 王雨霁/WANG Shirley",
+    "orgUnit": "BD/TOA-GTC3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "teng.zhao@cn.bosch.com",
+    "nt": "ZTE4SGH",
+    "name": "Mr. 赵腾/ZHAO Teng",
+    "orgUnit": "BD/TOA-GTC3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "tao.gu2@cn.bosch.com",
+    "nt": "GUT8CHA",
+    "name": "Mr. 顾陶/GU Tom",
+    "orgUnit": "BD/TOA-GTC3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "robert.wu@cn.bosch.com",
+    "nt": "WOR3SZH",
+    "name": "Mr. 吴俊/WU Robert",
+    "orgUnit": "BD/TOA-GTC3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "eason.sun@cn.bosch.com",
+    "nt": "SEA4SGH",
+    "name": "Mr. 孙逸/SUN Eason",
+    "orgUnit": "BD/TOA-GTC3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "kalen.chen@cn.bosch.com",
+    "nt": "CKH4SGH",
+    "name": "Ms. 陈倩倩/CHEN Kalen",
+    "orgUnit": "BD/TOA-GTC3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "zhi.wang5@cn.bosch.com",
+    "nt": "AHN5SZH",
+    "name": "Mr. 王智/WANG Zhi",
+    "orgUnit": "BD/TOA-GTC3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "yuan.lin@cn.bosch.com",
+    "nt": "LIY8SZH",
+    "name": "Ms. 林元/LIN Yuan",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "milly.fan@cn.bosch.com",
+    "nt": "FMA3SZH",
+    "name": "Ms. 范敏毅/FAN Milly",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "wayne.luo@cn.bosch.com",
+    "nt": "LOZ2SZH",
+    "name": "Mr. 骆壮壮/LUO Wayne",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "chris.weng@cn.bosch.com",
+    "nt": "EWC2SZH",
+    "name": "Mr. 翁磊/WENG Chris",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "haoxiang.fu@cn.bosch.com",
+    "nt": "FUH2SGH",
+    "name": "Mr. 符浩翔/FU Haoxiang",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "richard.chen@cn.bosch.com",
+    "nt": "CHR8SZH",
+    "name": "Mr. 陈以锋/CHEN Richard",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "weiping.cai@cn.bosch.com",
+    "nt": "CAE5SGH",
+    "name": "Mr. 蔡伟平/CAI Weiping",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "wenqi.yan@cn.bosch.com",
+    "nt": "YWA1SZH",
+    "name": "Ms. 严雯琦/YAN Wenqi",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "yun.zheng@cn.bosch.com",
+    "nt": "ZYU2HZ",
+    "name": "Ms. 郑郧/ZHENG Yun",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "maple.sun@cn.bosch.com",
+    "nt": "SUM5SZH",
+    "name": "Mr. 孙承宏/SUN Maple",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "yu.wang12@cn.bosch.com",
+    "nt": "UNG1SZH",
+    "name": "Mr. 王宇/WANG Yu",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "johnson.zhang6@cn.bosch.com",
+    "nt": "ZHORSZH",
+    "name": "Mr. 张海/ZHANG Johnson",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "zou.zou@cn.bosch.com",
+    "nt": "ODD1SZH",
+    "name": "Ms. 邹小芳/ZOU Ivy",
+    "orgUnit": "BD/TOA-GTC6",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "jane.cao@cn.bosch.com",
+    "nt": "CAO4SZH",
+    "name": "Ms. 曹纬坤/CAO Jane",
+    "orgUnit": "BD/TOA-IDE1-J1",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "xiaobin.qiu@cn.bosch.com",
+    "nt": "QXU4SZH",
+    "name": "Mr. 裘晓斌/QIU Xiaobin",
+    "orgUnit": "BD/TOA-IDE3",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "xiaoye.yuan@cn.bosch.com",
+    "nt": "YNX4SGH",
+    "name": "Mr. 苑晓晔/YUAN Xiaoye",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "alex.yu2@cn.bosch.com",
+    "nt": "BUL1SGH",
+    "name": "Mr. 俞加周/YU Alex",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "yu.chen8@cn.bosch.com",
+    "nt": "CUH8SGH",
+    "name": "Mr. 陈煜/CHEN Yu",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "chunrong.zong@cn.bosch.com",
+    "nt": "OCG1SZH",
+    "name": "Mr. 宗春荣/ZONG Chunrong",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "claire.sun@cn.bosch.com",
+    "nt": "USC2SGH",
+    "name": "Ms. 孙海艳/SUN Claire",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "felix.zhao@cn.bosch.com",
+    "nt": "ZFE5SZH",
+    "name": "Mr. 赵伟/ZHAO Felix",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "peijun.yan@cn.bosch.com",
+    "nt": "YAP2SGH",
+    "name": "Ms. 严佩珺/YAN Peijun",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "hellen.wang@cn.bosch.com",
+    "nt": "WAH4SZH",
+    "name": "Ms. 王亚东/WANG Hellen",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "anders.zhao@cn.bosch.com",
+    "nt": "ZNO9SGH",
+    "name": "Mr. 赵磊/ZHAO Anders",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "sam.li@cn.bosch.com",
+    "nt": "LSA2SGH",
+    "name": "Mr. 李谷声/LI Sam",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "jamy.zhao@cn.bosch.com",
+    "nt": "ZAO6SGH",
+    "name": "Mr. 赵菁/ZHAO Jamy",
+    "orgUnit": "BD/TOA-SPL7",
+    "nominatingHead": "LIANG Christy",
+    "allowSelfApproval": false,
+    "hodNt": "LIA8SZH",
+    "hodEmail": "christy.liang@cn.bosch.com"
+  },
+  {
+    "email": "bo.wei@cn.bosch.com",
+    "nt": "WEB1WX",
+    "name": "Mr. 魏博/WEI Bo",
+    "orgUnit": "BD/BA-CN",
+    "nominatingHead": "Mr. 魏博/WEI Bo",
+    "allowSelfApproval": true,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "ty.wang@cn.bosch.com",
+    "nt": "WATCSZH",
+    "name": "Mr. 王伟/WANG TY",
+    "orgUnit": "BD/APA-APA",
+    "nominatingHead": "SHENG Kai",
+    "allowSelfApproval": false,
+    "hodNt": "SKA1SGH",
+    "hodEmail": "kai.sheng@bosch.com"
+  },
+  {
+    "email": "dong.liu3@cn.bosch.com",
+    "nt": "LDO6SGH",
+    "name": "Mr. 刘冬/LIU Dong",
+    "orgUnit": "BD/APA-APA",
+    "nominatingHead": "SHENG Kai",
+    "allowSelfApproval": false,
+    "hodNt": "SKA1SGH",
+    "hodEmail": "kai.sheng@bosch.com"
+  },
+  {
+    "email": "jialiang.zheng@cn.bosch.com",
+    "nt": "ZJA8SZH",
+    "name": "Ms. 郑嘉亮/ZHENG Jialiang",
+    "orgUnit": "BD/ISA-CN",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "mingxing.wang@cn.bosch.com",
+    "nt": "WAM8SZH",
+    "name": "Mr. 王明星/WANG Mingxing",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "chunliang.wu@cn.bosch.com",
+    "nt": "WUC8SGH",
+    "name": "Mr. 吴春良/WU Chunliang",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "scarlett.wu@cn.bosch.com",
+    "nt": "WSC2SZH",
+    "name": "Ms. 吴诗佳/WU Scarlett",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yupeng.zhang@cn.bosch.com",
+    "nt": "ZUYISZH",
+    "name": "Mr. 张宇鹏/ZHANG Yupeng",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "wei.li4@cn.bosch.com",
+    "nt": "LIE5NJ",
+    "name": "Mr. 李伟/LI Wei",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "jianjun.zhai@cn.bosch.com",
+    "nt": "JHB1SZH",
+    "name": "Mr. 翟建军/ZHAI Jianjun",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yi.zhao@cn.bosch.com",
+    "nt": "ZYI1SZH",
+    "name": "Mr. 赵奕/ZHAO Yi",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "wei.dai2@bosch.com",
+    "nt": "DAW4NJ",
+    "name": "Mr. 戴伟/DAI Wei",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xiulian.dai@bosch.com",
+    "nt": "DAX2NJ",
+    "name": "Ms. 戴秀莲/DAI Xiulian",
+    "orgUnit": "BD/ISA-CN1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yu.cao2@cn.bosch.com",
+    "nt": "CAU3NJ",
+    "name": "Mr. 曹宇/CAO Yu",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "aaron.gu@cn.bosch.com",
+    "nt": "AGU2SZH",
+    "name": "Mr. 顾亦钊/GU Aaron",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "aaron.xu@cn.bosch.com",
+    "nt": "XAA7SZH",
+    "name": "Mr. 徐安荣/XU Aaron",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "pengjiang.lei@cn.bosch.com",
+    "nt": "ELE1SGH",
+    "name": "Mr. 雷鹏将/LEI Pengjiang",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "kang.wangk@cn.bosch.com",
+    "nt": "WAK4NJ",
+    "name": "Mr. 王康/WANG Kang",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "gemini.chen@cn.bosch.com",
+    "nt": "ECG1SZH",
+    "name": "Mr. 陈野/CHEN Gemini",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yishun.chen@cn.bosch.com",
+    "nt": "CIY3SZH",
+    "name": "Mr. 陈益顺/CHEN Yishun",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "weixin.zhang@cn.bosch.com",
+    "nt": "ZEH7NJ",
+    "name": "Mr. 张伟欣/ZHANG Weixin",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yuewei.zhang@bosch.com",
+    "nt": "ZUN8NJ",
+    "name": "Mr. 张岳玮/ZHANG Yuewei",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "leo.chen5@cn.bosch.com",
+    "nt": "CHLCSZH",
+    "name": "Mr. 陈亮/CHEN Leo",
+    "orgUnit": "BD/ISA-CN2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "joe.bai@cn.bosch.com",
+    "nt": "BJA3SZH",
+    "name": "Mr. 柏凯耀/BAI Joe",
+    "orgUnit": "BD/ISA-DCL3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "paul.wang1@cn.bosch.com",
+    "nt": "WPA8SZH",
+    "name": "Mr. 王华/WANG Paul",
+    "orgUnit": "BD/ISA-DCL3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "mike.lu@cn.bosch.com",
+    "nt": "UIM1SZH",
+    "name": "Mr. 陆恺/LU Mike",
+    "orgUnit": "BD/ISA-DCL3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "aijie.bian@cn.bosch.com",
+    "nt": "BNA1SZH",
+    "name": "Ms. 边爱洁/BIAN Aijie",
+    "orgUnit": "BD/ISA-DCL3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yifan.zhang@cn.bosch.com",
+    "nt": "ZIN4NJ",
+    "name": "Mr. 张一帆/ZHANG Yifan",
+    "orgUnit": "BD/ISA-DCL3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "connie.song@cn.bosch.com",
+    "nt": "SOC3SZH",
+    "name": "Ms. 宋潇/SONG Connie",
+    "orgUnit": "BD/ISA-DCL3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "jason.hu2@cn.bosch.com",
+    "nt": "HJU8SZH",
+    "name": "Mr. 胡震宇/HU Jason",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "jorah.wu@cn.bosch.com",
+    "nt": "UOW1SZH",
+    "name": "Mr. 吴江/WU Jorah",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "zhiwei.shi@cn.bosch.com",
+    "nt": "SHZ8SZH",
+    "name": "Mr. 石志伟/SHI Zhiwei",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "nordin.zou@cn.bosch.com",
+    "nt": "ZONCSZH",
+    "name": "Mr. 邹瑞/ZOU Nordin",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "tom.song@cn.bosch.com",
+    "nt": "SOT8SZH",
+    "name": "Mr. 宋亦斌/SONG Tom",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "david.xie@cn.bosch.com",
+    "nt": "XID8SZH",
+    "name": "Mr. 谢亦栋/XIE David",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "romeo.qin@cn.bosch.com",
+    "nt": "QRO1SZH",
+    "name": "Mr. 秦剑/QIN Romeo",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "leo.shi@cn.bosch.com",
+    "nt": "SLE8SZH",
+    "name": "Mr. 石磊/SHI Leo",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "ping.li6@cn.bosch.com",
+    "nt": "LPI3SZH",
+    "name": "Ms. 李平/LI Ping",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xiaojiao.chen2@cn.bosch.com",
+    "nt": "HCX3SZH",
+    "name": "Ms. 陈小娇/CHEN Xiaojiao",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "maonan.tang@cn.bosch.com",
+    "nt": "TGM1SZH",
+    "name": "Ms. 唐茂南/TANG Maonan",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yilong.dai@cn.bosch.com",
+    "nt": "DYA1SZH",
+    "name": "Mr. 戴益龙/DAI Yilong",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yang.tian@cn.bosch.com",
+    "nt": "TYI3SZH",
+    "name": "Mr. 田洋/TIAN Yang",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "zhijie.tian@cn.bosch.com",
+    "nt": "TNZ1SZH",
+    "name": "Mr. 田志杰/TIAN Zhijie",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "jared.ma@cn.bosch.com",
+    "nt": "MAA9SZH",
+    "name": "Mr. 马家枫/MA Jared",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "athena.liu@cn.bosch.com",
+    "nt": "LIA4SZH",
+    "name": "Ms. 刘智慧/LIU Athena",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "hongyu.zhang2@cn.bosch.com",
+    "nt": "ONA1SZH",
+    "name": "Mr. 张虹雨/ZHANG Hongyu",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xiang.ma@cn.bosch.com",
+    "nt": "MAI6SZH",
+    "name": "Mr. 马祥/MA Xiang",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "dongfeng.li@cn.bosch.com",
+    "nt": "LDI5SZH",
+    "name": "Mr. 李东风/LI Dongfeng",
+    "orgUnit": "BD/ISA-GOC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "mike.yu@cn.bosch.com",
+    "nt": "YMU8SZH",
+    "name": "Mr. 余长龙/YU Mike",
+    "orgUnit": "BD/ISA-GOC6",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "gorden.wang@cn.bosch.com",
+    "nt": "WGO8SZH",
+    "name": "Mr. 王光源/WANG Gorden",
+    "orgUnit": "BD/ISA-GOC6",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "niko.qu@cn.bosch.com",
+    "nt": "QUN8SZH",
+    "name": "Mr. 瞿钟鸣/QU Niko",
+    "orgUnit": "BD/ISA-GOC6",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "darmon.que@cn.bosch.com",
+    "nt": "QDE1SZH",
+    "name": "Mr. 阙嘉琪/QUE Darmon",
+    "orgUnit": "BD/ISA-GOC6",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "lin.chen9@cn.bosch.com",
+    "nt": "HCL3SZH",
+    "name": "Ms. 陈琳/CHEN Lin",
+    "orgUnit": "BD/ISA-GOC7",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "evita.han@cn.bosch.com",
+    "nt": "HAE8SZH",
+    "name": "Ms. 韩陈呈/HAN Evita",
+    "orgUnit": "BD/ISA-GOC7",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "simon.pei@cn.bosch.com",
+    "nt": "PEI3SZH",
+    "name": "Mr. 裴国林/PEI Simon",
+    "orgUnit": "BD/ISA-GOC7",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "johnson.qian@cn.bosch.com",
+    "nt": "QJO8SZH",
+    "name": "Mr. 钱佳晟/QIAN Johnson",
+    "orgUnit": "BD/ISA-GOC7",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "pengcheng.shen@cn.bosch.com",
+    "nt": "SHP8SZH",
+    "name": "Mr. 沈鹏程/SHEN Pengcheng",
+    "orgUnit": "BD/ISA-NSC1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "bo.wen@cn.bosch.com",
+    "nt": "EWO1SZH",
+    "name": "Mr. 温勃/WEN Bo",
+    "orgUnit": "BD/ISA-NSC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "sky.huang@cn.bosch.com",
+    "nt": "HSK1SZH",
+    "name": "Mr. 黄盼/HUANG Sky",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "sen.zhang2@bosch.com",
+    "nt": "ZHS1NJ6",
+    "name": "Mr. 张森/ZHANG Sen",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "junyu.fang@cn.bosch.com",
+    "nt": "FUN2SZH",
+    "name": "Mr. 方浚羽/FANG Junyu",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "yifan.liu2@cn.bosch.com",
+    "nt": "UUD1SGH",
+    "name": "Mr. 刘一帆/LIU Yifan",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "wei.wang10@cn.bosch.com",
+    "nt": "WWA9SZH",
+    "name": "Mr. 王炜/WANG Wei",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xiaoxuan.zhang@cn.bosch.com",
+    "nt": "XZN3SZH",
+    "name": "Ms. 张晓璇/ZHANG Xiaoxuan",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "jiawei.zhang@cn.bosch.com",
+    "nt": "ZJNRSZH",
+    "name": "Mr. 张嘉玮/ZHANG Jiawei",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "aihua.zhang@cn.bosch.com",
+    "nt": "ZHI8SZH",
+    "name": "Ms. 张爱华/ZHANG Aihua",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "lin.zhang@cn.bosch.com",
+    "nt": "ZHL8SZH",
+    "name": "Mr. 张琳/ZHANG Lin",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "morgan.zhou@cn.bosch.com",
+    "nt": "HMZ1SZH",
+    "name": "Mr. 周雁斌/ZHOU Morgan",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "laughing.yu@cn.bosch.com",
+    "nt": "YLU3SZH",
+    "name": "Mr. 于功成/YU Laughing",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "miles.zhang@cn.bosch.com",
+    "nt": "ZHM2CGD4",
+    "name": "Mr. 张兆谦/ZHANG Miles",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "gavin.chen@cn.bosch.com",
+    "nt": "CGE3SZH",
+    "name": "Mr. 陈青松/CHEN Gavin",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "kaixuan.mao@bosch.com",
+    "nt": "MAK2NJ",
+    "name": "Mr. 毛凯旋/MAO Kaixuan",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xiaoping.shi@bosch.com",
+    "nt": "SHI3NJ",
+    "name": "Mr. 史小平/SHI Xiaoping",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "alen.liu2@cn.bosch.com",
+    "nt": "IUA3SZH",
+    "name": "Mr. 刘旭/LIU Alen",
+    "orgUnit": "BD/ISA-NSL2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "atom.guo@cn.bosch.com",
+    "nt": "UAT1SZH",
+    "name": "Mr. 郭小冬/GUO Atom",
+    "orgUnit": "BD/ISA-NSX1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "oscar.wang2@cn.bosch.com",
+    "nt": "WOS3SZH",
+    "name": "Mr. 王成成/WANG Oscar",
+    "orgUnit": "BD/ISA-NSX2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "frank.zhu@cn.bosch.com",
+    "nt": "ZRF1SZH",
+    "name": "Mr. 朱洋/ZHU Frank",
+    "orgUnit": "BD/ISA-NSX2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "jay.zhang@cn.bosch.com",
+    "nt": "ZIA9NJ",
+    "name": "Mr. 张杰/ZHANG Jay",
+    "orgUnit": "BD/ISA-NSX2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "wythe.wu@cn.bosch.com",
+    "nt": "WWY1SZH",
+    "name": "Mr. 伍勇/WU Wythe",
+    "orgUnit": "BD/ISA-NSX2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "kevin.zhang@cn.bosch.com",
+    "nt": "ZHK8SZH",
+    "name": "Mr. 张毅/ZHANG Kevin",
+    "orgUnit": "BD/ISA-NSX2",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "nova.lu@cn.bosch.com",
+    "nt": "LNO3SZH",
+    "name": "Mr. 陆凡/LU Nova",
+    "orgUnit": "BD/ISA-PRC1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "alen.yao@cn.bosch.com",
+    "nt": "YLO7SZH",
+    "name": "Mr. 姚任春/YAO Alen",
+    "orgUnit": "BD/ISA-PRC1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "laurence.miao@cn.bosch.com",
+    "nt": "MIL8SZH",
+    "name": "Mr. 缪诚/MIAO Laurence",
+    "orgUnit": "BD/ISA-PUC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "colin.zhang@cn.bosch.com",
+    "nt": "COZ8SZH",
+    "name": "Mr. 张智超/ZHANG Colin",
+    "orgUnit": "BD/ISA-PUC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "kevin.jia@cn.bosch.com",
+    "nt": "JAK1SZH",
+    "name": "Mr. 贾利强/JIA Kevin",
+    "orgUnit": "BD/ISA-PUC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "fred.li@cn.bosch.com",
+    "nt": "ILF2SZH",
+    "name": "Mr. 李俊/LI Fred",
+    "orgUnit": "BD/ISA-PUC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "diana.hu@cn.bosch.com",
+    "nt": "DHU3SGH",
+    "name": "Ms. 胡爽/HU Diana",
+    "orgUnit": "BD/ISA-PUC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "lundo.hua@cn.bosch.com",
+    "nt": "ELU1SGH",
+    "name": "Mr. 华庭玮/HUA Lundo",
+    "orgUnit": "BD/ISA-PUC3",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "eason.gao@cn.bosch.com",
+    "nt": "GFE8SZH",
+    "name": "Mr. 高峰/GAO Eason",
+    "orgUnit": "BD/ISA-SSP1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xiaowei.zhang3@cn.bosch.com",
+    "nt": "NXH1SZH",
+    "name": "Mr. 张小伟/ZHANG Xiaowei",
+    "orgUnit": "BD/ISA-SSP1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xinxin.shi@cn.bosch.com",
+    "nt": "SHX8SZH",
+    "name": "Ms. 史欣欣/SHI Xinxin",
+    "orgUnit": "BD/ISA-SSP1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "rick.zhou@cn.bosch.com",
+    "nt": "ZUS3SZH",
+    "name": "Mr. 周书印/ZHOU Rick",
+    "orgUnit": "BD/ISA-SSP1",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "qiqian.hui@cn.bosch.com",
+    "nt": "HUQ6SZH",
+    "name": "Mr. 惠祺佥/HUI Qiqian",
+    "orgUnit": "BD/ISA-SSP7",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "xingxing.chen@cn.bosch.com",
+    "nt": "CNX5SZH",
+    "name": "Mr. 陈星星/CHEN Xingxing",
+    "orgUnit": "BD/ISA-SSP7",
+    "nominatingHead": "SHU Xin",
+    "allowSelfApproval": false,
+    "hodNt": "SXI7SZH",
+    "hodEmail": "xin.shu2@cn.bosch.com"
+  },
+  {
+    "email": "jarvan.liu@cn.bosch.com",
+    "nt": "HLO1CNG",
+    "name": "Mr. 刘鸿建/LIU Jarvan",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "qian.xiao@cn.bosch.com",
+    "nt": "XIO1WX",
+    "name": "Ms. 肖倩/XIAO Qian",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "catherine.zhang@cn.bosch.com",
+    "nt": "ACN1SGH",
+    "name": "Ms. 张洁琨/ZHANG Catherine",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "xin.liu7@cn.bosch.com",
+    "nt": "IUX1PK",
+    "name": "Mr. 刘鑫/LIU Xin",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "christina.wu@cn.bosch.com",
+    "nt": "UCW1SGH",
+    "name": "Ms. 吴恒/WU Heng Christina",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "panpan.li@cn.bosch.com",
+    "nt": "LPA6SGH",
+    "name": "Ms. 李盼盼/LI Panpan",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "yang.zhou4@cn.bosch.com",
+    "nt": "ZUO1HZ",
+    "name": "Mr. 周洋/ZHOU Yang",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "calvin.kwok@hk.bosch.com",
+    "nt": "KWC8HK",
+    "name": "Mr. 郭嘉輝/KWOK Calvin",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "ken.wong@hk.bosch.com",
+    "nt": "WOK8HK",
+    "name": "Mr. 黃國健/WONG Ken",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "alvin.peng@tw.bosch.com",
+    "nt": "PEA1TP",
+    "name": "Mr. 彭士鴻/Peng Alvin",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "leon.zhu@cn.bosch.com",
+    "nt": "ZEU7SGH",
+    "name": "Mr. 朱翊弘/ZHU Leon",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "danny.shih@tw.bosch.com",
+    "nt": "SHI1TP",
+    "name": "Mr. 施宗佑/Shih Danny",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "atlan.cho@tw.bosch.com",
+    "nt": "CAT1TP",
+    "name": "Mr. 卓維辰/Cho Atlan",
+    "orgUnit": "BD/SLP-CO1",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "lanlan.yu@cn.bosch.com",
+    "nt": "YUL8CNG",
+    "name": "Ms. 喻兰兰/YU Lanlan",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "qian.luo2@cn.bosch.com",
+    "nt": "LUQ2CNG",
+    "name": "Mr. 罗骞/LUO Qian",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "mell.gu@cn.bosch.com",
+    "nt": "GUM8DON",
+    "name": "Ms. 顾梅香/Gu Mell",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "shiwei.zou@cn.bosch.com",
+    "nt": "ZOS1CNG",
+    "name": "Mr. 邹世伟/ZOU Shiwei",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "zhixin.yan@cn.bosch.com",
+    "nt": "YZN3CNG",
+    "name": "Ms. 严志新/YAN Zhixin",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "dan.zhang3@cn.bosch.com",
+    "nt": "ZDN2CNG",
+    "name": "Ms. 张丹/ZHANG Dan",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "yonghui.hu@cn.bosch.com",
+    "nt": "HOU1SHZ",
+    "name": "Mr. 胡永辉/HU Yonghui",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "shengmin.yuan@cn.bosch.com",
+    "nt": "YUA4CNG",
+    "name": "Mr. 袁盛民/YUAN Shengmin",
+    "orgUnit": "BD/SLP-CO2",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "wenkai.qin@bosch.com",
+    "nt": "QIW5JNA",
+    "name": "Mr. 秦文凯/QIN Wenkai",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "rongxing.gong@bosch.com",
+    "nt": "GOR1JNA",
+    "name": "Mr. 宫荣兴/GONG Rongxing",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "jianwei.xue@boschrexroth.com.cn",
+    "nt": "XJE1PK",
+    "name": "Mr. 薛建玮/XUE Jianwei",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "jialong.li2@boschrexroth.com.cn",
+    "nt": "LJI8PK",
+    "name": "Mr. 李佳龙/LI Jialong",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "qing.yi@boschrexroth.com.cn",
+    "nt": "YIQ8PK",
+    "name": "Mr. 弋青/YI Qing",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "qiongjing.ma@cn.bosch.com",
+    "nt": "MQI1HZ",
+    "name": "Ms. 马琼京/MA Qiongjing",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "bohao.xiang@cn.bosch.com",
+    "nt": "XIB8HZ",
+    "name": "Mr. 向伯昊/XIANG Bohao",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "ming.li6@cn.bosch.com",
+    "nt": "LIM8HZ",
+    "name": "Mr. 李明/LI Ming",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "bin.lei2@cn.bosch.com",
+    "nt": "LEB1HZ",
+    "name": "Mr. 雷斌/LEI Bin",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "cheng.qian@cn.bosch.com",
+    "nt": "QCH8HZ",
+    "name": "Mr. 钱程/QIAN Cheng",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "chenghao.liu@cn.bosch.com",
+    "nt": "LCH6CNG",
+    "name": "Mr. 刘程昊/LIU Chenghao",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "wenjue.li@cn.bosch.com",
+    "nt": "LIW8HZ",
+    "name": "Mr. 李闻爵/LI Wenjue",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "shuran.zhang@cn.bosch.com",
+    "nt": "ZSN2HZ",
+    "name": "Ms. 张舒然/ZHANG Shuran",
+    "orgUnit": "BD/SLP-CO3",
+    "nominatingHead": "WANG Weimin",
+    "allowSelfApproval": false,
+    "hodNt": "WAW8HZ",
+    "hodEmail": "weimin.wang@cn.bosch.com"
+  },
+  {
+    "email": "tian.qin@cn.bosch.com",
+    "nt": "QIN8FE",
+    "name": "Ms. 覃天/QIN Nancy",
+    "orgUnit": "BD/HRX-OD",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "sophie.wang@cn.bosch.com",
+    "nt": "WGJ8SZH",
+    "name": "Ms. 王静燕/WANG Sophie",
+    "orgUnit": "BD/HRX-OD",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "ada.liang@cn.bosch.com",
+    "nt": "LAA1SGH",
+    "name": "Ms. 梁意/LIANG Ada",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "xiang.zhang3@cn.bosch.com",
+    "nt": "ZIX8SGH",
+    "name": "Ms. ZHANGXIANG/ZHANG Xiang",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "chen.peng2@cn.bosch.com",
+    "nt": "PEH1SGH",
+    "name": "Mr. 彭晨/PENG Chen",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "zhongming.jin@cn.bosch.com",
+    "nt": "JZI1SGH",
+    "name": "Mr. 金钟鸣/JIN Zhongming",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "ivan.sun@cn.bosch.com",
+    "nt": "SUV1SGH",
+    "name": "Mr. 孙川/SUN Ivan",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "francis.tan@cn.bosch.com",
+    "nt": "TAF3SGH",
+    "name": "Mr. TanFrancis/Tan Francis",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "sunny.hui@cn.bosch.com",
+    "nt": "HUA4SZH",
+    "name": "Ms. 惠亚萍/HUI Sunny",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "mia.zeng@cn.bosch.com",
+    "nt": "ZEI6SGH",
+    "name": "Ms. 曾晓艳/ZENG Mia",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "julie.xiong@cn.bosch.com",
+    "nt": "XJN3SZH",
+    "name": "Ms. 熊祝萱/XIONG Julie",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "charlie.cai@bosch.com",
+    "nt": "CCA1NJ",
+    "name": "Mr. 蔡力/CAI Charlie",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "jamie.qin@cn.bosch.com",
+    "nt": "QJI2SGH",
+    "name": "Mr. 秦明/QIN Jamie",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "angel.zhu@cn.bosch.com",
+    "nt": "AZH1SGH",
+    "name": "Ms. 朱安琪/ZHU Angel",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "yvonne.yu@bosch.com",
+    "nt": "YYA8SGH",
+    "name": "Ms. 余艳丽/YU Yvonne",
+    "orgUnit": "BD/SPB-APB3",
+    "nominatingHead": "WANG Yvonne",
+    "allowSelfApproval": false,
+    "hodNt": "WAY8SZH",
+    "hodEmail": "yvonne.wang@de.bosch.com"
+  },
+  {
+    "email": "qian.ding@cn.bosch.com",
+    "nt": "DIQ1SZH",
+    "name": "Ms. 丁茜/DING Qian",
+    "orgUnit": "BD/CNA-CNS",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xiaohan.gao-urhahn@de.bosch.com",
+    "nt": "GAX2SH",
+    "name": "Ms. 高小寒/Gao-Urhahn Xiaohan",
+    "orgUnit": "BD/DAD-DEN",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yanbin.hu@bosch.com",
+    "nt": "HUY7RT",
+    "name": "Mr. HUYanbin/HU Yanbin",
+    "orgUnit": "BD/CTA-GXI",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "colin.jiao@cn.bosch.com",
+    "nt": "JIC8SZH",
+    "name": "Mr. 焦钧/JIAO Colin",
+    "orgUnit": "BD/SLP-CE",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xiaobai.li@cn.bosch.com",
+    "nt": "LXB1WX",
+    "name": "Ms. 李小白/LI Xiaobai",
+    "orgUnit": "BD/CTG-AP",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "christy.liang@cn.bosch.com",
+    "nt": "LIA8SZH",
+    "name": "Ms. 梁海燕/LIANG Christy",
+    "orgUnit": "BD/TOA-DEA",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xin.shu2@cn.bosch.com",
+    "nt": "SXI7SZH",
+    "name": "Mr. 舒欣/SHU Xin",
+    "orgUnit": "BD/ISA-CN",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "vinod.a@in.bosch.com",
+    "nt": "VIO2KOR",
+    "name": "Mr. Appukuttan PillaiVinod/Appukuttan Pi",
+    "orgUnit": "BD/QMM2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "weimin.wang@cn.bosch.com",
+    "nt": "WAW8HZ",
+    "name": "Mr. 王卫民/WANG Weimin",
+    "orgUnit": "BD/SLP-CO",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yvonne.wang@de.bosch.com",
+    "nt": "WAY8SZH",
+    "name": "Ms. 王秀卿/WANG Yvonne",
+    "orgUnit": "BD/SPB-APB1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "kai.sheng@bosch.com",
+    "nt": "SKA1SGH",
+    "name": "Mr. SHENGKai/SHENG Kai",
+    "orgUnit": "BD/APA-APA",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "zeqin.liu@cn.bosch.com",
+    "nt": "LZE6SGH",
+    "name": "Ms. 刘泽勤/LIU Zeqin",
+    "orgUnit": "BD/BA-CN",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jianguo.wang3@bosch.com",
+    "nt": "WNJ2SGH",
+    "name": "Mr. 王建国/WANG Jianguo",
+    "orgUnit": "BD/BA-CN",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jessica.pan@cn.bosch.com",
+    "nt": "PAE9SGH",
+    "name": "Ms. 潘梦妮/PAN Jessica",
+    "orgUnit": "BD/UXD-UIX6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "qianyuan.xu@cn.bosch.com",
+    "nt": "QUI4SGH",
+    "name": "Ms. 徐茜圆/XU Qianyuan",
+    "orgUnit": "BD/UXD-UIX6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "rachel.wang@cn.bosch.com",
+    "nt": "ARA8SGH",
+    "name": "Ms. 王鞒颖/WANG Rachel",
+    "orgUnit": "BD/UXD-UIX6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "rio.jiang@cn.bosch.com",
+    "nt": "JAR1SGH",
+    "name": "Mr. 姜祚/JIANG Rio",
+    "orgUnit": "BD/UXD-UIX6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "summer.li2@cn.bosch.com",
+    "nt": "ISU2SGH",
+    "name": "Ms. 李沁珧/LI Summer",
+    "orgUnit": "BD/UXD-UIX6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "ping.xia1@cn.bosch.com",
+    "nt": "XIP8SGH",
+    "name": "Ms. 夏萍/XIA Ping",
+    "orgUnit": "BD/CNA-ESM",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "cherry.xu2@cn.bosch.com",
+    "nt": "XUC8SGH",
+    "name": "Ms. 徐静/XU Cherry",
+    "orgUnit": "BD/ERA-SPS",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yi.zhu@de.bosch.com",
+    "nt": "ZHY2FE",
+    "name": "Mr. ZHUYi/ZHU Yi",
+    "orgUnit": "BD/MIL-PSM3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jue.wang4@cn.bosch.com",
+    "nt": "WUN5SGH",
+    "name": "Ms. 王珏/WANG Jue",
+    "orgUnit": "BD/BA-AP",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "john.chen2@bosch.com",
+    "nt": "CJO5SGH",
+    "name": "Mr. 陈江/CHEN John",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "juan.xu2@cn.bosch.com",
+    "nt": "XUJCSZH",
+    "name": "Ms. 徐娟/XU Juan",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "chi.zhang3@cn.bosch.com",
+    "nt": "ZCH3SGH",
+    "name": "Mr. 张弛/ZHANG Terry",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "roy.yi@cn.bosch.com",
+    "nt": "YIR4SGH",
+    "name": "Mr. 易荣贵/YI Roy",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "simon.huang@cn.bosch.com",
+    "nt": "HSA1SGH",
+    "name": "Mr. 黄海渊/HUANG Simon",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yan.zheng@cn.bosch.com",
+    "nt": "ZHCZSZH",
+    "name": "Ms. 郑艳/ZHENG Yan",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "cpy8sgh@bosch.com",
+    "nt": "",
+    "name": "Ms. 陈培艺/CHEN Peiyi",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xianchen.meng@cn.bosch.com",
+    "nt": "MXE1SZH",
+    "name": "Mr. 孟献臣/MENG Xianchen",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "qiqi.dai@cn.bosch.com",
+    "nt": "DAQ8SZH",
+    "name": "Ms. 戴琦琦/DAI Qiqi",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "guangxi.ling@cn.bosch.com",
+    "nt": "LIG8SZH",
+    "name": "Mr. 凌光曦/LING GUANGXI",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "alex.mao@de.bosch.com",
+    "nt": "MAA8SZH",
+    "name": "Mr. 毛建根/MAO Alex",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "feng.jiang2@cn.bosch.com",
+    "nt": "JIF8SGH",
+    "name": "Ms. 姜烽/JIANG Feng",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "tracy.zhang@cn.bosch.com",
+    "nt": "ZTR4SGH",
+    "name": "Ms. 张佳乐/ZHANG Tracy",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "vera.xiang@cn.bosch.com",
+    "nt": "XIV1SZH",
+    "name": "Ms. 项书炜/XIANG Vera",
+    "orgUnit": "BD/CNA-IPM1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jun.chen6@cn.bosch.com",
+    "nt": "CJE5SZH",
+    "name": "Mr. 陈军/CHEN Jun",
+    "orgUnit": "BD/MSA-BDE1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "emmie.wang@cn.bosch.com",
+    "nt": "WGM6SZH",
+    "name": "Ms. 王月/WANG Emmie",
+    "orgUnit": "BD/MSA-IPM7",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "leo.han@cn.bosch.com",
+    "nt": "HAN5SZH",
+    "name": "Mr. 韩亮亮/HAN Leo",
+    "orgUnit": "BD/MSA-IPM7",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "feng.su@bosch.com",
+    "nt": "SUF1NJ6",
+    "name": "Mr. 苏峰/SU Feng",
+    "orgUnit": "BD/MSA-IPM7",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yu.zhang11@cn.bosch.com",
+    "nt": "UYN2SZH",
+    "name": "Mr. 张宇/ZHANG Yu",
+    "orgUnit": "BD/MSA-IPM7",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "lingjie.zheng@cn.bosch.com",
+    "nt": "ZHL8SGH",
+    "name": "Ms. 郑聆婕/ZHENG Lingjie",
+    "orgUnit": "BD/MSA-IPM8",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "junhua.wang2@cn.bosch.com",
+    "nt": "WNU5SGH",
+    "name": "Mr. 王俊华/WANG Junhua",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "lucy.liu2@cn.bosch.com",
+    "nt": "ULL3SZH",
+    "name": "Ms. 刘辉/LIU Lucy",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yuyang.chen@cn.bosch.com",
+    "nt": "CUN2SGH",
+    "name": "Mr. 陈宇阳/CHEN Yuyang",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yi.gu2@cn.bosch.com",
+    "nt": "GUY3SZH",
+    "name": "Ms. 顾轶/GU Yi",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jivens.jin@cn.bosch.com",
+    "nt": "JNJ2SGH",
+    "name": "Mr. 金文杰/JIN Jivens",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "bonian.tao@cn.bosch.com",
+    "nt": "TBA1SZH",
+    "name": "Mr. 陶柏年/TAO Bainian",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "juan.tian2@cn.bosch.com",
+    "nt": "TJU1SZH",
+    "name": "Ms. 田娟/TIAN Juan",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "katrina.li@cn.bosch.com",
+    "nt": "LAK5SZH",
+    "name": "Ms. 李佳/LI Katrina",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jason.jiang2@cn.bosch.com",
+    "nt": "JNJ3SZH",
+    "name": "Mr. 蒋明森/JIANG Jason",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "tim.lu@cn.bosch.com",
+    "nt": "LUT5SGH",
+    "name": "Mr. 陆铤杰/LU Tim",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "viking.wang@cn.bosch.com",
+    "nt": "AWV1SGH",
+    "name": "Mr. 王诗渊/WANG Viking",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "suwei.shi@cn.bosch.com",
+    "nt": "SSI5SZH",
+    "name": "Ms. 施苏薇/SHI Suwei",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jane.zhao@cn.bosch.com",
+    "nt": "AJZ1SZH",
+    "name": "Ms. 赵霁雯/ZHAO Jane",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "krystal.luo@cn.bosch.com",
+    "nt": "LKR1SZH",
+    "name": "Ms. 罗晔/LUO Krystal",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jiaxin.cui@cn.bosch.com",
+    "nt": "CUJ8SZH",
+    "name": "Ms. 崔佳欣/CUI Jiaxin",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "ross.fu@cn.bosch.com",
+    "nt": "FUR3SZH",
+    "name": "Mr. 付佳鹏/FU Ross",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "sharron.zuo@cn.bosch.com",
+    "nt": "ZUS1SZH",
+    "name": "Ms. 左丽萍/ZUO Sharron",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jenny.wang2@cn.bosch.com",
+    "nt": "WJE5SGH",
+    "name": "Ms. 王洁寅/WANG Jenny",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jimmy.xia@cn.bosch.com",
+    "nt": "XJA2SGH",
+    "name": "Mr. 夏振宇/XIA Jimmy",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "weiss.zhao@cn.bosch.com",
+    "nt": "ZEW7SGH",
+    "name": "Ms. 赵艺凌/ZHAO Weiss",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "raymond.pu2@cn.bosch.com",
+    "nt": "PUR2SZH",
+    "name": "Mr. 朴千寿/PIAO Raymond",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "tao.sun@cn.bosch.com",
+    "nt": "SAT1SZH",
+    "name": "Mr. 孙涛/SUN Tao",
+    "orgUnit": "BD/PTD-B2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xiangling.chen@cn.bosch.com",
+    "nt": "CXI8SZH",
+    "name": "Ms. 陈香玲/CHEN Xiangling",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "sean.liu@cn.bosch.com",
+    "nt": "LSE3SGH",
+    "name": "Mr. 刘洋/LIU Sean",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "hai.huang@cn.bosch.com",
+    "nt": "HUH8SGH",
+    "name": "Mr. 黄海/HUANG Hai",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "dongliang.xia@cn.bosch.com",
+    "nt": "XID5SGH",
+    "name": "Mr. 夏栋梁/XIA Dongliang",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "murphy.xia@cn.bosch.com",
+    "nt": "IXM1SZH",
+    "name": "Mr. 夏茂庭/XIA Murphy",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jean.guo@cn.bosch.com",
+    "nt": "GOE3SZH",
+    "name": "Ms. 郭靖/GUO Jean",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "alyssa.li@cn.bosch.com",
+    "nt": "ALL3SZH",
+    "name": "Ms. 李玉玲/LI Alyssa",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "liang.yang@cn.bosch.com",
+    "nt": "YAL1SZH",
+    "name": "Mr. 杨梁/YANG Liang",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "qian.zhou2@cn.bosch.com",
+    "nt": "ZQU2SGH",
+    "name": "Ms. 周倩/ZHOU Qian",
+    "orgUnit": "BD/PTD-D2M1",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yufeng.sun@cn.bosch.com",
+    "nt": "UUS1SGH",
+    "name": "Mr. 孙玉峰/SUN Yufeng",
+    "orgUnit": "BD/PTD-D2M7",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "junchao.chen2@cn.bosch.com",
+    "nt": "JUE1SGH",
+    "name": "Mr. 陈君超/CHEN Junchao",
+    "orgUnit": "BD/PTD-H2R6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "phillisa.peng@cn.bosch.com",
+    "nt": "PEH3SGH",
+    "name": "Ms. 彭程/PENG Phillisa",
+    "orgUnit": "BD/PTD-H2R6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xiaojun.peng@cn.bosch.com",
+    "nt": "PXN1SZH",
+    "name": "Mr. 彭小军/PENG Xiaojun",
+    "orgUnit": "BD/PTD-H2R6",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "yanjun.ji@cn.bosch.com",
+    "nt": "JIY8SZH",
+    "name": "Mr. 纪艳军/JI Yanjun Eric",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "joey.yin@cn.bosch.com",
+    "nt": "YON4SZH",
+    "name": "Mr. 尹泽儒/YIN Joey",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "qing.qin@cn.bosch.com",
+    "nt": "QIQ8SGH",
+    "name": "Mr. 秦庆/QIN Kevin",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "huiying.luo@cn.bosch.com",
+    "nt": "LHU5SZH",
+    "name": "Mr. 罗辉营/LUO Huiying",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "sandy.yuan@cn.bosch.com",
+    "nt": "YSN7SZH",
+    "name": "Ms. 袁小芳/YUAN Sandy",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "shunyan.ji@cn.bosch.com",
+    "nt": "JIS1SZH",
+    "name": "Ms. 季顺艳/JI Shunyan",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "alice.li2@cn.bosch.com",
+    "nt": "IPA1SZH",
+    "name": "Ms. 李蕊彤/LI Alice",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "eveleen.huang@cn.bosch.com",
+    "nt": "HUV4SZH",
+    "name": "Ms. 黄一帆/HUANG Eveleen",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jianxin.wang3@cn.bosch.com",
+    "nt": "WJI8SZH",
+    "name": "Mr. 王建新/WANG Jianxin",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "bob.dai@cn.bosch.com",
+    "nt": "DAB3SGH",
+    "name": "Mr. 戴于舟/DAI Bob",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "steven.hu@cn.bosch.com",
+    "nt": "HTS1SGH",
+    "name": "Mr. 胡团团/HU Steven",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "kenny.hu@cn.bosch.com",
+    "nt": "UKH1SGH",
+    "name": "Mr. 胡程越/HU Kenny",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "kevin.wang3@cn.bosch.com",
+    "nt": "WAK8SZH",
+    "name": "Mr. 王凯华/WANG Kevin",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jane.bai@cn.bosch.com",
+    "nt": "BJI2SZH",
+    "name": "Ms. 白婧/BAI Jane",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "maxwell.li@cn.bosch.com",
+    "nt": "IML3SGH",
+    "name": "Mr. 李佳骑/LI Maxwell",
+    "orgUnit": "BD/PTD-I2D2",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "cathy.zhang3@cn.bosch.com",
+    "nt": "AAZ3SZH",
+    "name": "Ms. 张馨月/ZHANG Cathy",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "junfang.wu@cn.bosch.com",
+    "nt": "WUJ7SGH",
+    "name": "Ms. WUJunfang/WU Junfang",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "totti.tang@cn.bosch.com",
+    "nt": "TTG1SGH",
+    "name": "Mr. 唐冰沁/TANG Totti",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xinsu.wu@cn.bosch.com",
+    "nt": "WUX8SZH",
+    "name": "Mr. 吴新苏/WU Xinsu",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "thomas.li2@cn.bosch.com",
+    "nt": "LTH1SGH",
+    "name": "Mr. 李帆/LI Thomas",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "sophie.chen@cn.bosch.com",
+    "nt": "CSO3SZH",
+    "name": "Ms. 陈旭/CHEN Sophie",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "john.yao@cn.bosch.com",
+    "nt": "AYJ2SGH",
+    "name": "Mr. 姚琰涣/YAO John",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "menny.fan@cn.bosch.com",
+    "nt": "FAM8SZH",
+    "name": "Ms. 樊美玲/FAN Menny",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "qingyun.yao@cn.bosch.com",
+    "nt": "YQO3SGH",
+    "name": "Ms. 姚清耘/YAO Qingyun",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jedy.jin@cn.bosch.com",
+    "nt": "JEI1SGH",
+    "name": "Ms. 金迪/JIN Jedy",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "qifan.wang2@cn.bosch.com",
+    "nt": "AQG1SGH",
+    "name": "Ms. 王启凡/WANG Qifan",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "vicki.tang@cn.bosch.com",
+    "nt": "TAY4SZH",
+    "name": "Ms. 汤彦君/TANG Vicki",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "ranran.zhou@cn.bosch.com",
+    "nt": "RAZ1SGH",
+    "name": "Ms. 周冉冉/ZHOU Ranran",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "luke.tang@cn.bosch.com",
+    "nt": "TUN2SZH",
+    "name": "Mr. 汤升敏/TANG Luke",
+    "orgUnit": "BD/PTD-O2C3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xiaohui.jin2@cn.bosch.com",
+    "nt": "JNX2SGH",
+    "name": "Ms. 金晓慧/JIN Xiaohui",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "chiaki.he@cn.bosch.com",
+    "nt": "HHE3SGH",
+    "name": "Mr. 何颉/HE Chiaki",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "alar.cheng@cn.bosch.com",
+    "nt": "CEL7SZH",
+    "name": "Ms. 程颖慧/CHENG Alar",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "xiaoyan.qiu@cn.bosch.com",
+    "nt": "QIX8SZH",
+    "name": "Ms. 裘晓燕/QIU Xiaoyan",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jeffrey.xue@cn.bosch.com",
+    "nt": "XEJ1SZH",
+    "name": "Mr. 薛健/Xue Jeffrey",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "hao.wang3@cn.bosch.com",
+    "nt": "HGW1SZH",
+    "name": "Mr. 王浩/WANG Hao",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "elaine.zhao@cn.bosch.com",
+    "nt": "ZEO9SZH",
+    "name": "Ms. 赵建英/ZHAO Elaine",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "qing.zhu5@cn.bosch.com",
+    "nt": "UQZ1SZH",
+    "name": "Mr. 朱清/ZHU Qing",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jun.li17@cn.bosch.com",
+    "nt": "IJB1SGH",
+    "name": "Mr. 李军/LI Jun",
+    "orgUnit": "BD/PTD-R2S3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "wenjuan.zhou@cn.bosch.com",
+    "nt": "ZUW5SGH",
+    "name": "Ms. 周雯娟/ZHOU Wenjuan",
+    "orgUnit": "BD/PTD-S2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "jiayu.li@cn.bosch.com",
+    "nt": "IJC1SGH",
+    "name": "Ms. 李佳宇/LI Jiayu",
+    "orgUnit": "BD/PTD-S2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "emma.wang4@cn.bosch.com",
+    "nt": "WGM3SZH",
+    "name": "Ms. 王坤萍/WANG Emma",
+    "orgUnit": "BD/PTD-S2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "haiyan.zhu@cn.bosch.com",
+    "nt": "ZHH5SZH",
+    "name": "Ms. 朱海燕/ZHU Haiyan",
+    "orgUnit": "BD/PTD-S2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "angel.yu@cn.bosch.com",
+    "nt": "NUY1SGH",
+    "name": "Ms. 于安琪/YU Angel",
+    "orgUnit": "BD/PTD-S2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "nick.wang3@cn.bosch.com",
+    "nt": "WNN4SGH",
+    "name": "Mr. 王洪良/WANG Nick",
+    "orgUnit": "BD/PTD-S2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "lisa.sun@cn.bosch.com",
+    "nt": "SIN1SGH",
+    "name": "Ms. 孙媛媛/SUN Lisa",
+    "orgUnit": "BD/PTD-S2P3",
+    "nominatingHead": "WEI Bo",
+    "allowSelfApproval": false,
+    "hodNt": "WEB1WX",
+    "hodEmail": "bo.wei@cn.bosch.com"
+  },
+  {
+    "email": "bing.wu@cn.bosch.com",
+    "nt": "WUB8CHA",
+    "name": "Mr. 吴兵/WU Bing",
+    "orgUnit": "BD/ERA-AMS3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "fiona.wang@cn.bosch.com",
+    "nt": "AFI1SGH",
+    "name": "Ms. 王晓寒/WANG Fiona",
+    "orgUnit": "BD/ERA-AMS3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "lisa.zhu2@cn.bosch.com",
+    "nt": "ZHLRSZH",
+    "name": "Ms. 朱婕/ZHU Lisa",
+    "orgUnit": "BD/ERA-AMS3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "jing.ji@cn.bosch.com",
+    "nt": "JJI2SZH",
+    "name": "Ms. 季靖/JI Jing",
+    "orgUnit": "BD/ERA-AMS3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "zhijie.guo@cn.bosch.com",
+    "nt": "GUZ1CGD4",
+    "name": "Mr. 郭志杰/GUO Zhijie",
+    "orgUnit": "BD/ERA-AMS3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "yijiong.zhu@cn.bosch.com",
+    "nt": "ZUI1SGH",
+    "name": "Mr. 朱逸炯/ZHU Yijiong",
+    "orgUnit": "BD/ERA-AMS3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "wayne.yuan@cn.bosch.com",
+    "nt": "YUW4SGH",
+    "name": "Mr. 袁文超/YUAN Wayne",
+    "orgUnit": "BD/ERA-AMS3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "he.su@cn.bosch.com",
+    "nt": "SUE4SGH",
+    "name": "Ms. 苏贺/SU He",
+    "orgUnit": "BD/ERA-GTC3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "winnie.wang@cn.bosch.com",
+    "nt": "WWI5SZH",
+    "name": "Ms. 王杨/WANG Winnie",
+    "orgUnit": "BD/ERA-GTC3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "chao.chen4@cn.bosch.com",
+    "nt": "CCN6SZH",
+    "name": "Mr. 陈超/CHEN Chao",
+    "orgUnit": "BD/ERA-IPM1",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "jerry.zhang2@cn.bosch.com",
+    "nt": "ZJE8SZH",
+    "name": "Mr. 张明敏/ZHANG Jerry",
+    "orgUnit": "BD/ERA-IPM1",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "yehui.yuan@cn.bosch.com",
+    "nt": "YUY8SZH",
+    "name": "Mr. 袁业辉/YUAN Yehui Charles",
+    "orgUnit": "BD/ERA-IPM1",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "hongqian.xu@cn.bosch.com",
+    "nt": "XHO1SGH",
+    "name": "Mr. 徐宏钱/XU Hongqian",
+    "orgUnit": "BD/ERA-NGE",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "janice.he@cn.bosch.com",
+    "nt": "HEI4SZH",
+    "name": "Ms. 何静/HE Janice",
+    "orgUnit": "BD/ERA-SAP",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "wenjing.sha@cn.bosch.com",
+    "nt": "SHW8SGH",
+    "name": "Ms. 沙雯静/SHA Wenjing",
+    "orgUnit": "BD/ERA-SAP",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "alex.qian2@cn.bosch.com",
+    "nt": "QIA8SZH",
+    "name": "Mr. 钱健/QIAN Alex",
+    "orgUnit": "BD/ERA-SCE3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "getian.shen@cn.bosch.com",
+    "nt": "SGE1SZH",
+    "name": "Ms. 沈戈田/SHEN Getian",
+    "orgUnit": "BD/ERA-SCT1",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "wenpu.yu@cn.bosch.com",
+    "nt": "YUW3SGH",
+    "name": "Mr. 于文谱/YU Wenpu",
+    "orgUnit": "BD/ERA-SCT1",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "ethan.xu@cn.bosch.com",
+    "nt": "XET2SZH",
+    "name": "Mr. 徐嘉诚/XU Ethan",
+    "orgUnit": "BD/ERA-SCT2",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "lu.shi2@cn.bosch.com",
+    "nt": "USL2SGH",
+    "name": "Ms. 石璐/SHI Lu",
+    "orgUnit": "BD/ERA-SCT2",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "jia.zhou@cn.bosch.com",
+    "nt": "ZJO3SGH",
+    "name": "Mr. 周佳/ZHOU Jia",
+    "orgUnit": "BD/ERA-SCT2",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "roy.yao@cn.bosch.com",
+    "nt": "ARY1SGH",
+    "name": "Mr. 姚铂/YAO Roy",
+    "orgUnit": "BD/ERA-SCT3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "tiffany.zhu@cn.bosch.com",
+    "nt": "ZTI8SZH",
+    "name": "Ms. 朱月兰/ZHU Tiffany",
+    "orgUnit": "BD/ERA-SCT3",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "chunmei.chen@cn.bosch.com",
+    "nt": "CNC7SZH",
+    "name": "Ms. 陈春梅/CHEN Chunmei",
+    "orgUnit": "BD/ERA-SCT6",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "zhenyu.zhang1@cn.bosch.com",
+    "nt": "ZHZ8SZH",
+    "name": "Mr. 张振宇/ZHANG Zhenyu",
+    "orgUnit": "BD/ERA-SCT6",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "constance.ye@cn.bosch.com",
+    "nt": "YEC6SZH",
+    "name": "Ms. 叶慧超/YE Constance",
+    "orgUnit": "BD/ERA-SCT6",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "annika.wang@cn.bosch.com",
+    "nt": "WNN9SZH",
+    "name": "Ms. 王静雅/WANG Annika",
+    "orgUnit": "BD/ERA-SCT6",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "sand.chen@cn.bosch.com",
+    "nt": "CHS8SZH",
+    "name": "Mr. 陈小伟/CHEN Sand",
+    "orgUnit": "BD/ERA-SCT7",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "yolanda.wang@cn.bosch.com",
+    "nt": "WOY1SGH",
+    "name": "Ms. 王允慧/WANG Yolanda",
+    "orgUnit": "BD/ERA-SCT7",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "yun.qin2@cn.bosch.com",
+    "nt": "QYU3SGH",
+    "name": "Ms. 秦云/QIN Yun",
+    "orgUnit": "BD/ERA-SCT7",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "guixiang.wang@cn.bosch.com",
+    "nt": "WAG5SZH",
+    "name": "Ms. 王桂香/WANG Guixiang",
+    "orgUnit": "BD/ERA-SCT7",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "sherry.zhang2@cn.bosch.com",
+    "nt": "ZSN8SGH",
+    "name": "Ms. 张飒/ZHANG Sherry",
+    "orgUnit": "BD/ERA-SPO1",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "bale-peng.liu@bosch.com",
+    "nt": "LBA2NJ",
+    "name": "Mr. 刘鹏/LIU Peng",
+    "orgUnit": "BD/ERA-SPO7",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "xiang.cao@bosch.com",
+    "nt": "CAX9NJ",
+    "name": "Mr. 曹翔/CAO John",
+    "orgUnit": "BD/ERA-SPO7",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "chao.ma2@bosch.com",
+    "nt": "MAC1NJ",
+    "name": "Mr. 马超/MA Chao",
+    "orgUnit": "BD/ERA-SPO7",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "qingtian.liu@cn.bosch.com",
+    "nt": "UQI1SZH",
+    "name": "Mr. 刘擎天/LIU Qingtian",
+    "orgUnit": "BD/ERA-TAF",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "haihua.gu@cn.bosch.com",
+    "nt": "UGH7SZH",
+    "name": "Mr. 顾海华/GU Haihua",
+    "orgUnit": "BD/ERA-TAF",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "maggie.wang3@cn.bosch.com",
+    "nt": "AWM3SGH",
+    "name": "Ms. 王烨/WANG Maggie",
+    "orgUnit": "BD/ERA-TAF",
+    "nominatingHead": "XU Cherry",
+    "allowSelfApproval": false,
+    "hodNt": "XUC8SGH",
+    "hodEmail": "cherry.xu2@cn.bosch.com"
+  },
+  {
+    "email": "xuying.huang@cn.bosch.com",
+    "nt": "HUU8SZH",
+    "name": "Ms. 黄旭颖/HUANG Christina",
+    "orgUnit": "BD/MIL-ICC",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "vincent.wang3@cn.bosch.com",
+    "nt": "WAV2SGH",
+    "name": "Mr. 王臻/WANG Vincent",
+    "orgUnit": "BD/MIL-ICC",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "yilei.zhou@cn.bosch.com",
+    "nt": "ZYI8SGH",
+    "name": "Ms. 周忆磊/ZHOU Yilei",
+    "orgUnit": "BD/MIL-PSM3",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "leon.chen2@cn.bosch.com",
+    "nt": "CEL4SGH",
+    "name": "Mr. 陈伟/CHEN Leon",
+    "orgUnit": "BD/MIL-PSM3",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "wenqi.xi@cn.bosch.com",
+    "nt": "XIW8CHA",
+    "name": "Mr. 奚文祺/XI Wenqi",
+    "orgUnit": "BD/MIL-PSM3",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "jiayi.li@cn.bosch.com",
+    "nt": "LJIRSGH",
+    "name": "Ms. 李佳仪/LI Jiayi",
+    "orgUnit": "BD/MIL-PSM3",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "lin.lu@cn.bosch.com",
+    "nt": "LUL8SGH",
+    "name": "Mr. 卢临/LU Lin",
+    "orgUnit": "BD/MIL-PSM3",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "libing.sun@cn.bosch.com",
+    "nt": "SUL7SGH",
+    "name": "Mr. 孙立冰/SUN Libing",
+    "orgUnit": "BD/MIL-PSM3",
+    "nominatingHead": "ZHU Yi",
+    "allowSelfApproval": false,
+    "hodNt": "ZHY2FE",
+    "hodEmail": "yi.zhu@de.bosch.com"
+  }
+]

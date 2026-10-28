@@ -30,7 +30,8 @@ class CommentUseCaseTest {
 	@Test
 	void adds_comment() {
 		UUID ideaId = UUID.randomUUID();
-		when(ideaRepository.existsById(ideaId)).thenReturn(true);
+		when(ideaRepository.findById(ideaId)).thenReturn(java.util.Optional.of(new wtf.hackhub.domain.Idea(
+				"Title", "Desc", UUID.randomUUID(), null, UUID.randomUUID(), "Track")));
 		UUID userId = UUID.randomUUID();
 		Comment c = new Comment(ideaId, userId, "great idea");
 		when(commentRepository.save(any())).thenReturn(c);
@@ -42,7 +43,8 @@ class CommentUseCaseTest {
 	@Test
 	void lists_comments_for_idea() {
 		UUID ideaId = UUID.randomUUID();
-		when(ideaRepository.existsById(ideaId)).thenReturn(true);
+		when(ideaRepository.findById(ideaId)).thenReturn(java.util.Optional.of(new wtf.hackhub.domain.Idea(
+				"Title", "Desc", UUID.randomUUID(), null, UUID.randomUUID(), "Track")));
 		when(commentRepository.findByIdeaIdOrderByCreatedAtAsc(ideaId))
 				.thenReturn(List.of(new Comment(ideaId, UUID.randomUUID(), "first")));
 

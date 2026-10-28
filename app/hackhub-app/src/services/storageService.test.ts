@@ -16,21 +16,78 @@ vi.mock('../lib/tokenStore', () => ({
 }))
 
 import { api } from '../lib/apiClient'
+import { tokenStore } from '../lib/tokenStore'
 const mockApi = api as unknown as {
   get: ReturnType<typeof vi.fn>
 }
+let session = 0
 
 describe('StorageService', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.mocked(tokenStore.getAccessToken).mockReturnValue(`fixture-session-${++session}`)
   })
 
   describe('getPresignedUrl', () => {
+    it('deduplicates simultaneous requests and reuses a fresh URL', async () => {
+      mockApi.get.mockResolvedValue({ url: '/storage/fixture' })
+      const results = await Promise.all(Array.from({ length: 20 }, () => StorageService.getPresignedUrl('avatars', 'shared')))
+      expect(new Set(results)).toEqual(new Set(['/storage/fixture']))
+      await StorageService.getPresignedUrl('avatars', 'shared')
+      expect(mockApi.get).toHaveBeenCalledTimes(1)
+    })
+
+    it('expires cached URLs and isolates account changes', async () => {
+      const now = vi.spyOn(Date, 'now').mockReturnValue(1000)
+      mockApi.get.mockResolvedValue({ url: '/storage/fixture' })
+      try {
+        await StorageService.getPresignedUrl('avatars', 'shared')
+        now.mockReturnValue(301001)
+        await StorageService.getPresignedUrl('avatars', 'shared')
+        vi.mocked(tokenStore.getAccessToken).mockReturnValue('different-fixture-session')
+        await StorageService.getPresignedUrl('avatars', 'shared')
+        expect(mockApi.get).toHaveBeenCalledTimes(3)
+      } finally { now.mockRestore() }
+    })
+
+    it('retries failed lookups instead of caching a failure', async () => {
+      mockApi.get.mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce({ url: '/storage/retry' })
+      await expect(StorageService.getPresignedUrl('avatars', 'shared')).rejects.toThrow('offline')
+      await expect(StorageService.getPresignedUrl('avatars', 'shared')).resolves.toBe('/storage/retry')
+    })
+
+    it('limits photo URL requests to six while still completing the queue', async () => {
+      let active = 0
+      let peak = 0
+      mockApi.get.mockImplementation(async () => {
+        peak = Math.max(peak, ++active)
+        await new Promise((resolve) => setTimeout(resolve, 1))
+        active--
+        return { url: '/storage/fixture' }
+      })
+      await Promise.all(Array.from({ length: 30 }, (_, index) => StorageService.getPresignedUrl('avatars', `photo-${index}`)))
+      expect(peak).toBe(6)
+      expect(mockApi.get).toHaveBeenCalledTimes(30)
+    })
+
+    it('releases queue slots when photo URL requests stall', async () => {
+      vi.useFakeTimers()
+      for (let index = 0; index < 6; index++) mockApi.get.mockImplementationOnce(() => new Promise(() => {}))
+      mockApi.get.mockResolvedValue({ url: '/storage/after-timeout' })
+      try {
+        const requests = Promise.allSettled(Array.from({ length: 7 }, (_, index) => StorageService.getPresignedUrl('avatars', `stalled-${index}`)))
+        await vi.advanceTimersByTimeAsync(15_000)
+        const results = await requests
+        expect(results.filter((result) => result.status === 'rejected')).toHaveLength(6)
+        expect(results[6]).toEqual({ status: 'fulfilled', value: '/storage/after-timeout' })
+      } finally { vi.useRealTimers() }
+    })
+
     it('calls correct endpoint and returns url', async () => {
       mockApi.get.mockResolvedValueOnce({ url: 'https://minio/bucket/key?sig=abc' })
       const result = await StorageService.getPresignedUrl('avatars', 'avatars/user-1.png')
       expect(mockApi.get).toHaveBeenCalledWith(
-        '/api/v1/storage/url/avatars?key=avatars%2Fuser-1.png'
+        '/api/v1/storage/url/avatars?key=avatars%2Fuser-1.png', expect.objectContaining({ signal: expect.any(AbortSignal) })
       )
       expect(result).toBe('https://minio/bucket/key?sig=abc')
     })
@@ -39,7 +96,7 @@ describe('StorageService', () => {
       mockApi.get.mockResolvedValueOnce({ url: 'https://minio/url' })
       await StorageService.getPresignedUrl('team-files', 'teams/t-1/my file.pdf')
       expect(mockApi.get).toHaveBeenCalledWith(
-        '/api/v1/storage/url/team-files?key=teams%2Ft-1%2Fmy%20file.pdf'
+        '/api/v1/storage/url/team-files?key=teams%2Ft-1%2Fmy%20file.pdf', expect.objectContaining({ signal: expect.any(AbortSignal) })
       )
     })
   })

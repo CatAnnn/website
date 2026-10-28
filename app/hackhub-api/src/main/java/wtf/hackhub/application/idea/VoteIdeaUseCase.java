@@ -49,6 +49,7 @@ public class VoteIdeaUseCase {
 	public Result execute(UUID ideaId, UUID userId) {
 		mutationLock.acquire(ideaId);
 		Idea idea = ideaRepository.findById(ideaId).orElseThrow(() -> new IdeaNotFoundException(ideaId));
+		idea.requireApprovalPublished();
 		Profile voterProfile = profileRepository.findByIdForUpdate(userId)
 				.orElseThrow(() -> new ParticipantNotEligibleException(userId));
 

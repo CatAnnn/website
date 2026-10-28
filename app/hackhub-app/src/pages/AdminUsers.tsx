@@ -366,10 +366,10 @@ export function AdminUsers() {
         {/* Header */}
         <Group justify="space-between">
           <div>
-            <Title order={1} mb="xs">
+            <Title order={1} mb="xs" c="white">
               {PermissionService.isAdmin(user!) ? 'User Management' : 'Org Members'}
             </Title>
-            <Text c="dimmed" size="lg">
+            <Text c="white" size="lg">
               {PermissionService.isAdmin(user!)
                 ? 'Manage all platform users and their roles'
                 : 'Members across your organizations'}
@@ -459,10 +459,7 @@ export function AdminUsers() {
                       </Table.Td>
                       <Table.Td>
                         <Text size="sm">
-                          {PermissionService.isAdmin(user!) ? (rowUser.department ?? '—') : (userOrgMap.get(rowUser.id) ?? '—')}
-                        </Text>
-                        <Text size="xs" c="dimmed" translate="no">
-                          {PermissionService.isAdmin(user!) && rowUser.orgCode !== rowUser.department ? rowUser.orgCode : null}
+                          {PermissionService.isAdmin(user!) ? (rowUser.orgCode ?? rowUser.department ?? '—') : (userOrgMap.get(rowUser.id) ?? '—')}
                         </Text>
                       </Table.Td>
                       <Table.Td>

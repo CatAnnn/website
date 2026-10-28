@@ -41,6 +41,7 @@ public class SubmitJudgeScoreUseCase {
 
 		mutationLock.acquire(ideaId);
 		var idea = ideaRepository.findById(ideaId).orElseThrow(() -> new IllegalArgumentException("Case not found"));
+		idea.requireApprovalPublished();
 		if (!hackathonId.equals(idea.getHackathonId()))
 			throw new IllegalArgumentException("Case belongs to another award");
 		if (criterionId != null) {
@@ -90,6 +91,7 @@ public class SubmitJudgeScoreUseCase {
 			throw new NotAJudgeException(judgeId, hackathonId);
 		mutationLock.acquire(ideaId);
 		var idea = ideaRepository.findById(ideaId).orElseThrow(() -> new IllegalArgumentException("Case not found"));
+		idea.requireApprovalPublished();
 		if (!hackathonId.equals(idea.getHackathonId()))
 			throw new IllegalArgumentException("Case belongs to another award");
 		scoreRepository.deleteAll(scoreRepository.findAllByIdeaId(ideaId).stream()

@@ -21,6 +21,12 @@ export interface Idea {
   createdAt: string
   updatedAt: string
   userHasVoted?: boolean
+  approvalStatus?: 'pending' | 'approved' | 'rejected' | null
+  approvalReason?: string | null
+  approvalReviewedAt?: string | null
+  approvalReviewerName?: string | null
+  approvalHeadName?: string | null
+  approvalVersion?: number
 }
 
 export interface ProjectAttachment {
@@ -33,6 +39,7 @@ export interface ProjectAttachment {
   nomineeOrgCode?: string
   nomineePosition?: string
   nominatingHead?: string
+  employeeEmail?: string
 }
 
 export interface CreateIdeaInput {
@@ -49,6 +56,7 @@ export interface CreateIdeaInput {
 }
 
 export interface UpdateIdeaInput {
+  approvalVersion?: number
   title?: string
   description?: string
   category?: string
@@ -101,6 +109,18 @@ function normalizeIdea(idea: IdeaResponse): Idea {
 }
 
 export class IdeaService {
+  static async getMyNominations(): Promise<Idea[]> {
+    return (await api.get<IdeaResponse[]>('/api/v1/me/nominations')).map(normalizeIdea)
+  }
+
+  static async getNominationApprovals(): Promise<Idea[]> {
+    return (await api.get<IdeaResponse[]>('/api/v1/me/nomination-approvals')).map(normalizeIdea)
+  }
+
+  static async reviewNominations(items: Array<{ id: string; version: number }>, decision: 'approved' | 'rejected', reason: string): Promise<void> {
+    await api.post('/api/v1/me/nomination-approvals', { items, decision, reason })
+  }
+
   static async getIdeas(hackathonId: string, page = 0, size = 20): Promise<PageResponse<Idea>> {
     const response = await api.get<PageResponse<IdeaResponse>>(
       `/api/v1/hackathons/${hackathonId}/ideas?page=${page}&size=${size}`

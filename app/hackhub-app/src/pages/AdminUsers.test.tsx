@@ -14,7 +14,7 @@ vi.mock('../contexts/LanguageContext', () => ({ useLanguage: () => ({ language: 
 vi.mock('../store/authStore', () => ({ useAuthStore: () => auth }))
 vi.mock('../lib/apiClient', () => ({ api: { get, patch: vi.fn(), post: vi.fn(), delete: vi.fn() } }))
 const accounts = [
-  { id: 'admin', name: 'Yaolong.Zhang', role: 'admin', email: 'aah5sgh@bosch.com', department: 'HRL', orgCode: 'HRL' },
+  { id: 'admin', name: 'Yaolong.Zhang', role: 'admin', email: 'aah5sgh@bosch.com', department: 'HRL', orgCode: 'HRL-CN C/HRR-JMPCN' },
   { id: 'associate', name: 'Yiheng.LU', role: 'participant', email: 'fixed-term.Yiheng.LU@cn.bosch.com', department: 'HRL', orgCode: 'HRL' },
   { id: 'dpa', name: 'XIE Barrie', role: 'participant', email: 'bd-test.xie.barrie@bosch.com', department: 'BD/DPA', orgCode: 'BD/DPA-SRE3' },
   { id: 'swd1', name: 'ZOU Yi', role: 'participant', email: 'bd-test.zou.yi@bosch.com', department: 'BD/SWD', orgCode: 'BD/SWD-WDE1' },
@@ -30,7 +30,9 @@ describe('Award account departments', () => {
     mount()
     expect(await screen.findByText('XIE Barrie')).toBeInTheDocument()
     expect(screen.getByRole('columnheader', { name: 'Department' })).toBeInTheDocument()
-    expect(within(screen.getByRole('table')).getAllByText('HRL')).toHaveLength(2)
+    expect(within(screen.getByRole('table')).getAllByText('HRL')).toHaveLength(1)
+    expect(screen.getByText('HRL-CN C/HRR-JMPCN')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'User Management' })).toHaveStyle({ color: 'var(--mantine-color-white)' })
     expect(screen.getByText('BD/DPA-SRE3')).toBeInTheDocument()
     expect(screen.getByText('Yiheng.LU')).toBeInTheDocument()
   })

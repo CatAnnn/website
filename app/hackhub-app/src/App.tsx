@@ -23,6 +23,7 @@ function AwardManagement() {
 const CreateHackathon = lazy(() => import('./pages/CreateHackathon'))
 const HackathonEdit = lazy(() => import('./pages/HackathonEdit').then((module) => ({ default: module.HackathonEdit })))
 const ProjectShowcase = lazy(() => import('./pages/ProjectShowcase').then((module) => ({ default: module.ProjectShowcase })))
+const NominationApprovals = lazy(() => import('./pages/NominationApprovals').then((module) => ({ default: module.NominationApprovals })))
 const Profile = lazy(() => import('./pages/Profile').then((module) => ({ default: module.Profile })))
 const Login = lazy(() => import('./pages/Login').then((module) => ({ default: module.Login })))
 const Register = lazy(() => import('./pages/Register').then((module) => ({ default: module.Register })))
@@ -115,6 +116,8 @@ function App() {
             <Route path="/hackathons/:id/ideas" element={<Navigate to="/projects" replace />} />
             <Route path="/projects" element={<ProjectShowcase />} />
             <Route path="/nominate" element={<ProjectShowcase nominationMode />} />
+            <Route path="/my-nominations" element={<NominationApprovals />} />
+            <Route path="/nomination-approvals" element={<NominationApprovals reviewMode />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/organization/setup" element={<Navigate to="/" replace />} />
             <Route path="/organizations" element={<Navigate to="/" replace />} />

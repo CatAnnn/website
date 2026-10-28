@@ -48,8 +48,15 @@ class SubmitIdeaUseCaseTest {
 	wtf.hackhub.infrastructure.persistence.judging.JudgeScoreRepository judgeScoreRepository;
 	@Mock
 	NomineeDirectory nomineeDirectory;
+	@Mock
+	NominationApprovalDirectory approvalDirectory;
+	@Mock
+	NominationApprovalService approvalService;
 	@org.junit.jupiter.api.BeforeEach
 	void metadata() {
+		var manager = new wtf.hackhub.domain.Profile("manager@example.test", "Manager", "hash");
+		manager.changeRole(wtf.hackhub.domain.Profile.Role.MANAGER);
+		org.mockito.Mockito.lenient().when(profileRepository.findById(USER_ID)).thenReturn(Optional.of(manager));
 		org.mockito.Mockito.lenient().when(nomineeDirectory.enrich(org.mockito.ArgumentMatchers.nullable(String.class),
 				org.mockito.ArgumentMatchers.anyBoolean())).thenAnswer(call -> call.getArgument(0));
 	}
@@ -308,11 +315,12 @@ class SubmitIdeaUseCaseTest {
 	}
 
 	@Test
-	void individual_nomination_still_requires_manager_permissions() {
+	void employee_nomination_requires_verified_roster_identity() {
 		stubIndividualRequester(wtf.hackhub.domain.Profile.Role.PARTICIPANT, null);
+		when(approvalDirectory.requireEmployee(USER_ID)).thenThrow(new IllegalArgumentException("SSO roster required"));
 		assertThatThrownBy(() -> useCase.executeNomination("Nominee", "Impact", HACKATHON_ID, null, USER_ID,
 				"Customer Values", List.of(), Idea.Status.SUBMITTED, null, null, null))
-				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
+				.isInstanceOf(IllegalArgumentException.class);
 		org.mockito.Mockito.verifyNoInteractions(ideaRepository, teamRepository, teamMemberRepository);
 	}
 

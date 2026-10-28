@@ -28,10 +28,18 @@ public class SsoLoginUseCase {
 
 	@Transactional
 	public LoginUseCase.TokenPair execute(UUID tenantId, UUID objectId, String email, String name) {
+		return execute(tenantId, objectId, email, name, null);
+	}
+
+	@Transactional
+	public LoginUseCase.TokenPair execute(UUID tenantId, UUID objectId, String email, String name, String department) {
 		var matches = jdbc.query("SELECT profile_id FROM sso_identities WHERE tenant_id = ? AND object_id = ?",
 				(rs, row) -> rs.getObject("profile_id", UUID.class), tenantId, objectId);
 		if (matches.size() == 1) {
 			var profile = profiles.findById(matches.get(0)).orElseThrow(SsoLoginUseCase::notLinked);
+			profile.syncSsoDepartment(department);
+			jdbc.update("UPDATE sso_identities SET verified_email = ? WHERE tenant_id = ? AND object_id = ?",
+					verifiedEmail(email), tenantId, objectId);
 			return login.issueForAuthenticatedProfile(profile);
 		}
 		if (email == null || email.length() > 255 || !email.matches("[^\\s@]+@[^\\s@]+\\.[^\\s@]+") || name == null
@@ -44,10 +52,17 @@ public class SsoLoginUseCase {
 		if (profiles.existsByEmailIgnoreCase(normalizedEmail)) {
 			throw notLinked();
 		}
-		var profile = profiles.saveAndFlush(new Profile(normalizedEmail, name, null));
-		jdbc.update("INSERT INTO sso_identities (tenant_id, object_id, profile_id) VALUES (?, ?, ?)", tenantId,
-				objectId, profile.getId());
+		var newProfile = new Profile(normalizedEmail, name, null);
+		newProfile.syncSsoDepartment(department);
+		var profile = profiles.saveAndFlush(newProfile);
+		jdbc.update("INSERT INTO sso_identities (tenant_id, object_id, profile_id, verified_email) VALUES (?, ?, ?, ?)", tenantId,
+				objectId, profile.getId(), verifiedEmail(email));
 		return login.issueForAuthenticatedProfile(profile);
+	}
+
+	private static String verifiedEmail(String email) {
+		return email != null && email.length() <= 255 && email.matches("[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+				? email.toLowerCase(Locale.ROOT) : null;
 	}
 
 	private static OAuth2AuthenticationException notLinked() {

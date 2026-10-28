@@ -42,6 +42,10 @@ class IdeaControllerTest {
 	@MockBean
 	NomineeDirectory nomineeDirectory;
 	@MockBean
+	NominationApprovalService approvalService;
+	@MockBean
+	wtf.hackhub.infrastructure.persistence.idea.IdeaRepository ideaRepository;
+	@MockBean
 	SubmitIdeaUseCase submitIdeaUseCase;
 	@MockBean
 	GetIdeasUseCase getIdeasUseCase;
@@ -104,14 +108,15 @@ class IdeaControllerTest {
 
 	@Test
 	void get_by_id_found() throws Exception {
-		when(getIdeasUseCase.getById(IDEA_ID)).thenReturn(idea());
+		when(ideaRepository.findById(IDEA_ID)).thenReturn(java.util.Optional.of(idea()));
+		when(approvalService.canRead(any(), any())).thenReturn(true);
 		mvc.perform(get("/api/v1/ideas/" + IDEA_ID).with(MockAuthHelper.asParticipant(USER_ID)))
 				.andExpect(status().isOk()).andExpect(jsonPath("$.title").value("My Idea"));
 	}
 
 	@Test
 	void get_by_id_not_found_returns_404() throws Exception {
-		when(getIdeasUseCase.getById(IDEA_ID)).thenThrow(new VoteIdeaUseCase.IdeaNotFoundException(IDEA_ID));
+		when(ideaRepository.findById(IDEA_ID)).thenReturn(java.util.Optional.empty());
 		mvc.perform(get("/api/v1/ideas/" + IDEA_ID).with(MockAuthHelper.asParticipant(USER_ID)))
 				.andExpect(status().isNotFound());
 	}
@@ -127,11 +132,12 @@ class IdeaControllerTest {
 	}
 
 	@Test
-	void participant_cannot_submit_nomination() throws Exception {
+	void participant_can_submit_nomination_for_approval() throws Exception {
+		when(submitIdeaUseCase.executeNomination(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(idea());
 		mvc.perform(post("/api/v1/hackathons/" + HACKATHON_ID + "/ideas").with(MockAuthHelper.asParticipant(USER_ID))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"title\":\"My Idea\",\"description\":\"Desc\",\"category\":\"tech\"}"))
-				.andExpect(status().isForbidden());
+				.andExpect(status().isCreated());
 	}
 
 	@Test

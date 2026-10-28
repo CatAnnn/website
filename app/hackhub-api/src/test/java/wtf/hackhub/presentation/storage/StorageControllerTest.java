@@ -29,6 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(properties = {"app.cors.allowed-origins=http://localhost:5173",
 		"app.minio.buckets.avatars=private-avatars"})
 class StorageControllerTest {
+	@MockBean
+	wtf.hackhub.application.idea.NominationApprovalService approvalService;
 	@Autowired
 	MockMvc mvc;
 	@MockBean

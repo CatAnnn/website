@@ -2,6 +2,8 @@ package wtf.hackhub.infrastructure.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class SsoAuthenticationHandler {
+
+	private static final Logger log = LoggerFactory.getLogger(SsoAuthenticationHandler.class);
 
 	private final SsoProperties sso;
 	private final AppProperties app;
@@ -54,8 +58,9 @@ public class SsoAuthenticationHandler {
 			} catch (IllegalArgumentException ex) {
 				throw new OAuth2AuthenticationException(new OAuth2Error("invalid_identity"));
 			}
+			Object department = user.getIdToken().getClaims().get("department");
 			var tokens = login.execute(UUID.fromString(tenant), objectId, user.getIdToken().getClaimAsString("email"),
-					user.getIdToken().getClaimAsString("name"));
+					user.getIdToken().getClaimAsString("name"), department instanceof String value ? value : null);
 			var session = request.getSession(false);
 			String destination = session == null
 					? null
@@ -83,6 +88,20 @@ public class SsoAuthenticationHandler {
 		String requested = failure instanceof OAuth2AuthenticationException oauth
 				? oauth.getError().getErrorCode()
 				: "";
+		String diagnosticCode = switch (requested) {
+			case "invalid_id_token", "invalid_token_response", "invalid_user_info_response", "invalid_request",
+					"invalid_client", "invalid_grant", "unauthorized_client", "access_denied", "invalid_scope",
+					"server_error", "temporarily_unavailable", "authorization_request_not_found", "invalid_state_parameter",
+					"invalid_identity", "retry_login", "account_not_linked", "profile_incomplete", "member_required" -> requested;
+			default -> "other";
+		};
+		Throwable rootCause = failure;
+		for (int depth = 0; depth < 16 && rootCause.getCause() != null; depth++) {
+			rootCause = rootCause.getCause();
+		}
+		// Never log provider messages, request data, token claims, or throwable stacks.
+		log.warn("SSO_AUTH_FAILURE code={} exception={} rootCause={}", diagnosticCode,
+				failure.getClass().getSimpleName(), rootCause.getClass().getSimpleName());
 		String code = switch (requested) {
 			case "account_not_linked", "profile_incomplete", "member_required" -> requested;
 			default -> "failed";

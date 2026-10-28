@@ -30,7 +30,9 @@ public class GetIdeasUseCase {
 
 	@Transactional(readOnly = true)
 	public Idea getById(UUID id) {
-		return ideaRepository.findById(id).orElseThrow(() -> new VoteIdeaUseCase.IdeaNotFoundException(id));
+		var idea = ideaRepository.findById(id).orElseThrow(() -> new VoteIdeaUseCase.IdeaNotFoundException(id));
+		idea.requireApprovalPublished();
+		return idea;
 	}
 
 	@Transactional(readOnly = true)

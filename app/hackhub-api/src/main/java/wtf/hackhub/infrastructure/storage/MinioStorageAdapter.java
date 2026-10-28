@@ -8,11 +8,13 @@ import wtf.hackhub.application.storage.StoragePort;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class MinioStorageAdapter implements StoragePort {
 
 	private final MinioClient minioClient;
+	private final ConcurrentHashMap<String, Boolean> initializedBuckets = new ConcurrentHashMap<>();
 
 	public MinioStorageAdapter(MinioClient minioClient) {
 		this.minioClient = minioClient;
@@ -52,14 +54,24 @@ public class MinioStorageAdapter implements StoragePort {
 
 	@Override
 	public void ensureBucketExists(String bucket) {
-		try {
-			boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
-			if (!exists) {
-				minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+		// Only initialization is serialized per bucket; uploads proceed independently.
+		// Failed initialization is not cached, so a later request can retry.
+		initializedBuckets.computeIfAbsent(bucket, name -> {
+			try {
+				if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(name).build())) {
+					try {
+						minioClient.makeBucket(MakeBucketArgs.builder().bucket(name).build());
+					} catch (Exception creationFailure) {
+						// Another API instance may have created it after our existence check.
+						if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(name).build()))
+							throw creationFailure;
+					}
+				}
+				return true;
+			} catch (Exception e) {
+				throw new StorageException("Failed to ensure bucket exists: " + name, e);
 			}
-		} catch (Exception e) {
-			throw new StorageException("Failed to ensure bucket exists: " + bucket, e);
-		}
+		});
 	}
 
 	public static class StorageException extends RuntimeException {

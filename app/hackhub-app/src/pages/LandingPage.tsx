@@ -8,6 +8,7 @@ import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core'
 import { useAuthStore } from '../store/authStore'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAwardAccess } from '../hooks/useAwardAccess'
+import { useNominationEligibility } from '../hooks/useNominationEligibility'
 import { Link, useLocation } from 'react-router-dom'
 import { AwardBrand } from '../components/Layout/AwardBrand'
 import { useTechBackground } from '../hooks/useTechBackground'
@@ -20,6 +21,7 @@ export function LandingPage({ children }: { children?: ReactNode }) {
   const { user, logout } = useAuthStore()
   const { language, t } = useLanguage()
   const { canReview, canManage } = useAwardAccess()
+  const nominationEligibility = useNominationEligibility()
   const { pathname, hash } = useLocation()
   const showHero = pathname === '/' || pathname === '/overview'
   const [menuOpen, setMenuOpen] = useState(false)
@@ -101,6 +103,8 @@ export function LandingPage({ children }: { children?: ReactNode }) {
               </UnstyledButton>
             </Menu.Target>
             <Menu.Dropdown>
+              <Menu.Item component={Link} to="/my-nominations">My nominations / 我的提名</Menu.Item>
+              {nominationEligibility.data?.canReview && <Menu.Item component={Link} to="/nomination-approvals">HoD approvals / 提名审核</Menu.Item>}
               {canReview && <Menu.Item component={Link} to="/awards">{canManage ? (language === 'zh' ? '评选管理' : 'Award management') : (language === 'zh' ? '组委会评分' : 'Committee scoring')}</Menu.Item>}
               {user.role === 'admin' && <Menu.Item component={Link} to="/admin/nominees">{language === 'zh' ? '提名管理' : 'Manage nominees'}</Menu.Item>}
               {canManage && <Menu.Item component={Link} to="/admin/users">{t('sidebar.manageUsers')}</Menu.Item>}

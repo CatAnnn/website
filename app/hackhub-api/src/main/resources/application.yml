@@ -46,6 +46,9 @@ spring:
 
 server:
   port: 8080
+  tomcat:
+    # Absorb simultaneous browser connections without increasing DB concurrency.
+    accept-count: ${SERVER_TOMCAT_ACCEPT_COUNT:1024}
   servlet:
     session:
       timeout: 5m

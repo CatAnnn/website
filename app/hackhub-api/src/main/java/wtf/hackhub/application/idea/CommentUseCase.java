@@ -23,8 +23,8 @@ public class CommentUseCase {
 		profileRepository = profiles;
 	}
 	private void requireIdea(UUID id) {
-		if (!ideaRepository.existsById(id))
-			throw new VoteIdeaUseCase.IdeaNotFoundException(id);
+		ideaRepository.findById(id).orElseThrow(() -> new VoteIdeaUseCase.IdeaNotFoundException(id))
+				.requireApprovalPublished();
 	}
 	private String validated(String content) {
 		if (content == null || content.isBlank() || content.trim().length() > 5000)
@@ -47,6 +47,7 @@ public class CommentUseCase {
 	}
 	@Transactional
 	public Comment update(UUID ideaId, UUID commentId, UUID userId, String content) {
+		requireIdea(ideaId);
 		Comment comment = find(ideaId, commentId);
 		if (!comment.getUserId().equals(userId))
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
@@ -55,6 +56,7 @@ public class CommentUseCase {
 	}
 	@Transactional
 	public void delete(UUID ideaId, UUID commentId, UUID userId) {
+		requireIdea(ideaId);
 		Comment comment = find(ideaId, commentId);
 		boolean admin = profileRepository.findById(userId).map(p -> p.getRole() == Profile.Role.ADMIN).orElse(false);
 		if (!comment.getUserId().equals(userId) && !admin)

@@ -16,9 +16,11 @@ public class StorageSecurityService {
 	private final TeamMemberRepository members;
 	private final HackathonSecurityService hackathons;
 	private final IdeaRepository ideas;
+	private final wtf.hackhub.application.idea.NominationApprovalService approvals;
 
 	public StorageSecurityService(TeamMemberRepository members, HackathonSecurityService hackathons,
-			IdeaRepository ideas) {
+			IdeaRepository ideas, wtf.hackhub.application.idea.NominationApprovalService approvals) {
+		this.approvals = approvals;
 		this.members = members;
 		this.hackathons = hackathons;
 		this.ideas = ideas;
@@ -35,8 +37,6 @@ public class StorageSecurityService {
 			throw new AccessDeniedException("Invalid resource path");
 		}
 		boolean admin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-		boolean nominator = admin
-				|| auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"));
 		String[] parts = path.split("/");
 		int resourceParts = upload ? parts.length : parts.length - 1;
 		boolean allowed = false;
@@ -61,7 +61,7 @@ public class StorageSecurityService {
 			} else if (bucket.equals("project-attachments") && resourceParts == 3 && parts[0].equals("nominations")) {
 				UUID campaignId = UUID.fromString(parts[1]);
 				UUID ownerId = UUID.fromString(parts[2]);
-				allowed = (!upload || nominator) && hackathons.canView(campaignId, auth)
+				allowed = hackathons.canView(campaignId, auth)
 						&& (admin || ownerId.equals(userId)
 								|| (!upload && canReadPublishedAttachment(path, campaignId, ownerId, auth)));
 			}
@@ -75,7 +75,8 @@ public class StorageSecurityService {
 	private boolean canReadPublishedAttachment(String key, UUID resourceId, UUID ownerId, Authentication auth) {
 		return ideas.findByAttachmentKey(key).stream()
 				.anyMatch(
-						idea -> idea.getStatus() != Idea.Status.DRAFT
+						idea -> (idea.isApprovalPublished() && idea.getStatus() != Idea.Status.DRAFT
+								|| idea.getApprovalStatus() != null && approvals.canRead(idea, (UUID) auth.getPrincipal()))
 								&& (ownerId == null
 										? resourceId.equals(idea.getTeamId())
 										: resourceId.equals(idea.getHackathonId())

@@ -50,11 +50,13 @@ import { useAuthStore } from '../store/authStore'
 import { useLanguage } from '../contexts/LanguageContext'
 import { notifications } from '@mantine/notifications'
 import { getAllPages } from '../services/pagination'
-import { api, ApiError } from '../lib/apiClient'
+import { ApiError } from '../lib/apiClient'
+import folderUploadIcon from '../assets/folder-upload.svg'
 import { HackathonService } from '../services/hackathonService'
 import { PublicAwardService, type AwardSummary } from '../services/publicAwardService'
-import { IdeaService } from '../services/ideaService'
-import { OrganizationService } from '../services/organizationService'
+import { IdeaService, type Idea, type CreateIdeaInput } from '../services/ideaService'
+import { useNominationEligibility } from '../hooks/useNominationEligibility'
+import { NominationProgress } from '../components/DigitalPioneer/NominationProgress'
 import { ProfileService } from '../services/profileService'
 import { StorageService, MAX_UPLOAD_BYTES, PHOTO_ACCEPT, validatePersonalPhoto } from '../services/storageService'
 import { TeamService } from '../services/teamService'
@@ -101,7 +103,6 @@ interface ProjectFilters {
 
 interface ProjectUploadForm {
   hackathonId: string
-  nomineeUserId: string
   executiveSummary: string
   achievementImpact: string
   cultureDemonstration: string
@@ -111,7 +112,6 @@ interface ProjectUploadForm {
 
 const emptyUploadForm = (): ProjectUploadForm => ({
   hackathonId: '',
-  nomineeUserId: '',
   executiveSummary: '',
   achievementImpact: '',
   cultureDemonstration: '',
@@ -350,7 +350,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     }, { replace: true })
   }
   const nomineeToOpen = searchParams.get('nominee')
-  const canNominate = user?.role === 'admin' || user?.role === 'manager'
+  const eligibility = useNominationEligibility()
+  const canNominate = eligibility.data?.canSubmit === true
+  const editId = nominationMode ? searchParams.get('edit') : null
+  const [editingNomination, setEditingNomination] = useState<Idea | null>(null)
+  const [editError, setEditError] = useState<string | null>(null)
+  const [submittedNomination, setSubmittedNomination] = useState<Idea | null>(null)
   const canDelete = managementMode && user?.role === 'admin'
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [pendingDeletion, setPendingDeletion] = useState<Project[]>([])
@@ -375,14 +380,33 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const [voteError, setVoteError] = useState<string | null>(null)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [modalOpened, setModalOpened] = useState(false)
-  const [nominees, setNominees] = useState<Array<{ id: string; name: string; email: string }>>([])
-  const [nomineeLoadError, setNomineeLoadError] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [hackathons, setHackathons] = useState<AwardSummary[]>([])
   const [projectImage, setProjectImage] = useState<File | null>(null)
   const [photoToCrop, setPhotoToCrop] = useState<File | null>(null)
   const photoPreview = usePhotoUrl(projectImage && !validatePersonalPhoto(projectImage) ? projectImage : null)
   const [uploadForm, setUploadForm] = useState<ProjectUploadForm>(emptyUploadForm)
+  useEffect(() => {
+    if (!editId || !user) return
+    let active = true
+    setEditError(null)
+    setEditingNomination(null)
+    void IdeaService.getIdea(editId).then((idea) => {
+      if (!active) return
+      if (idea.createdBy !== user.id || idea.approvalStatus !== 'rejected') throw new Error('Only your rejected nominations can be revised here.')
+      const sections = parseNominationDescription(idea.description)
+      setEditingNomination(idea)
+      setUploadForm({
+        hackathonId: idea.hackathonId,
+        category: idea.category,
+        executiveSummary: sections.find((section) => section.heading === nominationHeadings[0])?.body ?? '',
+        achievementImpact: sections.find((section) => section.heading === nominationHeadings[1])?.body ?? '',
+        cultureDemonstration: sections.find((section) => section.heading === nominationHeadings[2])?.body ?? '',
+        technologies: idea.tags.join(', '),
+      })
+    }).catch((error) => { if (active) setEditError(error instanceof Error ? error.message : 'Unable to load your nomination.') })
+    return () => { active = false }
+  }, [editId, user])
   const [assignedJudgeHackathons, setAssignedJudgeHackathons] = useState<Set<string>>(new Set())
   const [filters, setFilters] = useState<ProjectFilters>({
     search: '',
@@ -498,11 +522,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         if (sequence !== loadSequence.current) return
         setProjects(hackathonData.flatMap(({ projectList }) => projectList))
         // Photo URL requests must not hold the nomination list or voting controls open.
-        void Promise.all(imageUpdates).then((updates) => {
-          if (sequence !== loadSequence.current) return
-          const imagesById = new Map(updates.map((update) => [update.id, update.images]))
-          setProjects((current) => current.map((project) => ({ ...project, images: imagesById.get(project.id) ?? project.images })))
-          setSelectedProject((current) => current ? { ...current, images: imagesById.get(current.id) ?? current.images } : null)
+        imageUpdates.forEach((request) => {
+          void request.then(({ id, images }) => {
+            if (sequence !== loadSequence.current) return
+            setProjects((current) => current.map((project) => project.id === id ? { ...project, images } : project))
+            setSelectedProject((current) => current?.id === id ? { ...current, images } : current)
+          })
         })
       } catch (error) {
         if (sequence !== loadSequence.current) return
@@ -525,8 +550,6 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     setRecordError(null)
     setProjects([])
     setAssignedJudgeHackathons(new Set())
-    setNominees([])
-    setNomineeLoadError(false)
     setUploadForm(emptyUploadForm())
     setProjectImage(null)
     setSelectedProject(null)
@@ -550,36 +573,16 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     }
   }, [cart, user?.id])
 
-  useEffect(() => {
-    if (!nominationMode || !user || user.role === 'participant') return
-    let cancelled = false
-    const loadNominees = async () => {
-      try {
-        const candidates = user.role === 'admin'
-          ? await getAllPages((page) => api.get<{ content: Array<{ id: string; name: string; email: string }>; totalPages?: number }>(`/api/v1/admin/users?page=${page}&size=200&sort=name,asc`))
-          : (await Promise.all((await OrganizationService.getMyOrganizations()).map(async (org) =>
-              (await OrganizationService.getMembers(org.id)).map((member) => ({
-                id: member.userId, name: member.name ?? member.email ?? member.userId, email: member.email ?? '',
-              }))
-            ))).flat()
-        if (!cancelled) setNominees([...new Map([{ id: user.id, name: user.name, email: user.email }, ...candidates].map((candidate) => [candidate.id, candidate])).values()])
-      } catch {
-        if (!cancelled) setNomineeLoadError(true)
-      }
-    }
-    void loadNominees()
-    return () => { cancelled = true }
-  }, [nominationMode, user])
-
   const nominationTags = parseNominationTags(uploadForm.technologies)
   const tooManyTags = nominationTags.length > 5
   const photoError = validatePersonalPhoto(projectImage)
 
   const handleProjectUpload = async () => {
     if (!user || !canNominate || uploading) return
+    if (editId && editingNomination?.id !== editId) return
     if (!uploadForm.hackathonId || !uploadForm.executiveSummary.trim()
       || !uploadForm.achievementImpact.trim() || !uploadForm.cultureDemonstration.trim()
-      || !uploadForm.category.trim() || !projectImage) {
+      || !uploadForm.category.trim() || (!projectImage && !editingNomination?.projectAttachments?.some((item) => item.type === 'screenshot'))) {
       notifications.show({
         title: 'Missing Information',
         message: 'Complete all required fields and select a nominee photo.',
@@ -598,8 +601,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
       return
     }
 
-    const nomineeUserId = uploadForm.nomineeUserId || user!.id
-    const nomineeName = nominees.find((candidate) => candidate.id === nomineeUserId)?.name ?? user!.name
+    const nomineeUserId = user.id
+    const nomineeName = user.name
     setUploading(true)
     try {
       const technologies = nominationTags
@@ -608,12 +611,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         `Details of Your Core Achievement in 2026 and Business Impact (including financial figures)\n${uploadForm.achievementImpact.trim()}`,
         `How You Demonstrate Bosch China Culture (Especially in Your Applied Category)\n${uploadForm.cultureDemonstration.trim()}`,
       ].join('\n\n')
-      const uploadedImage = await StorageService.uploadFile(
+      const uploadedImage = projectImage ? await StorageService.uploadFile(
         projectImage,
         'project-attachments',
         `nominations/${uploadForm.hackathonId}/${user.id}`
-      )
-      await IdeaService.createIdea({
+      ) : null
+      const payload: CreateIdeaInput = {
         title: nomineeName,
         description,
         hackathonId: uploadForm.hackathonId,
@@ -625,13 +628,18 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           url: '',
           name: nomineeName,
           nomineeUserId,
-        }, {
-          type: 'screenshot',
+        }, ...(uploadedImage && projectImage ? [{
+          type: 'screenshot' as const,
           url: uploadedImage.url,
           name: projectImage.name,
           storageKey: uploadedImage.key,
-        }],
-      })
+        }, ...(editingNomination?.projectAttachments?.filter((item) => item.type !== 'nomination' && item.type !== 'screenshot') ?? [])]
+          : editingNomination?.projectAttachments?.filter((item) => item.type !== 'nomination') ?? [])],
+      }
+      const submitted = editingNomination
+        ? await IdeaService.updateIdea(editingNomination.id, { ...payload, approvalVersion: editingNomination.approvalVersion })
+        : await IdeaService.createIdea(payload)
+      setSubmittedNomination(submitted)
 
       notifications.show({
         title: 'Nomination submitted',
@@ -867,12 +875,26 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   }
 
   if (nominationMode) {
+    if (submittedNomination) return <Container size={1240} py="xl" className="dp-page"><Card className="dp-form-shell" p="xl"><Stack gap="lg">
+      <Title order={2}>Nomination Submitted Successfully</Title>
+      <Text>Your nomination for <strong>{DIGITAL_PIONEER_TRACKS.find((track) => track.value === submittedNomination.category)?.label ?? submittedNomination.category}</strong> has been submitted.</Text>
+      <Text>Number: {submittedNomination.id}</Text>
+      <NominationProgress idea={submittedNomination} />
+      {submittedNomination.approvalStatus && <Text>Your Nominating HoD will review the information you submitted. Check My nominations for the decision and any requested changes.</Text>}
+      <Group><Button variant="light" onClick={() => navigate('/')}>Home</Button><Button onClick={() => navigate(`/my-nominations?id=${encodeURIComponent(submittedNomination.id)}`)}>My nominations</Button></Group>
+    </Stack></Card></Container>
     return (
       <Container size={1240} py={{ base: 'md', md: 'xl' }} className="dp-page">
         {photoToCrop && <PersonalPhotoCrop file={photoToCrop} language={language}
           onClose={() => setPhotoToCrop(null)}
           onConfirm={(file) => { setProjectImage(file); setPhotoToCrop(null) }} />}
         <section className="dp-nomination-flow" aria-labelledby="track-choice-title">
+          {eligibility.isError && <Alert color="red">Unable to verify your nomination eligibility. Please refresh.</Alert>}
+          {eligibility.data && !canNominate && <Alert color="orange">{eligibility.data.message || 'Your signed-in account could not be matched to an eligible employee and Nominating HoD.'}</Alert>}
+          {eligibility.data?.nominatingHead && <Text mb="md">Nominating HoD: {eligibility.data.nominatingHead}</Text>}
+          {editError && <Alert color="red">{editError}</Alert>}
+          {editId && !editingNomination && !editError && <Text>Loading your submitted nomination…</Text>}
+          {editingNomination?.approvalReason && <Alert color="orange" title="Requested changes">{editingNomination.approvalReason}</Alert>}
           <div className="dp-flow-heading">
             <div>
               <Title id="track-choice-title" order={2}>Choose an award category</Title>
@@ -922,8 +944,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             <div className="dp-track-gate" role="status">
               <Text fw={650}>Preparing the nomination form…</Text>
             </div>
+          ) : loadError ? (
+            <Alert color="red" icon={<IconInfoCircle size={18} />} mt="lg" styles={{ message: { color: 'white' } }}>
+              Unable to load nominations. Refresh the page to try again.
+            </Alert>
           ) : hackathons.length === 0 ? (
-            <Alert color="orange" icon={<IconInfoCircle size={18} />} mt="lg">
+            <Alert color="orange" icon={<IconInfoCircle size={18} />} mt="lg" styles={{ message: { color: 'white' } }}>
               No nomination window is currently open.
             </Alert>
           ) : (
@@ -935,22 +961,16 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                         <div className="dp-form-intro">
                           <Title order={3}>{selectedNominationTrack.label}</Title>
                         </div>
-                        {!user || user.role === 'participant' ? (
-                          <TextInput label="Outlook Name" value={user?.name ?? ''} readOnly />
-                        ) : (
-                          <Select
-                            label="Outlook Name"
-                            searchable
-                            required
-                            data={nominees.length ? nominees.map((candidate) => ({ value: candidate.id, label: `${candidate.name} (${candidate.email})` })) : [{ value: user.id, label: user.name }]}
-                            value={uploadForm.nomineeUserId || user.id}
-                            onChange={(value) => setUploadForm((current) => ({ ...current, nomineeUserId: value ?? user.id }))}
-                          />
-                        )}
-                        {nomineeLoadError && <Text size="sm" c="red" role="alert">Unable to load associates. Refresh to retry; self-nomination is still available.</Text>}
+                        <TextInput
+                          label="Outlook Name"
+                          value={user ? `${user.name} (${user.email})` : ''}
+                          readOnly
+                          required
+                        />
                         <Input.Label id="personal-photo-label" htmlFor="personal-photo" required mt="xs">
                           <strong>Personal Photo</strong><span style={{ fontWeight: 400 }}>(JG, PNG or WebP; up to 50 MB per photo)</span>
                         </Input.Label>
+                        {editingNomination?.projectAttachments?.some((item) => item.type === 'screenshot') && <Text size="sm">Your submitted photo is retained unless you upload a replacement.</Text>}
                       </Grid.Col>
                       <Grid.Col span={{ base: 12, sm: 6 }} pr={{ base: 'md', sm: 80 }} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start' }}>
                         <FileInput
@@ -961,7 +981,13 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                             input: { height: 192, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
                             section: { top: 4, bottom: 'auto', height: 28 },
                           }}
-                          placeholder={<IconPhoto size={28} />}
+                          placeholder={
+                            <Stack gap={8} align="center" px="xs" style={{ whiteSpace: 'normal', textAlign: 'center', color: '#fff' }}>
+                              <IconPhoto size={28} />
+                              <Text size="xs">温馨提示：可以上传个人照片</Text>
+                              <Text size="xs">建议比例 3:4，上传后可裁剪</Text>
+                            </Stack>
+                          }
                           valueComponent={() => photoPreview ? (
                             <Image src={photoPreview} alt={language === 'zh' ? '个人照片预览' : 'Personal photo preview'}
                               w="100%" h={190} fit="contain" radius="sm" />
@@ -1072,9 +1098,9 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                       rightSection={<IconArrowRight size={17} />}
                       onClick={() => void handleProjectUpload()}
                       loading={uploading}
-                      disabled={!canNominate || tooManyTags || Boolean(photoError)}
+                      disabled={!canNominate || tooManyTags || Boolean(photoError) || Boolean(editId && editingNomination?.id !== editId)}
                     >
-                      Submit nomination
+                      {editingNomination ? 'Resubmit nomination' : 'Submit nomination'}
                     </Button>
                   </Group>
                 </Stack>
@@ -1347,9 +1373,14 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         >
           <Group className="dp-vote-cart-header" justify="space-between" wrap="nowrap" gap={6}>
             <Title order={2} size="h4" id="vote-cart-title" aria-live="polite">{language === 'zh' ? `我的点赞（${votedProjects.length}）` : `My votes (${votedProjects.length})`}</Title>
-            <Button size="compact-xs" variant="light" c="#fff" loading={submitting} style={{ flexShrink: 0 }}
+            <Button variant="subtle" c="#fff" loading={submitting} h="auto" py={4} px={8} style={{ flexShrink: 0 }}
               disabled={!user || loading || loadError || deletingRecord || !votedProjects.length}
-              onClick={() => void submitCart()}>Submit</Button>
+              onClick={() => void submitCart()}>
+              <Stack gap={0} align="center">
+                <img src={folderUploadIcon} alt="" aria-hidden="true" width={32} height={32} style={{ filter: 'invert(1)' }} />
+                <Text component="span" size="xs">Submit</Text>
+              </Stack>
+            </Button>
             <Group gap={4} wrap="nowrap">
             <Button variant="subtle" color="red" c="#ffb1b1" size="compact-xs"
               disabled={!votedProjects.length || submitting || deletingRecord || loading}
@@ -1403,7 +1434,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     <Text fw={700} style={{ overflowWrap: 'anywhere' }} translate="no">{project.title}</Text>
                     {project.nominee_name.trim() !== project.title.trim() && <Text size="sm" translate="no">{project.nominee_name}</Text>}
                     <Badge variant="light" w="fit-content" maw="100%">{project.category}</Badge>
-                    <Text size="sm" c="dimmed"><span>Department</span>: <span translate="no">{project.nominee_org_code.split('-')[0] || '—'}</span></Text>
+                    <Text size="sm" c="dimmed"><span>Department</span>: <span translate="no">{project.nominee_org_code || '—'}</span></Text>
                   </Stack>
                 </Group>
                 <Group justify="space-between" mt="sm">
@@ -1481,7 +1512,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                       {project.nominee_name !== project.title && <Text size="sm" translate="no">{project.nominee_name}</Text>}
                       <Text size="sm">{hackathons.find((award) => award.id === project.hackathon_id)?.title}</Text>
                       <Text size="sm">{DIGITAL_PIONEER_TRACKS.find((track) => track.value === project.category)?.label ?? project.category}</Text>
-                      <Text size="sm">Department: <span translate="no">{project.nominee_org_code.split('-')[0] || '—'}</span></Text>
+                      <Text size="sm">Department: <span translate="no">{project.nominee_org_code || '—'}</span></Text>
                       <Button variant="subtle" size="xs" onClick={() => { closeVotingRecords(); openProjectModal(project) }}>View details</Button>
                     </Stack>
                   </Card>
@@ -1568,7 +1599,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                       <Avatar size="sm" />
                       <div>
                         <Text size="sm" fw={500} translate="no">{member.name}</Text>
-                        <Text size="sm" c="dimmed"><span>Department</span>: <span translate="no">{selectedProject.nominee_org_code.split('-')[0] || '—'}</span></Text>
+                        <Text size="sm" c="dimmed"><span>Department</span>: <span translate="no">{selectedProject.nominee_org_code || '—'}</span></Text>
                         <Text size="sm" c="dimmed"><span>Org. code</span>: <span translate="no">{selectedProject.nominee_org_code || '—'}</span></Text>
                         {member.role && <Text size="sm" c="dimmed">{member.role}</Text>}
                       </div>

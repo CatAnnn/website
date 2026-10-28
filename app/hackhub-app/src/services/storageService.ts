@@ -1,4 +1,36 @@
 import { api } from '../lib/apiClient'
+import { tokenStore } from '../lib/tokenStore'
+
+// Signed URLs last an hour on the API. Keep a short, bounded, session-local cache.
+const signedUrls = new Map<string, { url: string; expires: number }>()
+const pendingUrls = new Map<string, Promise<string>>()
+let cacheToken: string | null = null
+let activeUrlRequests = 0
+const urlQueue: Array<() => void> = []
+
+async function requestSignedUrl(bucket: StorageBucket, key: string): Promise<string> {
+  if (activeUrlRequests >= 6) await new Promise<void>((resolve) => urlQueue.push(resolve))
+  else activeUrlRequests++
+  const controller = new AbortController()
+  let timer: ReturnType<typeof setTimeout> | undefined
+  try {
+    const timeout = new Promise<never>((_resolve, reject) => {
+      timer = setTimeout(() => {
+        controller.abort()
+        reject(new Error('Photo URL request timed out. Please retry.'))
+      }, 15_000)
+    })
+    const result = await Promise.race([api.get<{ url: string }>(
+      `/api/v1/storage/url/${bucket}?key=${encodeURIComponent(key)}`, { signal: controller.signal }
+    ), timeout])
+    return result.url
+  } finally {
+    clearTimeout(timer)
+    const next = urlQueue.shift()
+    if (next) next()
+    else activeUrlRequests--
+  }
+}
 
 // Keep aligned with StoragePort.MAX_FILE_SIZE_BYTES and Spring multipart limits.
 export const MAX_UPLOAD_BYTES = 50 * 1024 * 1024
@@ -37,8 +69,6 @@ export class StorageService {
     form.append('prefix', prefix)
 
     const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
-    const { tokenStore } = await import('../lib/tokenStore')
-
     const res = await fetch(`${BASE_URL}/api/v1/storage/upload/${bucket}`, {
       method: 'POST',
       headers: {
@@ -56,10 +86,29 @@ export class StorageService {
   }
 
   static async getPresignedUrl(bucket: StorageBucket, key: string): Promise<string> {
-    const result = await api.get<{ url: string }>(
-      `/api/v1/storage/url/${bucket}?key=${encodeURIComponent(key)}`
-    )
-    return result.url
+    const token = tokenStore.getAccessToken()
+    if (cacheToken !== token) {
+      signedUrls.clear()
+      pendingUrls.clear()
+      cacheToken = token
+    }
+    const cacheKey = `${bucket}/${key}`
+    const cached = signedUrls.get(cacheKey)
+    if (cached && cached.expires > Date.now()) return cached.url
+    const pending = pendingUrls.get(cacheKey)
+    if (pending) return pending
+    const request = requestSignedUrl(bucket, key).then((url) => {
+      if (cacheToken === token) {
+        signedUrls.delete(cacheKey)
+        if (signedUrls.size >= 256) signedUrls.delete(signedUrls.keys().next().value!)
+        signedUrls.set(cacheKey, { url, expires: Date.now() + 5 * 60_000 })
+      }
+      return url
+    }).finally(() => {
+      if (pendingUrls.get(cacheKey) === request) pendingUrls.delete(cacheKey)
+    })
+    pendingUrls.set(cacheKey, request)
+    return request
   }
 
   static async uploadTeamFile(teamId: string, file: File): Promise<UploadResult> {

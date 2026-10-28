@@ -1,0 +1,159 @@
+{
+  "50_database_baseline": {
+    "build_success": true,
+    "samples": [
+      {
+        "scenario": "new-nomination",
+        "clients": 50,
+        "p50_ms": 114,
+        "p95_ms": 120,
+        "max_ms": 120
+      },
+      {
+        "scenario": "popular-ballot",
+        "clients": 50,
+        "p50_ms": 459,
+        "p95_ms": 685,
+        "max_ms": 707
+      },
+      {
+        "scenario": "retry-ballot",
+        "clients": 50,
+        "p50_ms": 43,
+        "p95_ms": 80,
+        "max_ms": 83
+      }
+    ]
+  },
+  "500_final": {
+    "build_success": true,
+    "samples": [
+      {
+        "scenario": "popular-ballot",
+        "clients": 500,
+        "p50_ms": 2210,
+        "p95_ms": 3452,
+        "max_ms": 3561
+      },
+      {
+        "scenario": "retry-ballot",
+        "clients": 500,
+        "p50_ms": 175,
+        "p95_ms": 324,
+        "max_ms": 341
+      },
+      {
+        "scenario": "http-mixed-read-nomination",
+        "clients": 500,
+        "p50_ms": 2406,
+        "p95_ms": 3097,
+        "max_ms": 3202
+      },
+      {
+        "scenario": "http-mixed-read-ballot",
+        "clients": 500,
+        "p50_ms": 939,
+        "p95_ms": 1313,
+        "max_ms": 1363
+      },
+      {
+        "scenario": "new-nomination",
+        "clients": 500,
+        "p50_ms": 17,
+        "p95_ms": 31,
+        "max_ms": 41
+      }
+    ]
+  },
+  "500_storage_final": {
+    "build_success": true,
+    "samples": [
+      {
+        "scenario": "photo-read-upload",
+        "clients": 500,
+        "photo_bytes": 289709,
+        "p50_ms": 708,
+        "p95_ms": 1183,
+        "max_ms": 1195
+      }
+    ]
+  },
+  "1000_capacity": {
+    "build_success": true,
+    "samples": [
+      {
+        "scenario": "popular-ballot",
+        "clients": 1000,
+        "p50_ms": 3568,
+        "p95_ms": 5238,
+        "max_ms": 5395
+      },
+      {
+        "scenario": "retry-ballot",
+        "clients": 1000,
+        "p50_ms": 231,
+        "p95_ms": 432,
+        "max_ms": 454
+      },
+      {
+        "scenario": "http-mixed-read-nomination",
+        "clients": 1000,
+        "p50_ms": 3196,
+        "p95_ms": 4210,
+        "max_ms": 4430
+      },
+      {
+        "scenario": "http-mixed-read-ballot",
+        "clients": 1000,
+        "p50_ms": 1511,
+        "p95_ms": 2146,
+        "max_ms": 2250
+      },
+      {
+        "scenario": "new-nomination",
+        "clients": 1000,
+        "p50_ms": 64,
+        "p95_ms": 84,
+        "max_ms": 96
+      },
+      {
+        "scenario": "photo-read-upload",
+        "clients": 1000,
+        "photo_bytes": 289709,
+        "p50_ms": 328,
+        "p95_ms": 1132,
+        "max_ms": 1192
+      }
+    ]
+  },
+  "validation": {
+    "frontend_tests_passed": 340,
+    "frontend_files_passed": 36,
+    "backend_unit_tests_passed": 640,
+    "integration_500_tests_passed": 8,
+    "integration_1000_tests_passed": 5,
+    "frontend_build": "pass",
+    "frontend_lint_errors": 0,
+    "frontend_existing_lint_warnings": 2,
+    "nginx_config": "pass"
+  },
+  "scope": {
+    "date": "2026-10-26",
+    "api_and_load_generator_container": {
+      "cpu_limit": 4,
+      "memory_gib": 4
+    },
+    "nginx": {
+      "cpu_limit": 2,
+      "memory_mib": 256
+    },
+    "minio": {
+      "cpu_limit": 2,
+      "memory_gib": 1
+    },
+    "database": "isolated PostgreSQL 16, tmpfs, no CPU limit set",
+    "minio_storage": "tmpfs",
+    "production_deployed": false,
+    "production_capacity_verified": false
+  }
+}

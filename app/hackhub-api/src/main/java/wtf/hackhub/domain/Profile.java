@@ -109,6 +109,13 @@ public class Profile {
 	public String getOrgCode() {
 		return orgCode;
 	}
+	public void syncSsoDepartment(String department) {
+		// Missing or malformed claims must not erase an existing roster assignment.
+		if (department != null && !department.isBlank() && department.length() <= 255
+				&& department.chars().noneMatch(Character::isISOControl)) {
+			this.orgCode = department.trim();
+		}
+	}
 	public UUID getOrganizationId() {
 		return organizationId;
 	}

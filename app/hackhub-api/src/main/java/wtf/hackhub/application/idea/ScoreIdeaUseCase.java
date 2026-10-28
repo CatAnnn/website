@@ -31,6 +31,7 @@ public class ScoreIdeaUseCase {
 	public IdeaScore execute(UUID ideaId, UUID userId, UUID criteriaId, int score) {
 		Idea idea = ideaRepository.findById(ideaId)
 				.orElseThrow(() -> new VoteIdeaUseCase.IdeaNotFoundException(ideaId));
+		idea.requireApprovalPublished();
 
 		var rubric = criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(idea.getHackathonId());
 		if (rubric.stream().anyMatch(c -> c.getWeight() == 70 && c.getName().toLowerCase(Locale.ROOT).contains("behavior"))

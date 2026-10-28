@@ -91,10 +91,10 @@ export const DIGITAL_PIONEER_TRACKS: readonly DigitalPioneerTrack[] = [
 ] as const
 
 export const DIGITAL_PIONEER_TIMELINE = [
-  { phase: 'Self-nomination', detail: 'Submit your individual nomination', period: 'Oct. 19–30' },
-  { phase: 'Associate Voting', detail: 'Ten shortlisted nominees per category', period: 'Nov. 2–13' },
-  { phase: 'Committee Voting', detail: 'Five finalists per category', period: 'Nov. 16–30' },
-  { phase: 'Award Announce & Ceremony', detail: 'Winners announced at Townhall', period: 'December' },
+  { phase: 'Self-nomination', detail: 'Submit your individual nomination', period: 'Nov.16-28' },
+  { phase: 'Associate Voting', detail: 'Ten shortlisted nominees per category', period: 'Nov.30-Dec.11' },
+  { phase: 'Committee Voting', detail: 'Five finalists per category', period: 'Dec.14-25' },
+  { phase: 'Award Announce & Ceremony', detail: 'Winners announced at Townhall', period: 'Jan.' },
 ] as const
 
 export const DIGITAL_PIONEER_RUBRIC = [
