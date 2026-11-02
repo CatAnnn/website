@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom'
 import digitalCubes from '../assets/bosch-digital-cubes.png'
 import { AwardCriteriaList } from '../components/AwardCriteriaList'
 import { useLanguage } from '../contexts/LanguageContext'
-import { DIGITAL_PIONEER_TIMELINE, DIGITAL_PIONEER_TRACKS } from '../config/digitalPioneer'
+import { DIGITAL_PIONEER_TIMELINE, getDigitalPioneerTracks } from '../config/digitalPioneer'
+import { useNominationType } from '../hooks/useNominationType'
 import './DigitalPioneer.css'
 
 const copy = {
@@ -26,6 +27,7 @@ const copy = {
 export function DigitalPioneerOverview(): ReactElement {
   const { language } = useLanguage()
   const text = copy[language]
+  const [nominationType, setNominationType] = useNominationType()
 
   return (
     <Container size={1440} py={{ base: 'md', md: 'xl' }} className="dp-page">
@@ -51,10 +53,15 @@ export function DigitalPioneerOverview(): ReactElement {
       </section>
 
       <section className="dp-section dp-categories-section" aria-labelledby="award-categories-title">
-        <h2 id="award-categories-title" className="dp-section-title dp-categories-title">{text.categoriesTitle}</h2>
+        <Group justify="space-between" align="center" mb="xl" wrap="wrap">
+          <h2 id="award-categories-title" className="dp-section-title dp-categories-title" style={{ marginBottom: 0 }}>{text.categoriesTitle}</h2>
+          <Group gap="xs" role="group" aria-label="Nomination type">
+            {(['individual', 'team'] as const).map((type) => <Button key={type} variant={nominationType === type ? 'light' : 'outline'} color="cyan" radius="xl" aria-pressed={nominationType === type} onClick={() => setNominationType(type)}>{type === 'individual' ? 'Individual' : 'Team'}</Button>)}
+          </Group>
+        </Group>
 
         <div className="dp-track-grid">
-          {DIGITAL_PIONEER_TRACKS.map((track) => (
+          {getDigitalPioneerTracks(nominationType).map((track) => (
             <article className="dp-track" key={track.value}>
               <h3 className="dp-track-title" translate="no">
                 <span lang="en">{track.label}</span>
@@ -86,7 +93,7 @@ export function DigitalPioneerOverview(): ReactElement {
         <Group gap="sm" justify="center">
           <Button
             component={Link}
-            to="/nominate"
+            to={`/nominate?type=${nominationType}`}
             className="dp-primary-button"
             size="lg"
             leftSection={<IconBallpen size={18} />}

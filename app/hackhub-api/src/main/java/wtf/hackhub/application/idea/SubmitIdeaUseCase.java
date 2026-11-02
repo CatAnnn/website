@@ -71,20 +71,12 @@ public class SubmitIdeaUseCase {
 
 		var requester = profileRepository.findById(createdBy)
 				.orElseThrow(() -> new IdeaAccessDeniedException(null, createdBy));
-		boolean employeeSubmission = requester.getRole() == Profile.Role.PARTICIPANT;
+		boolean teamSubmission = teamId != null;
+		if (teamSubmission) requireTeamCaptain(teamId, hackathonId, createdBy);
+		else rejectTeamMetadata(projectAttachments);
+		boolean employeeSubmission = teamSubmission || requester.getRole() == Profile.Role.PARTICIPANT
+				|| approvalDirectory.allowsSelfApproval(createdBy);
 		var employee = employeeSubmission ? approvalDirectory.requireEmployee(createdBy) : null;
-		if (employeeSubmission && teamId != null)
-			throw new IllegalArgumentException("Employee nominations must be individual submissions");
-		if (teamId != null) {
-			// Preserve membership checks for legacy team submissions.
-			var team = teamRepository.findById(teamId).orElseThrow(() -> new IdeaTeamNotFoundException(teamId));
-			if (!team.getHackathonId().equals(hackathonId)) {
-				throw new IdeaTeamHackathonMismatchException(teamId, hackathonId);
-			}
-			if (!teamMemberRepository.existsByTeamIdAndUserId(teamId, createdBy)) {
-				throw new IdeaAccessDeniedException(null, createdBy);
-			}
-		}
 
 		// Validate user is org member (if hackathon has an org)
 		if (hackathon.getOrganizationId() != null
@@ -97,6 +89,12 @@ public class SubmitIdeaUseCase {
 		projectAttachments = employeeSubmission
 				? employeeMetadata(projectAttachments, employee, createdBy, hackathonId)
 				: nomineeDirectory.enrich(projectAttachments, true);
+		if (teamSubmission) {
+			var metadata = requireTeamMetadata(projectAttachments, category);
+			title = metadata.path("projectName").asText();
+			description = teamDescription(metadata);
+			projectAttachments = teamDisplayMetadata(projectAttachments);
+		}
 		Idea idea = new Idea(title, description, hackathonId, teamId, createdBy, category);
 		idea.update(title, description, category, tags == null ? List.of() : tags,
 				employeeSubmission ? Idea.Status.SUBMITTED : status == null ? Idea.Status.DRAFT : status, repositoryUrl, demoUrl, projectAttachments);
@@ -126,6 +124,10 @@ public class SubmitIdeaUseCase {
 		if (!idea.getCreatedBy().equals(requestingUserId)) {
 			throw new IdeaAccessDeniedException(ideaId, requestingUserId);
 		}
+		boolean teamSubmission = idea.getTeamId() != null && hasTeamMetadata(idea.getProjectAttachments());
+		if (idea.getTeamId() != null)
+			requireTeamCaptain(idea.getTeamId(), idea.getHackathonId(), requestingUserId);
+		if (!teamSubmission) rejectTeamMetadata(projectAttachments);
 		boolean employeeSubmission = idea.getApprovalStatus() != null;
 		if (employeeSubmission && (approvalVersion == null || approvalVersion != idea.getApprovalVersion()
 				|| "approved".equals(idea.getApprovalStatus())))
@@ -137,6 +139,12 @@ public class SubmitIdeaUseCase {
 		projectAttachments = employeeSubmission
 				? employeeMetadata(projectAttachments, employee, requestingUserId, idea.getHackathonId())
 				: nomineeDirectory.enrich(projectAttachments, true);
+		if (teamSubmission) {
+			var metadata = requireTeamMetadata(projectAttachments, category);
+			title = metadata.path("projectName").asText();
+			description = teamDescription(metadata);
+			projectAttachments = teamDisplayMetadata(projectAttachments);
+		}
 		if (idea.getVotes() > 0 || !judgeScoreRepository.findAllByIdeaId(ideaId).isEmpty()) {
 			Idea proposed = new Idea(title, description, idea.getHackathonId(), idea.getTeamId(), idea.getCreatedBy(),
 					category);
@@ -179,12 +187,104 @@ public class SubmitIdeaUseCase {
 			if (nomination == null)
 				nomination = ((com.fasterxml.jackson.databind.node.ArrayNode) items).addObject().put("type", "nomination")
 						.put("nomineeUserId", userId.toString());
-			nomination.put("name", employee.name()).put("nomineeOrgCode", employee.orgUnit())
+			String name = employee.name();
+			String orgUnit = employee.orgUnit();
+			if (name.isBlank() || orgUnit.isBlank()) {
+				var profile = profileRepository.findById(userId)
+						.orElseThrow(() -> new IdeaAccessDeniedException(null, userId));
+				if (name.isBlank()) name = profile.getName();
+				if (orgUnit.isBlank()) orgUnit = profile.getOrgCode();
+			}
+			nomination.put("name", name).put("nomineeOrgCode", orgUnit)
 					.put("employeeEmail", employee.email()).put("nominatingHead", employee.nominatingHead());
 			return items.toString();
 		} catch (JsonProcessingException ex) {
 			throw new IllegalArgumentException("Invalid nomination attachments");
 		}
+	}
+
+	private void requireTeamCaptain(UUID teamId, UUID campaignId, UUID userId) {
+		var team = teamRepository.findById(teamId).orElseThrow(() -> new IdeaTeamNotFoundException(teamId));
+		if (!team.getHackathonId().equals(campaignId))
+			throw new IdeaTeamHackathonMismatchException(teamId, campaignId);
+		if (!team.getCreatedBy().equals(userId) || teamMemberRepository.findByTeamIdAndUserId(teamId, userId)
+				.filter(member -> member.getRole() == wtf.hackhub.domain.TeamMember.Role.LEADER).isEmpty())
+			throw new IdeaAccessDeniedException(null, userId);
+	}
+
+	private static com.fasterxml.jackson.databind.JsonNode attachmentItems(String attachments) {
+		try {
+			var items = new ObjectMapper().readTree(attachments == null || attachments.isBlank() ? "[]" : attachments);
+			if (items == null || !items.isArray())
+				throw new IllegalArgumentException("Nomination attachments must be an array");
+			return items;
+		} catch (JsonProcessingException ex) {
+			throw new IllegalArgumentException("Invalid nomination attachments");
+		}
+	}
+
+	private static boolean hasTeamMetadata(String attachments) {
+		for (var item : attachmentItems(attachments))
+			if ("nomination".equals(item.path("type").asText())
+					&& "team".equals(item.path("nominationType").asText())) return true;
+		return false;
+	}
+
+	private static void rejectTeamMetadata(String attachments) {
+		if (hasTeamMetadata(attachments))
+			throw new IllegalArgumentException("A team nomination must belong to its original team");
+	}
+
+	private static com.fasterxml.jackson.databind.JsonNode requireTeamMetadata(String attachments, String category) {
+		if (!List.of("Customer Values", "Innovation Breakthrough", "Collaboration to Win").contains(category))
+			throw new IllegalArgumentException("Select an award category");
+		com.fasterxml.jackson.databind.JsonNode nomination = null;
+		boolean photo = false;
+		for (var item : attachmentItems(attachments)) {
+			if ("nomination".equals(item.path("type").asText())) nomination = item;
+			else {
+				String key = item.path("storageKey").asText();
+				if (key.isBlank() || key.contains("..") || key.contains("//")
+						|| !key.matches("[A-Za-z0-9_/-]+(?:\\.[A-Za-z0-9_-]+)?"))
+					throw new IllegalArgumentException("Upload team attachments to your nomination storage");
+				if ("screenshot".equals(item.path("type").asText())
+						&& key.toLowerCase(java.util.Locale.ROOT).matches(".*\\.(png|jpe?g|webp|gif)")) photo = true;
+			}
+		}
+		if (nomination == null || !"team".equals(nomination.path("nominationType").asText()))
+			throw new IllegalArgumentException("Team nomination details are required");
+		for (String field : List.of("projectName", "coreTeamMembers", "achievementSummary", "teamAchievementImpact", "cultureDemonstration"))
+			if (!nomination.path(field).isTextual() || nomination.path(field).asText().isBlank())
+				throw new IllegalArgumentException("Team nomination field is required: " + field);
+		String coreMembers = nomination.path("coreTeamMembers").asText();
+		if (coreMembers.contains("；") || coreMembers.contains("\n") || coreMembers.contains("\r")
+				|| java.util.Arrays.stream(coreMembers.split(";", -1)).anyMatch(String::isBlank))
+			throw new IllegalArgumentException("Enter Outlook names separated by semicolons (;), without empty names");
+		if (nomination.path("projectName").asText().length() > 255)
+			throw new IllegalArgumentException("Project Name must not exceed 255 characters");
+		if (nomination.path("achievementSummary").asText().strip().split("(?U)\\s+").length > 200)
+			throw new IllegalArgumentException("Achievement Summary must not exceed 200 words");
+		if (!photo) throw new IllegalArgumentException("Team Photo is required");
+		return nomination;
+	}
+
+	private static String teamDisplayMetadata(String attachments) {
+		var items = attachmentItems(attachments);
+		for (var item : items) {
+			if (!"nomination".equals(item.path("type").asText())) continue;
+			var nomination = (com.fasterxml.jackson.databind.node.ObjectNode) item;
+			nomination.put("nominatorName", nomination.path("name").asText());
+			nomination.put("name", nomination.path("projectName").asText());
+		}
+		return items.toString();
+	}
+
+	private static String teamDescription(com.fasterxml.jackson.databind.JsonNode nomination) {
+		return "Achievement Summary\n" + nomination.path("achievementSummary").asText()
+				+ "\n\nDetails of Your Team Achievement in 2026 and Business Impact\n"
+				+ nomination.path("teamAchievementImpact").asText()
+				+ "\n\nHow you demonstrate BD China culture (especially on you applied category) ?\n"
+				+ nomination.path("cultureDemonstration").asText();
 	}
 
 	private static List<String> normalizeTags(List<String> tags) {

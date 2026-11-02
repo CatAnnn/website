@@ -40,6 +40,13 @@ export interface ProjectAttachment {
   nomineePosition?: string
   nominatingHead?: string
   employeeEmail?: string
+  nominationType?: 'individual' | 'team'
+  nominatorName?: string
+  projectName?: string
+  coreTeamMembers?: string
+  achievementSummary?: string
+  teamAchievementImpact?: string
+  cultureDemonstration?: string
 }
 
 export interface CreateIdeaInput {

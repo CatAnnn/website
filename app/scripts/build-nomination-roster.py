@@ -20,6 +20,9 @@ HOD_NAME_ALIASES = {"GAO Xiaohan": "Gao-Urhahn Xiaohan"}
 # Missing workbook emails explicitly supplied by the user on 2026-10-28.
 HOD_EMAIL_OVERRIDES = {"Appukuttan Pillai Vinod": "vio2kor@bosch.com"}
 EMPLOYEE_EMAIL_OVERRIDES = {"Ms. 陈培艺/CHEN Peiyi": "cpy8sgh@bosch.com"}
+# Explicit self-review test identity confirmed by the user on 2026-10-28.
+# Missing display fields are read from the signed-in profile, not inferred here.
+SELF_REVIEW_TEST_EMAIL = "fixed-term.yaolong.zhang@cn.bosch.com"
 
 
 def identity_name(value):
@@ -86,6 +89,13 @@ def build_roster(rows):
             "hodEmail": (matches[0]["H"].lower() if len(matches) == 1 and matches[0].get("H")
                          else HOD_EMAIL_OVERRIDES.get(head)),
         })
+    if any(row["email"] == SELF_REVIEW_TEST_EMAIL for row in result):
+        raise ValueError("Self-review test identity now exists in workbook; reconcile its assignment explicitly")
+    result.append({
+        "email": SELF_REVIEW_TEST_EMAIL, "nt": "", "name": "", "orgUnit": "",
+        "nominatingHead": SELF_REVIEW_TEST_EMAIL, "allowSelfApproval": True,
+        "hodNt": None, "hodEmail": SELF_REVIEW_TEST_EMAIL,
+    })
     return result
 
 

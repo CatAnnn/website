@@ -53,12 +53,39 @@ class TeamControllerTest {
 	@MockBean
 	JwtProvider jwtProvider;
 
+	@MockBean(name = "teamSecurity")
+	wtf.hackhub.infrastructure.security.TeamSecurityService teamSecurity;
+
 	static final UUID USER_ID = UUID.randomUUID();
 	static final UUID HACKATHON_ID = UUID.randomUUID();
 	static final UUID TEAM_ID = UUID.randomUUID();
 
 	private Team sampleTeam() {
 		return new Team("Alpha", "desc", HACKATHON_ID, USER_ID);
+	}
+
+	@Test
+	void only_team_captain_can_remove_another_member() throws Exception {
+		UUID member = UUID.randomUUID(), outsider = UUID.randomUUID();
+		String path = "/api/v1/teams/" + TEAM_ID + "/members/" + member;
+		mvc.perform(delete(path).with(MockAuthHelper.asParticipant(member))).andExpect(status().isForbidden());
+		mvc.perform(delete(path).with(MockAuthHelper.asParticipant(outsider))).andExpect(status().isForbidden());
+		org.mockito.Mockito.verifyNoInteractions(leaveTeamUseCase);
+		when(teamSecurity.isLeaderOrAdmin(eq(TEAM_ID), org.mockito.ArgumentMatchers.argThat(
+				auth -> USER_ID.equals(auth.getPrincipal())))).thenReturn(true);
+		mvc.perform(delete(path).with(MockAuthHelper.asParticipant(USER_ID))).andExpect(status().isNoContent());
+		org.mockito.Mockito.verify(leaveTeamUseCase).execute(TEAM_ID, member);
+	}
+
+	@Test
+	void current_memberships_are_scoped_to_authenticated_user() throws Exception {
+		when(getTeamsUseCase.getUserTeams(USER_ID))
+				.thenReturn(List.of(new TeamMember(TEAM_ID, USER_ID, TeamMember.Role.LEADER)));
+		mvc.perform(get("/api/v1/me/teams").with(MockAuthHelper.asParticipant(USER_ID)))
+				.andExpect(status().isOk()).andExpect(jsonPath("$[0].teamId").value(TEAM_ID.toString()))
+				.andExpect(jsonPath("$[0].userId").value(USER_ID.toString()))
+				.andExpect(jsonPath("$[0].role").value("leader"));
+		mvc.perform(get("/api/v1/me/teams")).andExpect(status().isUnauthorized());
 	}
 
 	@Test

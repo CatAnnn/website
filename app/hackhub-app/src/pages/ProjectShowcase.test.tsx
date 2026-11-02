@@ -97,6 +97,7 @@ vi.mock('../services/ideaService', () => ({
 
 vi.mock('../services/teamService', () => ({
   TeamService: {
+    getMyTeams: vi.fn().mockResolvedValue([]),
     getTeams: vi.fn().mockResolvedValue([{ id: 'team-1', name: 'Admin Team', hackathonId: 'hackathon-1' }]),
     getTeamMembers: vi.fn().mockResolvedValue([]),
     createTeam,
@@ -121,8 +122,19 @@ vi.mock('../services/judgingService', () => ({
 }))
 
 describe('ProjectShowcase', () => {
-  beforeEach(() => { localStorage.clear(); vi.clearAllMocks() })
+  beforeEach(() => { localStorage.clear(); sessionStorage.clear(); vi.clearAllMocks() })
   afterEach(() => { currentUser.role = 'participant' })
+  it('carries Team query selection into the matching criteria and team creation flow', async () => {
+    render(<MantineProvider><MemoryRouter initialEntries={['/nominate?type=team']}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    expect(screen.getByRole('button', { name: 'Team', exact: true })).toHaveAttribute('aria-pressed', 'true')
+    fireEvent.click(screen.getByRole('radio', { name: /Collaboration to Win/ }))
+    expect(document.getElementById('nomination-track-description')).toHaveTextContent('Cross-Functional Synergy (30%)')
+    await screen.findByRole('button', { name: 'Create team' })
+    expect(screen.queryByRole('textbox', { name: /Executive Summary/ })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Individual', exact: true }))
+    await screen.findByRole('textbox', { name: /Executive Summary/ })
+    expect(document.getElementById('nomination-track-description')).toHaveTextContent('Breaking Down Silos (30%)')
+  })
   it('shows a white empty-window message only after a successful empty response', async () => {
     getHackathons.mockResolvedValueOnce({ content: [] })
     render(<MantineProvider><MemoryRouter><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
@@ -281,12 +293,12 @@ describe('ProjectShowcase', () => {
     expect(valueTrack).toHaveAttribute('aria-checked', 'true')
     expect(await screen.findByRole('textbox', { name: /Award Category/ })).toHaveValue('Customer Values')
     expect(screen.queryByRole('textbox', { name: /Contribution title/ })).not.toBeInTheDocument()
-    expect(document.getElementById('nomination-track-description')).toHaveTextContent('Deliver end-to-end solutions and create tangible values for customers/users.')
+    expect(document.getElementById('nomination-track-description')).toHaveTextContent('Customer Impact (40%)')
     await user.type(screen.getByRole('textbox', { name: /Executive Summary/ }), 'Keep this contribution when switching categories.')
     await user.click(screen.getByRole('textbox', { name: 'Award Category' }))
     await user.click(await screen.findByRole('option', { name: 'Collaboration to Win' }))
     expect(screen.getByRole('radio', { name: /Collaboration to Win/ })).toHaveAttribute('aria-checked', 'true')
-    expect(document.getElementById('nomination-track-description')).toHaveTextContent('Took ownership of shared goals, proactively support upstream and downstream tasks while completing their own work.')
+    expect(document.getElementById('nomination-track-description')).toHaveTextContent('Shared-Goal Ownership (35%)')
     expect(screen.getByRole('textbox', { name: /Executive Summary/ })).toHaveValue('Keep this contribution when switching categories.')
   })
 
@@ -483,7 +495,8 @@ describe('ProjectShowcase', () => {
     expect(screen.getByRole('textbox', { name: /Tags you want to add/ })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /Award Category/ })).toHaveValue('Innovation Breakthrough')
     expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeEnabled()
-    expect(screen.queryByText('Team')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Team', exact: true })).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.queryByRole('textbox', { name: 'Team name' })).not.toBeInTheDocument()
     expect(screen.queryByText('Customer Portal Renewal')).not.toBeInTheDocument()
     expect(screen.queryByRole('textbox', { name: 'Award event' })).not.toBeInTheDocument()
     expect(screen.queryByRole('textbox', { name: /Position/ })).not.toBeInTheDocument()

@@ -51,6 +51,12 @@ describe('TeamService', () => {
     vi.clearAllMocks()
   })
 
+  it('loads only the signed-in account’s memberships in one request', async () => {
+    mockApi.get.mockResolvedValueOnce([BASE_MEMBER])
+    expect(await TeamService.getMyTeams()).toEqual([BASE_MEMBER])
+    expect(mockApi.get).toHaveBeenCalledExactlyOnceWith('/api/v1/me/teams')
+  })
+
   describe('getTeams', () => {
     it('calls correct endpoint with hackathonId', async () => {
       mockApi.get.mockResolvedValueOnce([BASE_TEAM])

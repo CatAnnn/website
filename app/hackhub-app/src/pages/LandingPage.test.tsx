@@ -23,7 +23,7 @@ describe('LandingPage', () => {
   it('opens all three sections without a login gate and embeds overview below the hero', () => {
     renderPage()
     expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/#overview')
-    expect(screen.getByRole('link', { name: 'Nomination' })).toHaveAttribute('href', '/nominate')
+    expect(screen.getByRole('link', { name: 'Nomination' })).toHaveAttribute('href', '/nominate?type=individual')
     expect(screen.getByRole('link', { name: 'Browse & Vote' })).toHaveAttribute('href', '/projects')
     expect(screen.getByRole('link', { name: /Get Started/ })).toHaveAttribute('href', '/#overview')
     fireEvent.click(screen.getByRole('link', { name: /Get Started/ }))

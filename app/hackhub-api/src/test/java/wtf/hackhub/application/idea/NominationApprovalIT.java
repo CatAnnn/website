@@ -59,6 +59,118 @@ class NominationApprovalIT extends PostgresIntegrationTest {
 	NominationApprovalService.Selection selection(Idea idea) {
 		return new NominationApprovalService.Selection(idea.getId(), idea.getApprovalVersion());
 	}
+	UUID team(UUID creator) {
+		UUID id = jdbc.queryForObject("INSERT INTO teams(name,description,hackathon_id,created_by) VALUES (?,?,?,?) RETURNING id",
+				UUID.class, "Team " + UUID.randomUUID(), "Test-only team", campaign, creator);
+		jdbc.update("INSERT INTO team_members(team_id,user_id,role) VALUES (?,?,'leader')", id, creator);
+		return id;
+	}
+	String teamMetadata(UUID captain) {
+		var items = new ObjectMapper().createArrayNode();
+		items.addObject().put("type", "nomination").put("nominationType", "team")
+				.put("nomineeUserId", captain.toString()).put("name", "Forged name")
+				.put("nominatorName", "Forged nominator").put("employeeEmail", "forged@example.invalid")
+				.put("nomineeOrgCode", "Forged department").put("nominatingHead", "Forged HoD")
+				.put("projectName", "Test-only team project").put("coreTeamMembers", "Member One;Member Two")
+				.put("achievementSummary", "Test-only measured outcome")
+				.put("teamAchievementImpact", "Test-only financial impact")
+				.put("cultureDemonstration", "Test-only collaboration evidence");
+		items.addObject().put("type", "screenshot").put("storageKey", "nominations/" + campaign + "/" + captain + "/team.png");
+		items.addObject().put("type", "document").put("storageKey", "nominations/" + campaign + "/" + captain + "/evidence.pdf");
+		return items.toString();
+	}
+	Idea submitTeam(UUID teamId, UUID captain, String metadata) {
+		return submit.executeNomination("Forged title", "Forged description", campaign, teamId, captain,
+				"Customer Values", List.of(), Idea.Status.COMPLETED, null, null, metadata);
+	}
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = {"participant", "manager", "admin"})
+	void team_captain_of_every_role_requires_hod_and_retains_actual_evidence(String role) throws Exception {
+		jdbc.update("UPDATE profiles SET role=? WHERE id=?", role, employee);
+		UUID teamId = team(employee);
+		Idea idea = submitTeam(teamId, employee, teamMetadata(employee));
+		assertThat(idea.getApprovalStatus()).isEqualTo("pending");
+		assertThat(idea.getStatus()).isEqualTo(Idea.Status.SUBMITTED);
+		assertThat(idea.getTitle()).isEqualTo("Test-only team project");
+		assertThat(idea.getDescription()).contains("Test-only measured outcome", "Test-only financial impact", "Test-only collaboration evidence")
+				.doesNotContain("Forged");
+		var metadata = new ObjectMapper().readTree(idea.getProjectAttachments()).get(0);
+		assertThat(metadata.path("name").asText()).isEqualTo("Test-only team project");
+		assertThat(metadata.path("nominatorName").asText()).isEqualTo(roster.name());
+		assertThat(metadata.path("employeeEmail").asText()).isEqualTo(roster.email());
+		assertThat(metadata.path("nomineeUserId").asText()).isEqualTo(employee.toString());
+		assertThat(idea.getProjectAttachments()).doesNotContain("Forged");
+		assertThat(approvals.assigned(hod)).extracting(Idea::getId).containsExactly(idea.getId());
+		assertThat(getIdeas.listByHackathon(campaign, PageRequest.of(0, 10))).isEmpty();
+		Idea rejected = approvals.decide(hod, List.of(selection(idea)), "rejected", "Add financial evidence").getFirst();
+		String revised = teamMetadata(employee).replace("Test-only financial impact", "Updated financial evidence");
+		Idea updated = submit.update(idea.getId(), employee, "Forged", "Forged", "Customer Values", List.of(),
+				Idea.Status.COMPLETED, null, null, revised, rejected.getApprovalVersion());
+		assertThat(updated.getTeamId()).isEqualTo(teamId);
+		assertThat(updated.getDescription()).contains("Updated financial evidence");
+		assertThat(updated.getApprovalStatus()).isEqualTo("pending");
+		approvals.decide(hod, List.of(selection(updated)), "approved", "");
+		assertThat(getIdeas.listByHackathon(campaign, PageRequest.of(0, 10))).hasSize(1);
+	}
+	@Test
+	void team_members_noncreator_leaders_and_admins_cannot_submit_or_edit_captain_content() {
+		UUID teamId = team(employee);
+		jdbc.update("INSERT INTO team_members(team_id,user_id,role) VALUES (?,?,'member')", teamId, outsider);
+		assertThatThrownBy(() -> submitTeam(teamId, outsider, teamMetadata(outsider)))
+				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
+		jdbc.update("UPDATE team_members SET role='leader' WHERE team_id=? AND user_id=?", teamId, outsider);
+		jdbc.update("UPDATE profiles SET role='admin' WHERE id=?", outsider);
+		assertThatThrownBy(() -> submitTeam(teamId, outsider, teamMetadata(outsider)))
+				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
+		Idea own = submitTeam(teamId, employee, teamMetadata(employee));
+		assertThatThrownBy(() -> submit.update(own.getId(), outsider, "Forged", "Forged", "Customer Values", List.of(), null,
+				null, null, teamMetadata(outsider), own.getApprovalVersion()))
+				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
+		jdbc.update("UPDATE team_members SET role='member' WHERE team_id=? AND user_id=?", teamId, employee);
+		assertThatThrownBy(() -> submitTeam(teamId, employee, teamMetadata(employee)))
+				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
+		assertThatThrownBy(() -> submit.update(own.getId(), employee, "Forged", "Forged", "Customer Values", List.of(), null,
+				null, null, teamMetadata(employee), own.getApprovalVersion()))
+				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
+	}
+	@Test
+	void team_validation_rejects_missing_fields_overlong_summary_foreign_uploads_and_type_changes() throws Exception {
+		UUID teamId = team(employee);
+		String valid = teamMetadata(employee);
+		for (String field : List.of("projectName", "coreTeamMembers", "achievementSummary", "teamAchievementImpact", "cultureDemonstration")) {
+			var items = new ObjectMapper().readTree(valid);
+			((com.fasterxml.jackson.databind.node.ObjectNode) items.get(0)).remove(field);
+			assertThatThrownBy(() -> submitTeam(teamId, employee, items.toString()))
+					.isInstanceOf(IllegalArgumentException.class).hasMessageContaining(field);
+		}
+		assertThatThrownBy(() -> submitTeam(teamId, employee, valid.replace("Test-only measured outcome", "word ".repeat(201))))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("200 words");
+		assertThatThrownBy(() -> submitTeam(teamId, employee, valid.replace("Member One;Member Two", "Member One;;Member Two")))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("semicolons");
+		assertThatThrownBy(() -> submitTeam(teamId, employee, valid.replace("screenshot", "document")))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Team Photo");
+		assertThatThrownBy(() -> submitTeam(teamId, employee, valid.replace("/" + employee + "/", "/" + outsider + "/")))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("own nomination attachments");
+		assertThatThrownBy(() -> submitTeam(teamId, employee, valid.replace("team.png", "../team.png")))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("storage");
+		assertThatThrownBy(() -> submitTeam(null, employee, valid))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("original team");
+		Idea own = submitTeam(teamId, employee, valid);
+		assertThatThrownBy(() -> submit.update(own.getId(), employee, "Forged", "Forged", "Customer Values", List.of(), null,
+				null, null, valid.replace("\"nominationType\":\"team\"", "\"nominationType\":\"individual\""), own.getApprovalVersion()))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Team nomination details");
+		assertThat(ideas.count()).isEqualTo(1);
+	}
+	@Test
+	void team_captain_requires_verified_sso_even_when_admin() {
+		UUID teamId = team(employee);
+		jdbc.update("UPDATE profiles SET role='admin' WHERE id=?", employee);
+		jdbc.update("UPDATE sso_identities SET verified_email=NULL WHERE profile_id=?", employee);
+		assertThatThrownBy(() -> submitTeam(teamId, employee, teamMetadata(employee)))
+				.isInstanceOf(IllegalArgumentException.class);
+		assertThat(ideas.count()).isZero();
+	}
+
 	@Test
 	void verified_employee_routes_to_hod_and_unpublished_content_is_private() {
 		Idea idea = nomination("Real case");
@@ -127,10 +239,12 @@ class NominationApprovalIT extends PostgresIntegrationTest {
 		try (var input = new ClassPathResource("nomination-roster.json").getInputStream()) {
 			rows = new ObjectMapper().readValue(input, new TypeReference<>() { });
 		}
-		assertThat(rows).hasSize(562).allSatisfy(row -> {
+		assertThat(rows).hasSize(563).allSatisfy(row -> {
 			assertThat(row.email()).isNotBlank();
 			assertThat(row.hodEmail()).isNotBlank();
 		});
+		assertThat(rows.stream().filter(NominationApprovalDirectory.Employee::allowSelfApproval))
+				.hasSize(2);
 		UUID confirmedUser = UUID.fromString(insertProfile("confirmed@example.invalid", "Employee", "participant"));
 		bind(confirmedUser, "cpy8sgh@bosch.com");
 		assertThat(approvals.eligibility(confirmedUser).canSubmit()).isTrue();
@@ -188,6 +302,50 @@ class NominationApprovalIT extends PostgresIntegrationTest {
 			assertThat(List.of(first.get(), second.get())).containsExactlyInAnyOrder(true, false);
 		}
 		assertThat(jdbc.queryForObject("SELECT count(*) FROM nomination_approval_events WHERE decision='approved'", Integer.class)).isEqualTo(1);
+	}
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = {"participant", "manager", "admin"})
+	void confirmed_test_hod_can_reject_resubmit_and_approve_own_submission(String role) {
+		String email = "fixed-term.Yaolong.ZHANG@cn.bosch.com";
+		UUID tester = UUID.fromString(insertProfile(email, "SSO test display name", role));
+		jdbc.update("UPDATE profiles SET org_code='TEST-DEPARTMENT' WHERE id=?", tester);
+		bind(tester, email);
+		assertThat(approvals.eligibility(tester).canSubmit()).isTrue();
+		assertThat(approvals.eligibility(tester).canReview()).isTrue();
+		assertThat(directory.allowsSelfApproval(tester)).isTrue();
+		Idea own = submit.executeNomination("Self review validation", "Test evidence, not an award claim", campaign,
+				null, tester, "Collaboration to Win", List.of("test"), Idea.Status.COMPLETED, null, null,
+				"[{\"type\":\"nomination\",\"nomineeUserId\":\"" + tester
+				+ "\",\"name\":\"Forged name\",\"nomineeOrgCode\":\"Forged department\"}]");
+		assertThat(own.getApprovalStatus()).isEqualTo("pending");
+		assertThat(own.getProjectAttachments()).contains("SSO test display name", "TEST-DEPARTMENT")
+				.doesNotContain("Forged");
+		assertThat(approvals.assigned(tester)).extracting(Idea::getId).containsExactly(own.getId());
+		assertThat(approvals.assigned(hod)).extracting(Idea::getId).doesNotContain(own.getId());
+		assertThat(getIdeas.listByHackathon(campaign, PageRequest.of(0, 10))).isEmpty();
+		assertThatThrownBy(() -> approvals.decide(outsider, List.of(selection(own)), "approved", ""))
+				.isInstanceOf(ResponseStatusException.class);
+		Idea rejected = approvals.decide(tester, List.of(selection(own)), "rejected", "Please revise test evidence").getFirst();
+		assertThat(approvals.mine(tester).getFirst().getApprovalReason()).isEqualTo("Please revise test evidence");
+		Idea revised = submit.update(rejected.getId(), tester, own.getTitle(), "Revised test evidence", own.getCategory(),
+				own.getTags(), null, null, null, own.getProjectAttachments(), rejected.getApprovalVersion());
+		assertThat(revised.getApprovalStatus()).isEqualTo("pending");
+		assertThat(approvals.assigned(tester).getFirst().getDescription()).isEqualTo("Revised test evidence");
+		Idea approved = approvals.decide(tester, List.of(selection(revised)), "approved", "Test reviewed").getFirst();
+		assertThat(approvals.mine(tester).getFirst().getApprovalStatus()).isEqualTo("approved");
+		assertThat(getIdeas.listByHackathon(campaign, PageRequest.of(0, 10))).hasSize(1);
+		assertThatThrownBy(() -> approvals.decide(tester, List.of(selection(approved)), "approved", ""))
+				.isInstanceOf(ResponseStatusException.class);
+	}
+	@Test
+	void test_hod_local_email_without_verified_sso_does_not_grant_self_review() {
+		UUID local = UUID.fromString(insertProfile("fixed-term.yaolong.zhang@cn.bosch.com", "Local test", "participant"));
+		assertThat(approvals.eligibility(local).canSubmit()).isFalse();
+		assertThat(approvals.eligibility(local).canReview()).isFalse();
+		assertThat(directory.allowsSelfApproval(local)).isFalse();
+		bind(local, "someone-else@cn.bosch.com");
+		assertThat(directory.allowsSelfApproval(local)).isFalse();
+		assertThatThrownBy(() -> approvals.assigned(local)).isInstanceOf(ResponseStatusException.class);
 	}
 	@Test
 	void self_approval_and_repeated_decisions_are_rejected() {

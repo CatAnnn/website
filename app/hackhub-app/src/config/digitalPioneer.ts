@@ -1,4 +1,7 @@
+export type NominationType = 'individual' | 'team'
+
 export interface DigitalPioneerStandard {
+  title?: string
   text: string
   emphasis: readonly string[]
 }
@@ -14,81 +17,85 @@ export interface DigitalPioneerTrack {
 
 export const DIGITAL_PIONEER_TRACKS: readonly DigitalPioneerTrack[] = [
   {
-    value: 'Customer Values',
-    label: 'Customer Values',
-    labelZh: '客户价值',
-    shorthand: 'VALUE',
-    description: 'Turn deep customer understanding into tangible, lasting value.',
+    value: "Customer Values",
+    label: "Customer Values",
+    labelZh: "客户价值",
+    shorthand: "VALUE",
+    description: "Turn deep customer understanding into tangible, lasting value.",
     standards: [
-      {
-        text: "Deliver end-to-end solutions and create tangible values for customers/users.",
-        emphasis: ["end-to-end solutions", "create tangible values"],
-      },
-      {
-        text: "Win customers/users by delivering differentiated, market-leading products and services, establishing long-term win-win partnerships to co-grow capabilities and business.",
-        emphasis: ["differentiated, market-leading products and services"],
-      },
-      {
-        text: "Listen actively to customers/users, think from their perspectives, and uncover hidden needs and pain points.",
-        emphasis: ["Listen actively", "think from their perspectives, and uncover hidden needs and pain points."],
-      },
-      {
-        text: "Continuously enhance customer experience and co-create value. Demonstrate service excellence, proactively resolving issues beyond expectations and transforming challenges into opportunities.",
-        emphasis: ["enhance customer experience", "transforming challenges into opportunities."],
-      },
+      { title: "Customer Impact (40%)", text: "Delivered measurable value to customers in 2026: adoption/usage growth, efficiency gains, cost reduction or revenue enablement. Results are quantified and verifiable.", emphasis: [] },
+      { title: "Deep Customer Insight (30%)", text: "Listened actively and thought from customer perspectives; went beyond stated requirements to uncover hidden needs and pain points; translated insights into product/service improvements.", emphasis: [] },
+      { title: "Growing Together with Customers (30%)", text: "Built trust and long-term partnership; grew customer capabilities (enablement, training, co-creation); turned a one-off delivery into sustained business collaboration.", emphasis: [] },
     ],
   },
   {
-    value: 'Innovation Breakthrough',
-    label: 'Innovation Breakthrough',
-    labelZh: '创新破局',
-    shorthand: 'SHIFT',
-    description: 'Challenge the status quo, test boldly, and prove innovation through impact.',
+    value: "Innovation Breakthrough",
+    label: "Innovation Breakthrough",
+    labelZh: "创新破局",
+    shorthand: "SHIFT",
+    description: "Challenge the status quo, test boldly, and prove innovation through impact.",
     standards: [
-      {
-        text: "The innovation delivered a clear breakthrough against the status quo, shows the courage to think out of box and willingness to take smart risks.",
-        emphasis: ["think out of box"],
-      },
-      {
-        text: "Take a broader view of innovation and embed it along the entire value chain.",
-        emphasis: [],
-      },
-      {
-        text: "Never settle for existing processes or solutions, proactively pioneer the adoption of cutting-edge technologies and cross-disciplinary methodologies to explore optimal paths.",
-        emphasis: ["explore optimal paths."],
-      },
-      {
-        text: "Foster a culture of \"rapid validation and continuous iteration\", demonstrating the true value of innovation through sustainable business impact.",
-        emphasis: ["rapid validation and continuous iteration", "sustainable business impact."],
-      },
+      { title: "Validated Business Value (40%)", text: "Rapid validation and fast iteration (e.g., PoC, pilot); value of the innovation is proven with measurable business results — not just a concept or demo.", emphasis: [] },
+      { title: "Innovation Mindset (30%)", text: "Challenged the status quo and proactively asked “Is there a further simplified way?”; Introduced new technologies, methods or cross-disciplinary approaches; the solution is a clear departure from existing processes/solutions.", emphasis: [] },
+      { title: "Courage & Ownership (30%)", text: "Voluntarily took on tough tasks and calculated risks; committed to stretch goals; stayed resilient when facing setbacks and honored commitments on quality, cost and delivery.", emphasis: [] },
     ],
   },
   {
-    value: 'Collaboration to Win',
-    label: 'Collaboration to Win',
-    labelZh: '协作共赢',
-    shorthand: 'UNITE',
-    description: 'Break boundaries, share ownership, and turn collective effort into shared success.',
+    value: "Collaboration to Win",
+    label: "Collaboration to Win",
+    labelZh: "协作共赢",
+    shorthand: "UNITE",
+    description: "Break boundaries, share ownership, and turn collective effort into shared success.",
     standards: [
-      {
-        text: "Live the \"Discuss – Decide – Do\" principle: when encountering bottlenecks, swiftly align key stakeholders to drive high-quality, decisive actions",
-        emphasis: ["Discuss – Decide – Do"],
-      },
-      {
-        text: "Proactively share information and resources across boundaries to eliminate silos and foster synergy, achieving the best solution.",
-        emphasis: ["across boundaries", "foster synergy"],
-      },
-      {
-        text: "Took ownership of shared goals, proactively support upstream and downstream tasks while completing their own work.",
-        emphasis: ["Took ownership of shared goals"],
-      },
-      {
-        text: "Promote and appreciate joint success, enabling the team to win as one and fostering trust across functions.",
-        emphasis: ["win as one"],
-      },
+      { title: "Breaking Down Silos (30%)", text: "When the project hit a bottleneck, immediately aligned relevant stakeholders and proactively shared information and resources across team boundaries to seek the best solution.", emphasis: [] },
+      { title: "Shared-Goal Ownership (35%)", text: "Took ownership of shared goals beyond own KPI; aligned stakeholders and made decisions quickly (living “Discuss – Decide – Do”) instead of waiting or escalating.", emphasis: [] },
+      { title: "Promoting Joint Success (35%)", text: "Proactively supported upstream and downstream tasks while completing own work; Promoted and appreciated joint success; measurably improved the climate of cooperation.", emphasis: [] },
     ],
   },
 ] as const
+
+export const DIGITAL_PIONEER_TEAM_TRACKS: readonly DigitalPioneerTrack[] = [
+  {
+    value: "Customer Values",
+    label: "Customer Values",
+    labelZh: "客户价值",
+    shorthand: "VALUE",
+    description: "Turn deep customer understanding into tangible, lasting value.",
+    standards: [
+      { title: "Customer Impact (40%)", text: "Team-level, quantified customer outcomes in 2026 (adoption/usage growth, efficiency gains, cost reduction or revenue enablement. ); impact beyond what individual contributions alone could achieve.", emphasis: [] },
+      { title: "Deep Customer Insight (30%)", text: "Team systematically captured user feedback and data; uncovered and prioritized hidden needs/pain points; insight demonstrably shaped the backlog or solution design.", emphasis: [] },
+      { title: "Customer Partnership & Growth (30%)", text: "Co-created with customers/users (joint workshops, pilots, shared roadmap); measurably grew customer capabilities and business; established a repeatable partnership model.", emphasis: [] },
+    ],
+  },
+  {
+    value: "Innovation Breakthrough",
+    label: "Innovation Breakthrough",
+    labelZh: "创新破局",
+    shorthand: "SHIFT",
+    description: "Challenge the status quo, test boldly, and prove innovation through impact.",
+    standards: [
+      { title: "Validated Business Value (40%)", text: "Innovation validated through rapid pilots and iterations; quantified business results (efficiency, cost, revenue, risk reduction...)", emphasis: [] },
+      { title: "Level of innovation (30%)", text: "The innovation delivered a clear breakthrough against the status quo: step-change in speed, cost, quality or capability; the team can articulate “before vs. after” convincingly.", emphasis: [] },
+      { title: "Courage & Ownership (30%)", text: "The team took on a genuinely tough challenge, iterated through failures, and still honored commitments on quality, cost and delivery.", emphasis: [] },
+    ],
+  },
+  {
+    value: "Collaboration to Win",
+    label: "Collaboration to Win",
+    labelZh: "协作共赢",
+    shorthand: "UNITE",
+    description: "Break boundaries, share ownership, and turn collective effort into shared success.",
+    standards: [
+      { title: "Cross-Functional Synergy (30%)", text: "The team demonstrated Discuss–Decide–Do at scale: resolved bottlenecks through fast stakeholder alignment; broke down silos with other departments.", emphasis: [] },
+      { title: "Shared Goals & Decision Speed (35%)", text: "The team operated on shared goals with clear, fast decision-making; minimal ping-pong or blame-shifting at interfaces; commitments were reliably met.", emphasis: [] },
+      { title: "Win-as-a-Team Culture (35%)", text: "Systematic support to upstream/downstream partners and peer teams.\nVisible promotion and appreciation of joint success; joint wins are celebrated.", emphasis: [] },
+    ],
+  },
+] as const
+
+export function getDigitalPioneerTracks(type: NominationType): readonly DigitalPioneerTrack[] {
+  return type === 'team' ? DIGITAL_PIONEER_TEAM_TRACKS : DIGITAL_PIONEER_TRACKS
+}
 
 export const DIGITAL_PIONEER_TIMELINE = [
   { phase: 'Self-nomination', detail: 'Submit your individual nomination', period: 'Nov.16-28' },

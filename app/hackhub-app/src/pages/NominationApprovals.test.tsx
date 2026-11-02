@@ -39,8 +39,8 @@ describe('Nominating HoD approval inbox', () => {
     show()
     await user.click(await screen.findByRole('checkbox', { name: /Select all pending/ }))
     expect(screen.getByRole('checkbox', { name: 'Select Employee done' })).toBeDisabled()
-    await user.click(screen.getByRole('button', { name: /Approve \/ 同意/ }))
-    await user.click(screen.getByRole('button', { name: /Confirm \/ 确认/ }))
+    await user.click(screen.getByRole('button', { name: /^Approve/ }))
+    await user.click(screen.getByRole('button', { name: /^Confirm$/ }))
     await waitFor(() => expect(mocks.review).toHaveBeenCalledWith([{ id: 'one', version: 3 }, { id: 'two', version: 3 }], 'approved', ''))
   })
 
@@ -62,7 +62,7 @@ describe('Nominating HoD approval inbox', () => {
     const user = userEvent.setup()
     show()
     await user.click(await screen.findByRole('checkbox', { name: 'Select Employee one' }))
-    await user.click(screen.getByRole('button', { name: /Approve \/ 同意/ }))
+    await user.click(screen.getByRole('button', { name: /^Approve/ }))
     await user.click(screen.getByRole('button', { name: /Confirm/ }))
     expect((await screen.findAllByText('Nomination changed. Refresh before reviewing.')).length).toBeGreaterThan(0)
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
@@ -74,7 +74,7 @@ describe('Nominating HoD approval inbox', () => {
     expect((await screen.findAllByText('Please explain the measured impact.'))[0]).toBeVisible()
     expect(screen.getByRole('link', { name: /Edit and resubmit/ })).toHaveAttribute('href', '/nominate?edit=one')
     expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Approve \/ 同意/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Approve/ })).not.toBeInTheDocument()
   })
 
   it('does not request the review inbox for an unassigned account', () => {

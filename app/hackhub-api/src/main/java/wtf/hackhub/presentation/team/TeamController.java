@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wtf.hackhub.application.team.CreateTeamUseCase;
@@ -43,6 +44,12 @@ public class TeamController {
 		this.deleteTeamUseCase = deleteTeamUseCase;
 		this.joinTeamUseCase = joinTeamUseCase;
 		this.leaveTeamUseCase = leaveTeamUseCase;
+	}
+
+	@Operation(summary = "List the signed-in user's team memberships")
+	@GetMapping("/api/v1/me/teams")
+	public List<MemberResponse> myTeams(@AuthenticationPrincipal UUID userId) {
+		return getTeamsUseCase.getUserTeams(userId).stream().map(MemberResponse::from).toList();
 	}
 
 	// ── Nested under hackathons ───────────────────────────────────────────────
@@ -136,6 +143,7 @@ public class TeamController {
 			@ApiResponse(responseCode = "401", description = "Not authenticated"),
 			@ApiResponse(responseCode = "404", description = "Team or member not found")})
 	@DeleteMapping("/api/v1/teams/{teamId}/members/{userId}")
+	@PreAuthorize("@teamSecurity.isLeaderOrAdmin(#teamId, authentication)")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void removeMember(@PathVariable UUID teamId, @PathVariable UUID userId) {
 		leaveTeamUseCase.execute(teamId, userId);

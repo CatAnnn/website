@@ -72,7 +72,7 @@ export function useTechBackground(
     const coarsePointer = window.matchMedia('(pointer: coarse)')
     const tau = Math.PI * 2
     const interactiveSelector =
-      "a, button, input, select, textarea, label, summary, [contenteditable], [role='button'], [role='link']"
+      "header, main, [role='dialog'], [role='menu'], a, button, input, select, textarea, label, summary, [contenteditable], [role='button'], [role='link']"
     let width = 1
     let height = 1
     let pixelRatio = 1
@@ -148,6 +148,11 @@ export function useTechBackground(
 
     function onMove(event: PointerEvent) {
       if (motionPreference.matches || event.pointerType === 'touch') return
+      // Foreground navigation, forms and dialogs do not need background redraws.
+      if (isInteractive(event.target)) {
+        if (animationFrame || pointerPresent || waves.length || sparks.length) stop()
+        return
+      }
       const next = localPointer(event)
       if (!pointerPresent) {
         pointer.x = next.x

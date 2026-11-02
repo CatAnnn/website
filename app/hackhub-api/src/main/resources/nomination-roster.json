@@ -5618,5 +5618,15 @@
     "allowSelfApproval": false,
     "hodNt": "ZHY2FE",
     "hodEmail": "yi.zhu@de.bosch.com"
+  },
+  {
+    "email": "fixed-term.yaolong.zhang@cn.bosch.com",
+    "nt": "",
+    "name": "",
+    "orgUnit": "",
+    "nominatingHead": "fixed-term.yaolong.zhang@cn.bosch.com",
+    "allowSelfApproval": true,
+    "hodNt": null,
+    "hodEmail": "fixed-term.yaolong.zhang@cn.bosch.com"
   }
 ]

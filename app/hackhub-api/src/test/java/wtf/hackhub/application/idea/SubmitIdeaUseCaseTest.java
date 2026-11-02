@@ -13,8 +13,6 @@ import wtf.hackhub.infrastructure.persistence.organization.OrganizationMemberRep
 import wtf.hackhub.infrastructure.persistence.team.TeamMemberRepository;
 import wtf.hackhub.infrastructure.persistence.team.TeamRepository;
 
-import wtf.hackhub.domain.Team;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -65,19 +63,15 @@ class SubmitIdeaUseCaseTest {
 
 	static final UUID USER_ID = UUID.randomUUID();
 	static final UUID HACKATHON_ID = UUID.randomUUID();
-	static final UUID TEAM_ID = UUID.randomUUID();
 
 	static Idea idea(UUID creator) {
-		return new Idea("title", "desc", HACKATHON_ID, TEAM_ID, creator, "AI");
+		return new Idea("title", "desc", HACKATHON_ID, null, creator, "AI");
 	}
 
 	private void stubValidSubmit() {
 		Hackathon hackathon = new Hackathon("H", "D", Instant.now(), Instant.now().plusSeconds(100), null, 4, 100,
 				UUID.randomUUID(), null);
-		Team team = new Team("Alpha", "desc", HACKATHON_ID, USER_ID);
 		when(hackathonRepository.findById(HACKATHON_ID)).thenReturn(Optional.of(hackathon));
-		when(teamRepository.findById(TEAM_ID)).thenReturn(Optional.of(team));
-		when(teamMemberRepository.existsByTeamIdAndUserId(TEAM_ID, USER_ID)).thenReturn(true);
 	}
 
 	@Test
@@ -86,7 +80,7 @@ class SubmitIdeaUseCaseTest {
 		Idea saved = idea(USER_ID);
 		when(ideaRepository.save(any())).thenReturn(saved);
 
-		Idea result = useCase.execute("title", "desc", HACKATHON_ID, TEAM_ID, USER_ID, "AI", List.of("ml"));
+		Idea result = useCase.execute("title", "desc", HACKATHON_ID, null, USER_ID, "AI", List.of("ml"));
 		assertThat(result.getTitle()).isEqualTo("title");
 	}
 
@@ -94,7 +88,7 @@ class SubmitIdeaUseCaseTest {
 	void normalizes_mixed_tag_separators_before_saving() {
 		stubValidSubmit();
 		when(ideaRepository.save(any())).thenAnswer(call -> call.getArgument(0));
-		Idea result = useCase.execute("title", "desc", HACKATHON_ID, TEAM_ID, USER_ID, "AI",
+		Idea result = useCase.execute("title", "desc", HACKATHON_ID, null, USER_ID, "AI",
 				List.of(" IoT、Digital Twin，AI,Impact、IoT、 ", "Cloud"));
 		assertThat(result.getTags()).containsExactly("IoT", "Digital Twin", "AI", "Impact", "Cloud");
 	}
@@ -103,7 +97,7 @@ class SubmitIdeaUseCaseTest {
 	void rejects_more_than_five_tags_on_create_and_update() {
 		stubValidSubmit();
 		List<String> tags = List.of("one、two，three,four、five、six");
-		assertThatThrownBy(() -> useCase.execute("title", "desc", HACKATHON_ID, TEAM_ID, USER_ID, "AI", tags))
+		assertThatThrownBy(() -> useCase.execute("title", "desc", HACKATHON_ID, null, USER_ID, "AI", tags))
 				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("5 tags");
 		Idea existing = idea(USER_ID);
 		when(ideaRepository.findById(any())).thenReturn(Optional.of(existing));
@@ -194,7 +188,7 @@ class SubmitIdeaUseCaseTest {
 		Idea saved = idea(USER_ID);
 		when(ideaRepository.save(any())).thenReturn(saved);
 
-		Idea result = useCase.execute("title", "desc", HACKATHON_ID, TEAM_ID, USER_ID, "AI", null);
+		Idea result = useCase.execute("title", "desc", HACKATHON_ID, null, USER_ID, "AI", null);
 		assertThat(result.getTitle()).isEqualTo("title");
 	}
 
@@ -203,13 +197,10 @@ class SubmitIdeaUseCaseTest {
 		UUID orgId = UUID.randomUUID();
 		Hackathon hackathon = new Hackathon("H", "D", Instant.now(), Instant.now().plusSeconds(100), null, 4, 100,
 				UUID.randomUUID(), orgId);
-		Team team = new Team("Alpha", "desc", HACKATHON_ID, USER_ID);
 		when(hackathonRepository.findById(HACKATHON_ID)).thenReturn(Optional.of(hackathon));
-		when(teamRepository.findById(TEAM_ID)).thenReturn(Optional.of(team));
-		when(teamMemberRepository.existsByTeamIdAndUserId(TEAM_ID, USER_ID)).thenReturn(true);
 		when(orgMemberRepository.existsByOrganizationIdAndUserId(orgId, USER_ID)).thenReturn(false);
 
-		assertThatThrownBy(() -> useCase.execute("t", "d", HACKATHON_ID, TEAM_ID, USER_ID, "AI", List.of()))
+		assertThatThrownBy(() -> useCase.execute("t", "d", HACKATHON_ID, null, USER_ID, "AI", List.of()))
 				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
 	}
 
@@ -242,7 +233,7 @@ class SubmitIdeaUseCaseTest {
 		when(profileRepository.existsById(USER_ID)).thenReturn(true);
 		when(ideaRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 		String metadata = "[{\"type\":\"nomination\",\"nomineeUserId\":\"" + USER_ID + "\"}]";
-		Idea saved = useCase.executeNomination("Nomination", "Evidence", HACKATHON_ID, TEAM_ID, USER_ID,
+		Idea saved = useCase.executeNomination("Nomination", "Evidence", HACKATHON_ID, null, USER_ID,
 				"Customer Values", List.of(), Idea.Status.SUBMITTED, "https://example.com/evidence", null, metadata);
 		assertThat(saved.getStatus()).isEqualTo(Idea.Status.SUBMITTED);
 		assertThat(saved.getProjectAttachments()).isEqualTo(metadata);
@@ -254,7 +245,7 @@ class SubmitIdeaUseCaseTest {
 	void invalid_nominee_does_not_leave_a_partially_created_case() {
 		stubValidSubmit();
 		String metadata = "[{\"type\":\"nomination\",\"nomineeUserId\":\"" + UUID.randomUUID() + "\"}]";
-		assertThatThrownBy(() -> useCase.executeNomination("Nomination", "Evidence", HACKATHON_ID, TEAM_ID, USER_ID,
+		assertThatThrownBy(() -> useCase.executeNomination("Nomination", "Evidence", HACKATHON_ID, null, USER_ID,
 				"Customer Values", List.of(), Idea.Status.SUBMITTED, null, null, metadata))
 				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Nominee profile not found");
 		org.mockito.Mockito.verify(ideaRepository, org.mockito.Mockito.never()).save(any());

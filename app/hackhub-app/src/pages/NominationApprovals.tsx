@@ -67,7 +67,7 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
     setError(null)
     try {
       await IdeaService.reviewNominations(decisionItems, decision, reason.trim())
-      setNotice(`${decisionItems.length} nomination(s): ${decision === 'approved' ? 'Approved / 审核通过' : 'Rejected — revise / 拒绝修改'}`)
+      setNotice(`${decisionItems.length} nomination(s): ${decision === 'approved' ? 'Approved' : 'Rejected — revise'}`)
       setSelected([])
       setDecision(null)
       setReason('')
@@ -81,8 +81,8 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
   }
 
   const actions = reviewMode && targets.length > 0 && <Group>
-    <Button color="green" onClick={() => { setReason(''); setDecisionItems(targets.map((idea) => ({ id: idea.id, version: idea.approvalVersion ?? 0 }))); setDecision('approved') }} disabled={busy}>Approve / 同意{!current && ` (${targets.length})`}</Button>
-    <Button color="red" onClick={() => { setReason(''); setDecisionItems(targets.map((idea) => ({ id: idea.id, version: idea.approvalVersion ?? 0 }))); setDecision('rejected') }} disabled={busy}>Reject for revision / 拒绝修改{!current && ` (${targets.length})`}</Button>
+    <Button color="green" onClick={() => { setReason(''); setDecisionItems(targets.map((idea) => ({ id: idea.id, version: idea.approvalVersion ?? 0 }))); setDecision('approved') }} disabled={busy}>Approve{!current && ` (${targets.length})`}</Button>
+    <Button color="red" onClick={() => { setReason(''); setDecisionItems(targets.map((idea) => ({ id: idea.id, version: idea.approvalVersion ?? 0 }))); setDecision('rejected') }} disabled={busy}>Reject for revision{!current && ` (${targets.length})`}</Button>
   </Group>
 
   if (reviewMode && eligibility.isPending) return <Container py="xl"><Loader aria-label="Loading approval access" /></Container>
@@ -98,7 +98,7 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
         : nominations.isPending ? <Loader aria-label="Loading nominations" />
           : current ? <Card bg="white" c="dark" p={0}>
             <Stack gap="xl">
-              <Button variant="subtle" w="fit-content" onClick={() => open()}>Go back</Button>
+              <Button variant="outline" radius="xl" w="fit-content" styles={{ root: { backgroundColor: 'transparent' } }} onClick={() => open()}>Go back</Button>
               <Group justify="space-between" align="start">
                 <div><Text fw={700}>Number</Text><Text>{current.id}</Text></div>
                 <Group align="start"><div><Text fw={700}>Created</Text><Text>{new Date(current.createdAt).toLocaleString()}</Text></div><div><Text fw={700}>Updated</Text><Text>{new Date(current.updatedAt).toLocaleString()}</Text></div><div><Text fw={700}>State</Text><Text>{nominationState(current)}</Text></div></Group>
@@ -108,12 +108,16 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
               <div><Text fw={700}>Requested for</Text><Text>{current.projectAttachments?.find((item) => item.type === 'nomination')?.name || current.title}</Text></div>
               <NominationProgress idea={current} />
               {actions}
-              {!reviewMode && current.approvalStatus === 'rejected' && <Button component={Link} to={`/nominate?edit=${encodeURIComponent(current.id)}`} w="fit-content">Edit and resubmit / 修改后重新提交</Button>}
+              {!reviewMode && current.approvalStatus === 'rejected' && <Button component={Link} to={`/nominate?edit=${encodeURIComponent(current.id)}`} w="fit-content">Edit and resubmit</Button>}
               <Tabs defaultValue="details">
                 <Tabs.List><Tabs.Tab value="details">Details</Tabs.Tab><Tabs.Tab value="activity">Activity</Tabs.Tab><Tabs.Tab value="attachments">Attachments</Tabs.Tab></Tabs.List>
                 <Tabs.Panel value="details" pt="lg"><Stack>
                   {current.projectAttachments?.filter((item) => item.type === 'nomination').map((item, index) => <Stack gap="xs" key={index}>
-                    <Text><strong>Name: </strong>{item.name}</Text>
+                    <Text><strong>{item.nominationType === 'team' ? 'Project Name: ' : 'Name: '}</strong>{item.name}</Text>
+                    {item.nominationType === 'team' && <>
+                      <Text><strong>NominatorName: </strong>{item.nominatorName}</Text>
+                      <Text style={{ whiteSpace: 'pre-wrap' }}><strong>Core Team Member: </strong>{item.coreTeamMembers}</Text>
+                    </>}
                     {item.employeeEmail && <Text><strong>Email: </strong>{item.employeeEmail}</Text>}
                     {item.nomineeOrgCode && <Text><strong>Department: </strong>{item.nomineeOrgCode}</Text>}
                     {item.nomineePosition && <Text><strong>Position: </strong>{item.nomineePosition}</Text>}
@@ -136,7 +140,7 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
             </Stack>
           </Card> : <>
             {params.get('id') && <Alert color="orange">This nomination is no longer available. The current list is shown below.</Alert>}
-            {reviewMode && <Group justify="space-between"><Checkbox label="Select all pending / 全选待审核" checked={pending.length > 0 && selectedPending.length === pending.length} indeterminate={selectedPending.length > 0 && selectedPending.length < pending.length} disabled={pending.length === 0 || busy} onChange={(event) => setSelected(event.currentTarget.checked ? pending.map((idea) => idea.id) : [])} />{actions}</Group>}
+            {reviewMode && <Group justify="space-between"><Checkbox label="Select all pending" checked={pending.length > 0 && selectedPending.length === pending.length} indeterminate={selectedPending.length > 0 && selectedPending.length < pending.length} disabled={pending.length === 0 || busy} onChange={(event) => setSelected(event.currentTarget.checked ? pending.map((idea) => idea.id) : [])} />{actions}</Group>}
             <Table.ScrollContainer minWidth={650}><Table verticalSpacing="md" highlightOnHover>
               <Table.Thead><Table.Tr>{reviewMode && <Table.Th>Select</Table.Th>}<Table.Th>Nomination</Table.Th><Table.Th>Created</Table.Th><Table.Th>State</Table.Th></Table.Tr></Table.Thead>
               <Table.Tbody>{ideas.map((idea) => <Table.Tr key={idea.id}>
@@ -149,10 +153,10 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
           </>}
     </Stack>
     </Card>
-    <Modal opened={decision !== null} onClose={() => { if (!busy) setDecision(null) }} title={decision === 'approved' ? 'Approve nominations / 审核通过' : 'Reject for revision / 拒绝修改'} centered closeOnClickOutside={!busy} closeOnEscape={!busy} withCloseButton={!busy}>
-      <Stack><Text>{decisionItems.length} nomination(s) selected.</Text><Textarea label={decision === 'rejected' ? 'Reason for revision / 修改原因' : 'Comment / 审核意见'} required={decision === 'rejected'} value={reason} onChange={(event) => setReason(event.currentTarget.value)} maxLength={2000} disabled={busy} />
+    <Modal opened={decision !== null} onClose={() => { if (!busy) setDecision(null) }} title={decision === 'approved' ? 'Approve nominations' : 'Reject for revision'} centered closeOnClickOutside={!busy} closeOnEscape={!busy} withCloseButton={!busy}>
+      <Stack><Text>{decisionItems.length} nomination(s) selected.</Text><Textarea label={decision === 'rejected' ? 'Reason for revision' : 'Comment'} required={decision === 'rejected'} value={reason} onChange={(event) => setReason(event.currentTarget.value)} maxLength={2000} disabled={busy} />
         {error && <Alert color="red">{error}</Alert>}
-        <Button onClick={() => void submitDecision()} loading={busy} disabled={decisionItems.length === 0 || (decision === 'rejected' && !reason.trim())}>Confirm / 确认</Button>
+        <Button onClick={() => void submitDecision()} loading={busy} disabled={decisionItems.length === 0 || (decision === 'rejected' && !reason.trim())}>Confirm</Button>
       </Stack>
     </Modal>
   </Container>

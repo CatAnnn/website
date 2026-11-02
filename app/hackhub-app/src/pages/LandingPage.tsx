@@ -9,6 +9,7 @@ import { useAuthStore } from '../store/authStore'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAwardAccess } from '../hooks/useAwardAccess'
 import { useNominationEligibility } from '../hooks/useNominationEligibility'
+import { useNominationType } from '../hooks/useNominationType'
 import { Link, useLocation } from 'react-router-dom'
 import { AwardBrand } from '../components/Layout/AwardBrand'
 import { useTechBackground } from '../hooks/useTechBackground'
@@ -22,6 +23,7 @@ export function LandingPage({ children }: { children?: ReactNode }) {
   const { language, t } = useLanguage()
   const { canReview, canManage } = useAwardAccess()
   const nominationEligibility = useNominationEligibility()
+  const [nominationType] = useNominationType()
   const { pathname, hash } = useLocation()
   const showHero = pathname === '/' || pathname === '/overview'
   const [menuOpen, setMenuOpen] = useState(false)
@@ -30,7 +32,7 @@ export function LandingPage({ children }: { children?: ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const entryPoints = [
     { label: t('sidebar.overview'), to: '/#overview', active: showHero },
-    { label: t('sidebar.nomination'), to: '/nominate', active: pathname === '/nominate' },
+    { label: t('sidebar.nomination'), to: `/nominate?type=${nominationType}`, active: pathname === '/nominate' },
     { label: t('sidebar.projectOverview'), to: '/projects', active: pathname === '/projects' },
   ]
 
@@ -103,8 +105,8 @@ export function LandingPage({ children }: { children?: ReactNode }) {
               </UnstyledButton>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item component={Link} to="/my-nominations">My nominations / 我的提名</Menu.Item>
-              {nominationEligibility.data?.canReview && <Menu.Item component={Link} to="/nomination-approvals">HoD approvals / 提名审核</Menu.Item>}
+              <Menu.Item component={Link} to="/my-nominations">My nominations</Menu.Item>
+              {nominationEligibility.data?.canReview && <Menu.Item component={Link} to="/nomination-approvals">HoD approvals</Menu.Item>}
               {canReview && <Menu.Item component={Link} to="/awards">{canManage ? (language === 'zh' ? '评选管理' : 'Award management') : (language === 'zh' ? '组委会评分' : 'Committee scoring')}</Menu.Item>}
               {user.role === 'admin' && <Menu.Item component={Link} to="/admin/nominees">{language === 'zh' ? '提名管理' : 'Manage nominees'}</Menu.Item>}
               {canManage && <Menu.Item component={Link} to="/admin/users">{t('sidebar.manageUsers')}</Menu.Item>}

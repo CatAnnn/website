@@ -33,6 +33,10 @@ export interface CreateTeamInput {
 }
 
 export class TeamService {
+  static async getMyTeams(): Promise<TeamMember[]> {
+    return api.get('/api/v1/me/teams')
+  }
+
   static async getTeams(hackathonId: string): Promise<Team[]> {
     return api.get(`/api/v1/hackathons/${hackathonId}/teams`)
   }

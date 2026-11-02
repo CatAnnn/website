@@ -57,6 +57,8 @@ import { PublicAwardService, type AwardSummary } from '../services/publicAwardSe
 import { IdeaService, type Idea, type CreateIdeaInput } from '../services/ideaService'
 import { useNominationEligibility } from '../hooks/useNominationEligibility'
 import { NominationProgress } from '../components/DigitalPioneer/NominationProgress'
+import { TeamNominationForm } from '../components/DigitalPioneer/TeamNominationForm'
+import { useNominationType } from '../hooks/useNominationType'
 import { ProfileService } from '../services/profileService'
 import { StorageService, MAX_UPLOAD_BYTES, PHOTO_ACCEPT, validatePersonalPhoto } from '../services/storageService'
 import { TeamService } from '../services/teamService'
@@ -64,6 +66,7 @@ import { JudgingService } from '../services/judgingService'
 import {
   DIGITAL_PIONEER_TRACKS,
   DIGITAL_PIONEER_VOTING_RULES,
+  getDigitalPioneerTracks,
   normalizeDigitalPioneerTrack,
 } from '../config/digitalPioneer'
 import { AwardCriteriaList } from '../components/AwardCriteriaList'
@@ -333,6 +336,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const { user } = useAuthStore()
   const { language } = useLanguage()
   const [searchParams, setSearchParams] = useSearchParams()
+  const [preferredNominationType, setNominationType] = useNominationType()
   const [cart, setCart] = useState(() => readVotingCart(user?.id))
   const cartIds = useMemo(() => new Set(cart.userId === user?.id ? cart.ids : []), [cart, user?.id])
   const [submitting, setSubmitting] = useState(false)
@@ -808,7 +812,11 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     () => [...new Set(projects.map((project) => project.nominee_org_code.split('-')[0]).filter(Boolean))].sort(),
     [projects]
   )
-  const selectedNominationTrack = DIGITAL_PIONEER_TRACKS.find(
+  const nominationType = editingNomination
+    ? editingNomination.projectAttachments?.find((item) => item.type === 'nomination')?.nominationType ?? 'individual'
+    : preferredNominationType
+  const nominationTracks = getDigitalPioneerTracks(nominationType)
+  const selectedNominationTrack = nominationTracks.find(
     (track) => track.value === uploadForm.category
   )
 
@@ -899,10 +907,17 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             <div>
               <Title id="track-choice-title" order={2}>Choose an award category</Title>
             </div>
+            <Button.Group aria-label="Nomination type">
+              {(['individual', 'team'] as const).map((type) => <Button key={type} radius="xl"
+                variant={nominationType === type ? 'filled' : 'outline'} aria-pressed={nominationType === type}
+                disabled={Boolean(editId) || uploading} onClick={() => setNominationType(type)}>
+                {type === 'individual' ? 'Individual' : 'Team'}
+              </Button>)}
+            </Button.Group>
           </div>
 
           <div className="dp-nomination-tracks" role="radiogroup" aria-label="Nomination track">
-            {DIGITAL_PIONEER_TRACKS.map((track) => {
+            {nominationTracks.map((track) => {
               const isSelected = track.value === uploadForm.category
               return (
                 <UnstyledButton
@@ -952,6 +967,11 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             <Alert color="orange" icon={<IconInfoCircle size={18} />} mt="lg" styles={{ message: { color: 'white' } }}>
               No nomination window is currently open.
             </Alert>
+          ) : editId && !editingNomination ? null : nominationType === 'team' && user ? (
+            <TeamNominationForm key={`${user.id}:${uploadForm.hackathonId}:${editingNomination?.id ?? 'new'}`}
+              user={user} hackathonId={uploadForm.hackathonId} category={uploadForm.category}
+              onCategoryChange={(category) => setUploadForm((current) => ({ ...current, category }))}
+              canSubmit={canNominate} editing={editingNomination} onSubmitted={setSubmittedNomination} />
           ) : (
             <Card className="dp-form-shell" p={{ base: 'lg', md: 38 }}>
               <Stack gap={0} id="nomination-form">
@@ -1010,7 +1030,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                         <Select
                           label="Award Category"
                           renderOption={({ option }) => <span translate="no">{option.label}</span>}
-                          data={DIGITAL_PIONEER_TRACKS.map((track) => ({ value: track.value, label: track.label }))}
+                          data={nominationTracks.map((track) => ({ value: track.value, label: track.label }))}
                           value={uploadForm.category}
                           allowDeselect={false}
                           onChange={(value) => {
