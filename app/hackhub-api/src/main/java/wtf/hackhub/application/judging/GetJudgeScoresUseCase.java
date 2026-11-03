@@ -63,7 +63,7 @@ public class GetJudgeScoresUseCase {
 		Map<UUID, List<JudgeScore>> judgeScoresByIdea = allJudgeScores.stream()
 				.collect(Collectors.groupingBy(JudgeScore::getIdeaId));
 
-		List<VotingCriteria> criteria = criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId);
+		List<VotingCriteria> criteria = DigitalPioneerCriteria.current(criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId));
 		var communityByIdea = ideaScoreRepository.summarizeByHackathon(hackathonId).stream()
 				.collect(Collectors.toMap(IdeaScoreRepository.CommunitySummary::getIdeaId, summary -> summary));
 		var teamIds = ideas.stream().map(Idea::getTeamId).filter(java.util.Objects::nonNull).distinct().toList();
@@ -77,7 +77,7 @@ public class GetJudgeScoresUseCase {
 		for (Idea idea : ideas) {
 			List<JudgeScore> panelScores = judgeScoresByIdea.getOrDefault(idea.getId(), List.of());
 			int judgeCount = completedJudgeCount(panelScores, criteria);
-			BigDecimal panelScore = judgeCount == 0 ? null : weightedPanelScore(panelScores, criteria);
+			BigDecimal panelScore = judgeCount == 0 ? null : weightedPanelScore(panelScores, criteria, idea);
 
 			var community = communityByIdea.get(idea.getId());
 			int communityVoterCount = community == null ? 0 : community.getVoterCount();
@@ -124,11 +124,15 @@ public class GetJudgeScoresUseCase {
 	}
 
 	static BigDecimal weightedPanelScore(List<JudgeScore> scores, List<VotingCriteria> criteria) {
+		return weightedPanelScore(scores, criteria, null);
+	}
+
+	static BigDecimal weightedPanelScore(List<JudgeScore> scores, List<VotingCriteria> criteria, Idea idea) {
 		if (criteria.isEmpty()) {
 			return BigDecimal.valueOf(scores.stream().mapToInt(JudgeScore::getScore).average().orElse(0))
 					.setScale(2, RoundingMode.HALF_UP);
 		}
-		int weight = criteria.stream().mapToInt(VotingCriteria::getWeight).sum();
+		int weight = criteria.stream().mapToInt(c -> idea == null ? c.getWeight() : DigitalPioneerCriteria.weight(idea, c)).sum();
 		if (weight <= 0) return BigDecimal.ZERO;
 		var byJudge = scores.stream().collect(Collectors.groupingBy(JudgeScore::getJudgeId));
 		BigDecimal total = BigDecimal.ZERO;
@@ -137,7 +141,7 @@ public class GetJudgeScoresUseCase {
 			var byCriterion = judgeScores.stream().filter(s -> s.getCriterionId() != null)
 					.collect(Collectors.toMap(JudgeScore::getCriterionId, JudgeScore::getScore, (a, b) -> b));
 			if (!criteria.stream().allMatch(c -> byCriterion.containsKey(c.getId()))) continue;
-			BigDecimal weighted = criteria.stream().map(c -> BigDecimal.valueOf((long) byCriterion.get(c.getId()) * c.getWeight()))
+			BigDecimal weighted = criteria.stream().map(c -> BigDecimal.valueOf((long) byCriterion.get(c.getId()) * (idea == null ? c.getWeight() : DigitalPioneerCriteria.weight(idea, c))))
 					.reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(weight), 8, RoundingMode.HALF_UP);
 			total = total.add(weighted);
 			completed++;

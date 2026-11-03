@@ -25,6 +25,9 @@ import static org.mockito.Mockito.when;
 class HackathonSecurityServiceTest {
 
 	@Mock
+	private wtf.hackhub.application.idea.NominationApprovalDirectory approvalDirectory;
+
+	@Mock
 	HackathonRepository hackathonRepository;
 	@Mock
 	OrganizationMemberRepository memberRepository;

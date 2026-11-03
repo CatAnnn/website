@@ -123,3 +123,11 @@ export class StorageService {
     return StorageService.uploadFile(file, 'avatars', `avatars/${userId}`)
   }
 }
+
+export const MAX_NOMINATION_PDF_BYTES = 10 * 1024 * 1024
+export function validateNominationPdf(file: File | null): string | null {
+  if (!file) return null
+  if (!/\.pdf$/i.test(file.name) || (file.type && file.type !== 'application/pdf')) return 'Choose a PDF document.'
+  if (file.size === 0) return 'The selected PDF is empty.'
+  return file.size > MAX_NOMINATION_PDF_BYTES ? 'PDF must be 10 MB or smaller.' : null
+}

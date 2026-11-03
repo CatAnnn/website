@@ -153,8 +153,6 @@ class NominationApprovalIT extends PostgresIntegrationTest {
 				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("own nomination attachments");
 		assertThatThrownBy(() -> submitTeam(teamId, employee, valid.replace("team.png", "../team.png")))
 				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("storage");
-		assertThatThrownBy(() -> submitTeam(null, employee, valid))
-				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("original team");
 		Idea own = submitTeam(teamId, employee, valid);
 		assertThatThrownBy(() -> submit.update(own.getId(), employee, "Forged", "Forged", "Customer Values", List.of(), null,
 				null, null, valid.replace("\"nominationType\":\"team\"", "\"nominationType\":\"individual\""), own.getApprovalVersion()))
@@ -202,7 +200,7 @@ class NominationApprovalIT extends PostgresIntegrationTest {
 	}
 	@Test
 	void batch_is_atomic_and_rejection_resubmits_with_new_version() {
-		Idea first = nomination("First"), second = nomination("Second");
+		Idea first = nomination("First"), second = submitTeam(null, employee, teamMetadata(employee));
 		assertThatThrownBy(() -> approvals.decide(hod, List.of(selection(first), new NominationApprovalService.Selection(second.getId(), 999)), "approved", ""))
 				.isInstanceOf(ResponseStatusException.class);
 		assertThat(ideas.findById(first.getId()).orElseThrow().getApprovalStatus()).isEqualTo("pending");
@@ -223,6 +221,77 @@ class NominationApprovalIT extends PostgresIntegrationTest {
 		assertThatThrownBy(() -> submit.update(first.getId(), employee, "After approval", "Change", "Customer Values", List.of(), null, null, null, first.getProjectAttachments(), 4))
 				.isInstanceOf(ResponseStatusException.class);
 	}
+	@Test
+	void direct_team_submission_creates_captain_atomically_and_allows_one_of_each_type() {
+		Idea individual = nomination("Individual");
+		Idea team = submitTeam(null, employee, teamMetadata(employee));
+		assertThat(team.getTeamId()).isNotNull();
+		assertThat(jdbc.queryForObject("SELECT name FROM teams WHERE id=?", String.class, team.getTeamId()))
+				.isEqualTo("Test-only team project");
+		assertThat(jdbc.queryForObject("SELECT role FROM team_members WHERE team_id=? AND user_id=?", String.class,
+				team.getTeamId(), employee)).isEqualTo("leader");
+		assertThat(approvals.mine(employee)).extracting(Idea::getId).containsExactlyInAnyOrder(individual.getId(), team.getId());
+		assertThatThrownBy(() -> submit.executeNomination("Another track", "Evidence", campaign, null, employee,
+				"Innovation Breakthrough", List.of(), null, null, null, null))
+				.isInstanceOf(ResponseStatusException.class).hasMessageContaining("only one individual");
+		assertThatThrownBy(() -> submitTeam(null, employee, teamMetadata(employee)))
+				.isInstanceOf(ResponseStatusException.class).hasMessageContaining("only one team");
+		assertThat(jdbc.queryForObject("SELECT count(*) FROM teams", Integer.class)).isEqualTo(1);
+	}
+
+	@Test
+	void direct_team_submission_reuses_only_creator_current_leader_team() {
+		UUID original = team(employee);
+		Idea submitted = submitTeam(null, employee, teamMetadata(employee));
+		assertThat(submitted.getTeamId()).isEqualTo(original);
+		assertThat(jdbc.queryForObject("SELECT count(*) FROM teams", Integer.class)).isEqualTo(1);
+		jdbc.update("INSERT INTO team_members(team_id,user_id,role) VALUES (?,?,'member')", original, outsider);
+		// Use a verified roster identity for the member, but it must not grant captain rights.
+		bind(outsider, "cpy8sgh@bosch.com");
+		assertThatThrownBy(() -> submitTeam(null, outsider, teamMetadata(outsider)))
+				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
+	}
+
+	@Test
+	void rejected_submission_keeps_original_type_and_track() {
+		Idea individual = nomination("Original");
+		Idea rejected = approvals.decide(hod, List.of(selection(individual)), "rejected", "Revise evidence").getFirst();
+		assertThatThrownBy(() -> submit.update(rejected.getId(), employee, "Edited", "Evidence", "Innovation Breakthrough",
+				List.of(), null, null, null, rejected.getProjectAttachments(), rejected.getApprovalVersion()))
+				.isInstanceOf(ResponseStatusException.class).hasMessageContaining("category cannot change");
+		assertThatThrownBy(() -> submit.update(rejected.getId(), employee, "Edited", "Evidence", "Customer Values",
+				List.of(), null, null, null, teamMetadata(employee), rejected.getApprovalVersion()))
+				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("original team");
+		assertThatThrownBy(() -> nomination("Duplicate rejected"))
+				.isInstanceOf(ResponseStatusException.class).hasMessageContaining("only one individual");
+	}
+
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(booleans = {false, true})
+	void simultaneous_submissions_create_only_one_nomination_and_no_orphan_team(boolean team) throws Exception {
+		var start = new java.util.concurrent.CountDownLatch(1);
+		try (var workers = java.util.concurrent.Executors.newFixedThreadPool(2)) {
+			java.util.concurrent.Callable<Boolean> attempt = () -> {
+				start.await();
+				try {
+					if (team) submitTeam(null, employee, teamMetadata(employee));
+					else nomination("Concurrent individual");
+					return true;
+				} catch (ResponseStatusException ex) {
+					assertThat(ex.getStatusCode().value()).isEqualTo(409);
+					return false;
+				}
+			};
+			var first = workers.submit(attempt);
+			var second = workers.submit(attempt);
+			start.countDown();
+			assertThat(List.of(first.get(), second.get())).containsExactlyInAnyOrder(true, false);
+		}
+		assertThat(ideas.count()).isEqualTo(1);
+		assertThat(jdbc.queryForObject("SELECT count(*) FROM teams", Integer.class)).isEqualTo(team ? 1 : 0);
+		assertThat(jdbc.queryForObject("SELECT count(*) FROM nomination_approval_events", Integer.class)).isEqualTo(1);
+	}
+
 	@Test
 	void names_and_local_profile_email_never_grant_approval_permissions() {
 		assertThat(approvals.eligibility(outsider).canReview()).isFalse();
@@ -363,4 +432,25 @@ class NominationApprovalIT extends PostgresIntegrationTest {
 		assertThat(legacy.getApprovalStatus()).isNull();
 		assertThat(getIdeas.listByHackathon(campaign, PageRequest.of(0, 10))).hasSize(1);
 	}
+ @Autowired wtf.hackhub.application.judging.SubmitJudgeScoreUseCase judgeScoring;
+ @Autowired wtf.hackhub.application.judging.GetJudgeScoresUseCase judgeTotals;
+ @Autowired wtf.hackhub.infrastructure.persistence.idea.VotingCriteriaRepository criteriaRepository;
+ @Test void verified_roster_hod_scores_without_assignment_using_track_weights() {
+  Idea idea=nomination("Scoring test"); approvals.decide(hod,List.of(selection(idea)),"approved",null);
+  var criteria=criteriaRepository.saveAll(wtf.hackhub.application.judging.DigitalPioneerCriteria.template(campaign));
+  var values=List.of(new wtf.hackhub.application.judging.SubmitJudgeScoreUseCase.CriterionScore(criteria.get(0).getId(),8),new wtf.hackhub.application.judging.SubmitJudgeScoreUseCase.CriterionScore(criteria.get(1).getId(),5),new wtf.hackhub.application.judging.SubmitJudgeScoreUseCase.CriterionScore(criteria.get(2).getId(),9));
+  assertThat(jdbc.queryForObject("SELECT count(*) FROM hackathon_judges WHERE user_id=?",Integer.class,hod)).isZero();
+  judgeScoring.submitEvaluation(campaign,idea.getId(),hod,values,"Evidence");
+  assertThat(judgeTotals.getSummary(campaign).getFirst().panelScore()).isEqualByComparingTo("7.40");
+  jdbc.update("UPDATE ideas SET category='Collaboration to Win' WHERE id=?",idea.getId());
+  assertThat(judgeTotals.getSummary(campaign).getFirst().panelScore()).isEqualByComparingTo("7.30");
+  assertThatThrownBy(()->judgeScoring.submitEvaluation(campaign,idea.getId(),outsider,values,"Forged"))
+    .isInstanceOf(wtf.hackhub.application.judging.SubmitJudgeScoreUseCase.NotAJudgeException.class);
+  assertThatThrownBy(()->judgeScoring.submitEvaluation(campaign,idea.getId(),hod,values.subList(0,2),"Partial"))
+    .isInstanceOf(IllegalArgumentException.class);
+  jdbc.update("DELETE FROM sso_identities WHERE profile_id=?",hod);
+  assertThatThrownBy(()->judgeScoring.submitEvaluation(campaign,idea.getId(),hod,values,"Unverified email"))
+    .isInstanceOf(wtf.hackhub.application.judging.SubmitJudgeScoreUseCase.NotAJudgeException.class);
+ }
+
 }

@@ -33,6 +33,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class JudgingUseCasesTest {
 
+	@Mock
+	private wtf.hackhub.application.idea.NominationApprovalDirectory approvalDirectory;
+
 	// ── RemoveJudgeUseCase ────────────────────────────────────────────────────
 
 	@Mock

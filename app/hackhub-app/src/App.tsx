@@ -84,13 +84,13 @@ function App() {
 
   // Website sections share the original layout after authentication.
   if (['/', '/overview', '/nominate', '/projects'].includes(location.pathname)) {
-    return <LandingPage>
+    return <RealtimeProvider><LandingPage>
       <Suspense fallback={<LoadingOverlay visible />}>
         {location.pathname === '/nominate' ? <ProjectShowcase nominationMode />
           : location.pathname === '/projects' ? <ProjectShowcase />
           : <DigitalPioneerOverview />}
       </Suspense>
-    </LandingPage>
+    </LandingPage></RealtimeProvider>
   }
 
   const isParticipant = !['admin', 'manager'].includes(user.role)

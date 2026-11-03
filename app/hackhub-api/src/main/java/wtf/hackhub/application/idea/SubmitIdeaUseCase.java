@@ -22,6 +22,8 @@ import java.util.UUID;
 @Service
 public class SubmitIdeaUseCase {
 	private final IdeaMutationLock mutationLock;
+	private final wtf.hackhub.infrastructure.storage.NominationPdfValidator pdfValidator;
+	private final wtf.hackhub.application.team.CreateTeamUseCase createTeam;
 	private final NomineeDirectory nomineeDirectory;
 	private final NominationApprovalDirectory approvalDirectory;
 	private final NominationApprovalService approvalService;
@@ -39,7 +41,11 @@ public class SubmitIdeaUseCase {
 			OrganizationMemberRepository orgMemberRepository, ProfileRepository profileRepository,
 			IdeaMutationLock mutationLock, JudgeScoreRepository judgeScoreRepository,
 			NomineeDirectory nomineeDirectory, NominationApprovalDirectory approvalDirectory,
-			NominationApprovalService approvalService) {
+			NominationApprovalService approvalService,
+			wtf.hackhub.infrastructure.storage.NominationPdfValidator pdfValidator,
+			wtf.hackhub.application.team.CreateTeamUseCase createTeam) {
+		this.pdfValidator = pdfValidator;
+		this.createTeam = createTeam;
 		this.approvalDirectory = approvalDirectory;
 		this.approvalService = approvalService;
 		this.nomineeDirectory = nomineeDirectory;
@@ -71,9 +77,16 @@ public class SubmitIdeaUseCase {
 
 		var requester = profileRepository.findById(createdBy)
 				.orElseThrow(() -> new IdeaAccessDeniedException(null, createdBy));
-		boolean teamSubmission = teamId != null;
-		if (teamSubmission) requireTeamCaptain(teamId, hackathonId, createdBy);
-		else rejectTeamMetadata(projectAttachments);
+		boolean teamSubmission = teamId != null || hasTeamMetadata(projectAttachments);
+		if (teamId != null) requireTeamCaptain(teamId, hackathonId, createdBy);
+		// The transaction lock spans the duplicate check, implicit team creation and idea insert.
+		mutationLock.acquire(UUID.nameUUIDFromBytes(("nomination:" + hackathonId + ":" + createdBy + ":"
+				+ teamSubmission).getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+		if (ideaRepository.findByCreatedByOrderByCreatedAtDesc(createdBy).stream()
+				.anyMatch(existing -> existing.getHackathonId().equals(hackathonId)
+						&& (existing.getTeamId() != null || hasTeamMetadata(existing.getProjectAttachments())) == teamSubmission))
+			throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.CONFLICT,
+					"You may submit only one " + (teamSubmission ? "team" : "individual") + " nomination per award. Edit your existing nomination.");
 		boolean employeeSubmission = teamSubmission || requester.getRole() == Profile.Role.PARTICIPANT
 				|| approvalDirectory.allowsSelfApproval(createdBy);
 		var employee = employeeSubmission ? approvalDirectory.requireEmployee(createdBy) : null;
@@ -94,7 +107,8 @@ public class SubmitIdeaUseCase {
 			title = metadata.path("projectName").asText();
 			description = teamDescription(metadata);
 			projectAttachments = teamDisplayMetadata(projectAttachments);
-		}
+			if (teamId == null) teamId = resolveTeam(hackathonId, createdBy, title);
+		} else validateIndividualDocuments(projectAttachments, hackathonId, createdBy);
 		Idea idea = new Idea(title, description, hackathonId, teamId, createdBy, category);
 		idea.update(title, description, category, tags == null ? List.of() : tags,
 				employeeSubmission ? Idea.Status.SUBMITTED : status == null ? Idea.Status.DRAFT : status, repositoryUrl, demoUrl, projectAttachments);
@@ -128,6 +142,9 @@ public class SubmitIdeaUseCase {
 		if (idea.getTeamId() != null)
 			requireTeamCaptain(idea.getTeamId(), idea.getHackathonId(), requestingUserId);
 		if (!teamSubmission) rejectTeamMetadata(projectAttachments);
+		if (!java.util.Objects.equals(idea.getCategory(), category))
+			throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.CONFLICT,
+					"The award category cannot change after a nomination has been created.");
 		boolean employeeSubmission = idea.getApprovalStatus() != null;
 		if (employeeSubmission && (approvalVersion == null || approvalVersion != idea.getApprovalVersion()
 				|| "approved".equals(idea.getApprovalStatus())))
@@ -144,7 +161,7 @@ public class SubmitIdeaUseCase {
 			title = metadata.path("projectName").asText();
 			description = teamDescription(metadata);
 			projectAttachments = teamDisplayMetadata(projectAttachments);
-		}
+		} else if (idea.getTeamId() == null) validateIndividualDocuments(projectAttachments, idea.getHackathonId(), requestingUserId);
 		if (idea.getVotes() > 0 || !judgeScoreRepository.findAllByIdeaId(ideaId).isEmpty()) {
 			Idea proposed = new Idea(title, description, idea.getHackathonId(), idea.getTeamId(), idea.getCreatedBy(),
 					category);
@@ -200,6 +217,27 @@ public class SubmitIdeaUseCase {
 			return items.toString();
 		} catch (JsonProcessingException ex) {
 			throw new IllegalArgumentException("Invalid nomination attachments");
+		}
+	}
+
+	private UUID resolveTeam(UUID campaignId, UUID userId, String projectName) {
+		for (var membership : teamMemberRepository.findAllByUserId(userId)) {
+			var team = teamRepository.findById(membership.getTeamId()).orElseThrow();
+			if (!team.getHackathonId().equals(campaignId)) continue;
+			requireTeamCaptain(team.getId(), campaignId, userId);
+			return team.getId();
+		}
+		return createTeam.execute(projectName, "", campaignId, userId).getId();
+	}
+
+	private void validateIndividualDocuments(String attachments, UUID campaignId, UUID ownerId) {
+		for (var item : attachmentItems(attachments)) {
+			if (!"document".equals(item.path("type").asText())) continue;
+			String key = item.path("storageKey").asText();
+			if (!key.startsWith("nominations/" + campaignId + "/" + ownerId + "/")
+					|| !key.matches("[A-Za-z0-9_/-]+\\.pdf") || key.contains("..") || key.contains("//"))
+				throw new IllegalArgumentException("Upload your own PDF attachment (up to 10 MB).");
+			pdfValidator.validate(key);
 		}
 	}
 

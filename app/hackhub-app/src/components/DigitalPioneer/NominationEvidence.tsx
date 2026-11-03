@@ -15,7 +15,12 @@ export function NominationEvidence({ attachment }: { attachment: ProjectAttachme
     const resolve = attachment.storageKey
       ? StorageService.getPresignedUrl('project-attachments', attachment.storageKey)
       : Promise.resolve(/^https?:\/\//i.test(attachment.url) || attachment.url.startsWith('/storage/') ? attachment.url : null)
-    void resolve.then((value) => { if (active) { setUrl(value); setError(!value) } })
+    void resolve.then((value) => {
+      if (!active) return
+      const parsed = value ? new URL(value, window.location.origin) : null
+      if (!parsed || !['http:', 'https:'].includes(parsed.protocol)) throw new Error('Invalid attachment URL')
+      setUrl(value)
+    })
       .catch(() => { if (active) setError(true) })
     // Refresh before the one-hour signature expires while a judging form stays open.
     const timer = window.setInterval(() => setRevision((value) => value + 1), 50 * 60 * 1000)
@@ -26,9 +31,13 @@ export function NominationEvidence({ attachment }: { attachment: ProjectAttachme
       <Button variant="subtle" onClick={() => setRevision((value) => value + 1)}>Retry</Button>
     </Stack></Alert>
   ) : (
-    <Button component="a" href={url ?? undefined} aria-disabled={!url} target="_blank" rel="noopener noreferrer"
+    <Stack><Button component="a" href={url ?? undefined} aria-disabled={!url} target="_blank" rel="noopener noreferrer"
       loading={!url} variant="light" rightSection={<IconExternalLink size={15} />}>
       {attachment.name || 'Review attachment'}
     </Button>
+      {url && /\.pdf$/i.test(attachment.storageKey ?? attachment.name ?? '') && <iframe
+        title={`PDF preview: ${attachment.name || 'Attachment'}`} src={url}
+        style={{ width: '100%', height: 560, border: '1px solid #adb5bd', borderRadius: 8 }} />}
+    </Stack>
   )
 }

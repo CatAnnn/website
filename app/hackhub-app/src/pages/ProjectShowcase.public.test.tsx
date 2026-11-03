@@ -1,3 +1,4 @@
+vi.mock('../hooks/useRealtime', () => ({useRealtime: () => ({isConnected:false, subscribeToHackathonUpdates:vi.fn()})}))
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { ReactElement } from 'react'
 import userEvent from '@testing-library/user-event'
@@ -27,7 +28,7 @@ vi.mock('../services/publicAwardService', () => ({ PublicAwardService: {
 } }))
 function LoginTarget() { return <p>Login destination: {useLocation().search}</p> }
 function page(nominationMode = false) {
-  return render(<MantineProvider env="test"><MemoryRouter initialEntries={['/projects']}><Routes>
+  return render(<MantineProvider env="test"><MemoryRouter initialEntries={['/projects?type=individual']}><Routes>
     <Route path="/projects" element={<ProjectShowcase nominationMode={nominationMode} />} />
     <Route path="/login" element={<LoginTarget />} />
   </Routes></MemoryRouter></MantineProvider>)
@@ -41,7 +42,7 @@ describe('Public award browsing', () => {
     expect(await screen.findByRole('heading', { name: 'Nominee' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Committee scoring' })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Reset my track votes' })).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Add to cart (2)' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Vote (2)' }))
     expect(await screen.findByText(/Login destination/)).toHaveTextContent('redirect=%2Fprojects%3Fnominee%3Dnominee-1')
   })
   it('shows the original nomination fields without asking guests to log in', async () => {

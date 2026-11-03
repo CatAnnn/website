@@ -39,7 +39,7 @@ export function DigitalPioneerOverview(): ReactElement {
                 <h1 id="digital-pioneer-title" className="dp-hero__title">
                   2026 BDCN Digital Pioneer
                 </h1>
-                <Text className="dp-hero__intro" mt="xl">The Digital Pioneer Award honors individuals who actively drive digital transformation and live BDCN High-Performance Culture— delivering customer values, pioneering innovation, and achieving shared success through collaboration.</Text>
+                <Text className="dp-hero__intro" mt="xl">The Digital Pioneer Award honors individuals and teams who actively drive digital transformation and live BDCN High-Performance Culture— delivering customer values, pioneering innovation, and achieving shared success through collaboration.</Text>
               </div>
             </Stack>
           </Grid.Col>
@@ -55,9 +55,9 @@ export function DigitalPioneerOverview(): ReactElement {
       <section className="dp-section dp-categories-section" aria-labelledby="award-categories-title">
         <Group justify="space-between" align="center" mb="xl" wrap="wrap">
           <h2 id="award-categories-title" className="dp-section-title dp-categories-title" style={{ marginBottom: 0 }}>{text.categoriesTitle}</h2>
-          <Group gap="xs" role="group" aria-label="Nomination type">
-            {(['individual', 'team'] as const).map((type) => <Button key={type} variant={nominationType === type ? 'light' : 'outline'} color="cyan" radius="xl" aria-pressed={nominationType === type} onClick={() => setNominationType(type)}>{type === 'individual' ? 'Individual' : 'Team'}</Button>)}
-          </Group>
+          <Button.Group style={{ marginLeft: 'auto' }} aria-label="Nomination type">
+            {(['individual', 'team'] as const).map((type) => <Button key={type} variant={nominationType === type ? 'filled' : 'outline'} radius="xl" aria-pressed={nominationType === type} onClick={() => setNominationType(type)}>{type === 'individual' ? 'Individual' : 'Team'}</Button>)}
+          </Button.Group>
         </Group>
 
         <div className="dp-track-grid">

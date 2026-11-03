@@ -18,14 +18,21 @@ import java.util.List;
 public class HackathonAccessController {
 	private final HackathonSecurityService security;
 	private final HackathonJudgeRepository judges;
+	private final wtf.hackhub.application.idea.NominationApprovalDirectory directory;
+	private final wtf.hackhub.infrastructure.persistence.hackathon.HackathonRepository campaigns;
 
-	public HackathonAccessController(HackathonSecurityService security, HackathonJudgeRepository judges) {
+	public HackathonAccessController(HackathonSecurityService security, HackathonJudgeRepository judges,
+			wtf.hackhub.application.idea.NominationApprovalDirectory directory,
+			wtf.hackhub.infrastructure.persistence.hackathon.HackathonRepository campaigns) {
+		this.directory = directory;
+		this.campaigns = campaigns;
 		this.security = security;
 		this.judges = judges;
 	}
 
 	@GetMapping("/api/v1/profiles/me/judge-assignments")
 	public List<UUID> getAssignments(@AuthenticationPrincipal UUID userId) {
+		if (directory.reviewerKey(userId).isPresent()) return campaigns.findAll().stream().map(h -> h.getId()).toList();
 		return judges.findAllByUserId(userId).stream().map(judge -> judge.getHackathonId()).toList();
 	}
 

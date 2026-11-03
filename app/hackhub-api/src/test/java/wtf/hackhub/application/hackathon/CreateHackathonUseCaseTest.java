@@ -69,7 +69,7 @@ class CreateHackathonUseCaseTest {
 		assertThat(result.getJudgingMode()).isEqualTo(Hackathon.JudgingMode.PANEL);
 		org.mockito.Mockito.verify(criteriaRepository).saveAll(org.mockito.ArgumentMatchers.argThat(criteria -> {
 			var list = (List<wtf.hackhub.domain.VotingCriteria>) criteria;
-			return list.size() == 2 && list.get(0).getWeight() == 70 && list.get(1).getWeight() == 30;
+			return list.size() == 3 && list.get(0).getWeight() == 40 && list.get(1).getWeight() == 30 && list.get(2).getWeight() == 30;
 		}));
 	}
 

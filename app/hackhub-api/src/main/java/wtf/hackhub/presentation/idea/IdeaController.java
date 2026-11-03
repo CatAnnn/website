@@ -26,6 +26,7 @@ import java.util.UUID;
 public class IdeaController {
 
 	private final SubmitIdeaUseCase submitIdeaUseCase;
+	private final wtf.hackhub.presentation.websocket.HackathonEventPublisher events;
 	private final NominationApprovalService approvalService;
 	private final wtf.hackhub.infrastructure.persistence.idea.IdeaRepository ideaRepository;
 	private final NomineeDirectory nomineeDirectory;
@@ -37,7 +38,9 @@ public class IdeaController {
 	public IdeaController(SubmitIdeaUseCase submitIdeaUseCase, GetIdeasUseCase getIdeasUseCase,
 			VoteIdeaUseCase voteIdeaUseCase, CommentUseCase commentUseCase, ScoreIdeaUseCase scoreIdeaUseCase,
 			NomineeDirectory nomineeDirectory, NominationApprovalService approvalService,
-			wtf.hackhub.infrastructure.persistence.idea.IdeaRepository ideaRepository) {
+			wtf.hackhub.infrastructure.persistence.idea.IdeaRepository ideaRepository,
+			wtf.hackhub.presentation.websocket.HackathonEventPublisher events) {
+		this.events = events;
 		this.approvalService = approvalService;
 		this.ideaRepository = ideaRepository;
 		this.nomineeDirectory = nomineeDirectory;
@@ -128,14 +131,22 @@ public class IdeaController {
 	@PostMapping("/api/v1/ideas/{id}/votes")
 	public VoteResponse vote(@PathVariable UUID id, @AuthenticationPrincipal UUID userId) {
 		VoteIdeaUseCase.Result result = voteIdeaUseCase.execute(id, userId);
+		publishVote(id);
 		return new VoteResponse(result.voted(), result.voteCount());
 	}
 
-	@Operation(summary = "Submit the signed-in user's voting cart atomically")
+	@Operation(summary = "Record the signed-in user's votes atomically")
 	@PostMapping("/api/v1/me/votes")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void submitVotes(@Valid @RequestBody SubmitVotesRequest req, @AuthenticationPrincipal UUID userId) {
 		voteIdeaUseCase.submit(req.ideaIds(), userId);
+		req.ideaIds().stream().distinct().forEach(this::publishVote);
+	}
+
+	private void publishVote(UUID ideaId) {
+		// The use case has committed; a broker outage must not turn a saved vote into a failed response.
+		try { ideaRepository.findById(ideaId).ifPresent(idea -> events.publishVoteUpdate(idea.getHackathonId(), ideaId, idea.getVotes())); }
+		catch (RuntimeException ignored) { /* Clients also revalidate totals over HTTP. */ }
 	}
 
 	public record SubmitVotesRequest(
@@ -147,6 +158,7 @@ public class IdeaController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteVoteRecord(@PathVariable UUID ideaId, @AuthenticationPrincipal UUID userId) {
 		voteIdeaUseCase.deleteRecord(ideaId, userId);
+		publishVote(ideaId);
 	}
 
 	@Operation(summary = "Clear all votes belonging to the signed-in user")

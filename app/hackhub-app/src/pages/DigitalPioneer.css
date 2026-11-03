@@ -887,7 +887,7 @@
 
 .dp-flow-heading {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 28px;
   align-items: end;
   margin-bottom: 20px;

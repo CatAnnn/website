@@ -11,7 +11,7 @@ vi.mock('@mantine/notifications',()=>({notifications:{show:vi.fn()}}))
 it('shows the four invalid test criteria and replaces them only after confirmation',async()=>{
   mocks.getCriteria.mockResolvedValue(['111111','22222','333333','444444'].map((name,i)=>({id:String(i),name,weight:25,displayOrder:i})))
   mocks.applyAwardTemplate.mockImplementation(async()=>{
-    const official=[{id:'behavior',name:'Behavior Demonstration',weight:70,displayOrder:0},{id:'impact',name:'Business Impact',weight:30,displayOrder:1}]
+    const official=[1,2,3].map((slot)=>({id:String(slot),name:`DPA track criterion ${slot}`,weight:slot===1?40:30,displayOrder:slot-1}))
     mocks.getCriteria.mockResolvedValue(official)
     return official
   })

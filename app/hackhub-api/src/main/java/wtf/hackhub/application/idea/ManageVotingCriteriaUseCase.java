@@ -23,7 +23,7 @@ public class ManageVotingCriteriaUseCase {
 
 	@Transactional(readOnly = true)
 	public List<VotingCriteria> listForHackathon(UUID hackathonId) {
-		return criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId);
+		return wtf.hackhub.application.judging.DigitalPioneerCriteria.current(criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId));
 	}
 
 	@Transactional
@@ -58,31 +58,14 @@ public class ManageVotingCriteriaUseCase {
 		jdbc.query("SELECT id FROM voting_criteria WHERE hackathon_id=? ORDER BY id FOR UPDATE", rs -> {
 		}, hackathonId);
 		var current = criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId);
-		boolean official = current.size() == 2
-				&& current.stream()
-						.anyMatch(c -> c.getName().toLowerCase(java.util.Locale.ROOT).matches(".*behaviou?r.*")
-								&& c.getWeight() == 70)
-				&& current.stream()
-						.anyMatch(c -> c.getName().toLowerCase(java.util.Locale.ROOT).matches(".*(business|impact).*")
-								&& c.getWeight() == 30);
-		if (!official) {
-			int scoreCount = jdbc.queryForObject(
-					"SELECT (SELECT count(*) FROM judge_scores WHERE hackathon_id=?) + (SELECT count(*) FROM idea_scores s JOIN ideas i ON i.id=s.idea_id WHERE i.hackathon_id=?)",
-					Integer.class, hackathonId, hackathonId);
-			if (scoreCount > 0)
-				throw new org.springframework.web.server.ResponseStatusException(
-						org.springframework.http.HttpStatus.CONFLICT,
-						"Existing scores must be reviewed before replacing evaluation criteria.");
-			criteriaRepository.deleteAll(current);
-			criteriaRepository.flush();
-			current = criteriaRepository.saveAll(List.of(
-					new VotingCriteria(hackathonId, "Behavior Demonstration",
-							"Track-specific behavior demonstrated by the nominee", 70, 0),
-					new VotingCriteria(hackathonId, "Business Impact", "Measured customer or business outcomes", 30,
-							1)));
-		}
+		// Keep historical criteria and scores; new track scores use distinct stable slots.
+		var template = wtf.hackhub.application.judging.DigitalPioneerCriteria.template(hackathonId);
+		var missing = template.stream().filter(slot -> current.stream()
+				.noneMatch(c -> c.getName().equals(slot.getName()))).toList();
+		criteriaRepository.saveAll(missing);
+
 		jdbc.update("UPDATE hackathons SET judging_mode='panel', panel_weight=100 WHERE id=?", hackathonId);
-		return current;
+		return wtf.hackhub.application.judging.DigitalPioneerCriteria.current(criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId));
 	}
 
 	/**

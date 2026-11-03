@@ -15,9 +15,12 @@ public class HackathonSecurityService {
 	private final HackathonRepository hackathonRepository;
 	private final OrganizationMemberRepository memberRepository;
 	private final HackathonJudgeRepository judgeRepository;
+	private final wtf.hackhub.application.idea.NominationApprovalDirectory approvalDirectory;
 
 	public HackathonSecurityService(HackathonRepository hackathonRepository,
-			OrganizationMemberRepository memberRepository, HackathonJudgeRepository judgeRepository) {
+			OrganizationMemberRepository memberRepository, HackathonJudgeRepository judgeRepository,
+			wtf.hackhub.application.idea.NominationApprovalDirectory approvalDirectory) {
+		this.approvalDirectory = approvalDirectory;
 		this.hackathonRepository = hackathonRepository;
 		this.memberRepository = memberRepository;
 		this.judgeRepository = judgeRepository;
@@ -50,7 +53,8 @@ public class HackathonSecurityService {
 		return hackathonRepository.findById(hackathonId)
 				.map(h -> hasRole(auth, "ADMIN") || h.getOrganizationId() == null || userId.equals(h.getCreatedBy())
 						|| memberRepository.existsByOrganizationIdAndUserId(h.getOrganizationId(), userId)
-						|| judgeRepository.existsByHackathonIdAndUserId(hackathonId, userId))
+						|| judgeRepository.existsByHackathonIdAndUserId(hackathonId, userId)
+						|| approvalDirectory.reviewerKey(userId).isPresent())
 				.orElse(false);
 	}
 
@@ -64,7 +68,8 @@ public class HackathonSecurityService {
 	 */
 	public boolean isJudgeOrOrgManager(UUID hackathonId, Authentication auth) {
 		UUID userId = (UUID) auth.getPrincipal();
-		if (judgeRepository.existsByHackathonIdAndUserId(hackathonId, userId)) {
+		if (judgeRepository.existsByHackathonIdAndUserId(hackathonId, userId)
+				|| approvalDirectory.reviewerKey(userId).isPresent()) {
 			return true;
 		}
 		return hackathonRepository.findById(hackathonId).map(h -> {

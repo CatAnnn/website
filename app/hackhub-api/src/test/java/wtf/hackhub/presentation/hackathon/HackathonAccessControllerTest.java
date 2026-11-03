@@ -22,6 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(HackathonAccessController.class)
 @Import({SecurityConfig.class, JwtAuthFilter.class})
 class HackathonAccessControllerTest {
+ @MockBean wtf.hackhub.application.idea.NominationApprovalDirectory directory;
+ @MockBean wtf.hackhub.infrastructure.persistence.hackathon.HackathonRepository campaigns;
 	@Autowired
 	MockMvc mvc;
 	@MockBean

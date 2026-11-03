@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class SubmitJudgeScoreUseCase {
 	private final IdeaMutationLock mutationLock;
+	private final wtf.hackhub.application.idea.NominationApprovalDirectory approvalDirectory;
 
 	private final JudgeScoreRepository scoreRepository;
 	private final HackathonJudgeRepository judgeRepository;
@@ -24,7 +25,9 @@ public class SubmitJudgeScoreUseCase {
 	private final VotingCriteriaRepository criteriaRepository;
 
 	public SubmitJudgeScoreUseCase(JudgeScoreRepository scoreRepository, HackathonJudgeRepository judgeRepository,
-			IdeaRepository ideaRepository, VotingCriteriaRepository criteriaRepository, IdeaMutationLock mutationLock) {
+			IdeaRepository ideaRepository, VotingCriteriaRepository criteriaRepository, IdeaMutationLock mutationLock,
+			wtf.hackhub.application.idea.NominationApprovalDirectory approvalDirectory) {
+		this.approvalDirectory = approvalDirectory;
 		this.scoreRepository = scoreRepository;
 		this.judgeRepository = judgeRepository;
 		this.ideaRepository = ideaRepository;
@@ -32,10 +35,15 @@ public class SubmitJudgeScoreUseCase {
 		this.criteriaRepository = criteriaRepository;
 	}
 
+	private boolean canScore(UUID campaignId, UUID userId) {
+		return judgeRepository.existsByHackathonIdAndUserId(campaignId, userId)
+				|| approvalDirectory.reviewerKey(userId).isPresent();
+	}
+
 	@Transactional
 	public JudgeScore execute(UUID hackathonId, UUID ideaId, UUID judgeId, UUID criterionId, int score,
 			String comment) {
-		if (!judgeRepository.existsByHackathonIdAndUserId(hackathonId, judgeId)) {
+		if (!canScore(hackathonId, judgeId)) {
 			throw new NotAJudgeException(judgeId, hackathonId);
 		}
 
@@ -44,6 +52,10 @@ public class SubmitJudgeScoreUseCase {
 		idea.requireApprovalPublished();
 		if (!hackathonId.equals(idea.getHackathonId()))
 			throw new IllegalArgumentException("Case belongs to another award");
+		var currentCriteria = DigitalPioneerCriteria.current(criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId));
+		if (currentCriteria.stream().anyMatch(DigitalPioneerCriteria::official)
+				&& (currentCriteria.size() != 3 || currentCriteria.stream().noneMatch(c -> c.getId().equals(criterionId))))
+			throw new IllegalArgumentException("Use the three current award-category criteria");
 		if (criterionId != null) {
 			var criterion = criteriaRepository.findById(criterionId)
 					.orElseThrow(() -> new IllegalArgumentException("Criterion not found"));
@@ -66,10 +78,10 @@ public class SubmitJudgeScoreUseCase {
 	@Transactional
 	public List<JudgeScore> submitEvaluation(UUID hackathonId, UUID ideaId, UUID judgeId, List<CriterionScore> scores,
 			String comment) {
-		if (!judgeRepository.existsByHackathonIdAndUserId(hackathonId, judgeId)) {
+		if (!canScore(hackathonId, judgeId)) {
 			throw new NotAJudgeException(judgeId, hackathonId);
 		}
-		var criteria = criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId);
+		var criteria = DigitalPioneerCriteria.current(criteriaRepository.findAllByHackathonIdOrderByDisplayOrder(hackathonId));
 		var expected = criteria.stream().map(c -> c.getId()).collect(Collectors.toSet());
 		var supplied = new HashSet<UUID>();
 		if (scores == null || scores.isEmpty())
@@ -87,7 +99,7 @@ public class SubmitJudgeScoreUseCase {
 
 	@Transactional
 	public void deleteEvaluation(UUID hackathonId, UUID ideaId, UUID judgeId) {
-		if (!judgeRepository.existsByHackathonIdAndUserId(hackathonId, judgeId))
+		if (!canScore(hackathonId, judgeId))
 			throw new NotAJudgeException(judgeId, hackathonId);
 		mutationLock.acquire(ideaId);
 		var idea = ideaRepository.findById(ideaId).orElseThrow(() -> new IllegalArgumentException("Case not found"));

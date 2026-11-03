@@ -9,7 +9,7 @@ import { JudgingService, type HackathonJudge } from '../services/judgingService'
 import { OrganizationService } from '../services/organizationService'
 import { getAllPages } from '../services/pagination'
 import { api } from '../lib/apiClient'
-import { DIGITAL_PIONEER_RUBRIC, DIGITAL_PIONEER_TRACKS, normalizeDigitalPioneerTrack } from '../config/digitalPioneer'
+import { DIGITAL_PIONEER_TRACKS, normalizeDigitalPioneerTrack } from '../config/digitalPioneer'
 import { VotingCriteriaManager } from '../components/VotingCriteriaManager'
 import { useLanguage } from '../contexts/LanguageContext'
 import { translateUiText } from '../contexts/uiTranslations'
@@ -239,8 +239,8 @@ export function AwardManagement() {
             {canManage && <VotingCriteriaManager hackathonId={campaign.id} isManager />}
             <Card className="dp-form-shell" p={{ base: 'lg', md: 32 }}>
               <Title order={3}>Evaluation standard</Title>
-              {DIGITAL_PIONEER_RUBRIC.map((criterion) => <Text key={criterion.key} mt="md"><strong>{criterion.name} · {criterion.weight}%</strong><br />{criterion.description}</Text>)}
-              {canManage && <Text mt="lg" c="white">Associate voting: up to 4 votes per category. Up to 2 votes may go to the voter's department and up to 2 to other departments. Both allowances are optional, with no voting or withdrawal order. Department is the Org.code prefix before “-”: BD/DPA-SRE3 → BD/DPA; BD/BA-AP → BD/BA. Committee rankings use the weighted evaluation score.</Text>}
+              <Text mt="md">Individual and Team nominations use their category criteria: Customer Values / Innovation 40% / 30% / 30%; Collaboration 30% / 35% / 35%. All verified roster HoDs may score.</Text>
+              {canManage && <Text mt="lg" c="white">Associate voting: Team up to 3 votes per category without department restrictions. Individual up to 4 votes per category. Up to 2 votes may go to the voter's department and up to 2 to other departments. Both allowances are optional, with no voting or withdrawal order. Department is the Org.code prefix before “-”: BD/DPA-SRE3 → BD/DPA; BD/BA-AP → BD/BA. Committee rankings use the weighted evaluation score.</Text>}
             </Card>
           </>
         )}

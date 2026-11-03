@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { StorageService, MAX_UPLOAD_BYTES, validatePersonalPhoto } from './storageService'
+import { StorageService, MAX_UPLOAD_BYTES, validatePersonalPhoto, validateNominationPdf } from './storageService'
 
 vi.mock('../lib/apiClient', () => ({
   api: {
@@ -189,4 +189,14 @@ describe('StorageService', () => {
       uploadSpy.mockRestore()
     })
   })
+})
+
+it('enforces the optional individual PDF size and type before upload', () => {
+  expect(validateNominationPdf(null)).toBeNull()
+  const pdf = new File(['%PDF-1.7'], 'evidence.pdf', {type:'application/pdf'})
+  Object.defineProperty(pdf, 'size', {value:10 * 1024 * 1024, configurable:true})
+  expect(validateNominationPdf(pdf)).toBeNull()
+  Object.defineProperty(pdf, 'size', {value:10 * 1024 * 1024 + 1})
+  expect(validateNominationPdf(pdf)).toMatch(/10 MB/)
+  expect(validateNominationPdf(new File(['text'], 'evidence.txt', {type:'text/plain'}))).toMatch(/PDF/)
 })

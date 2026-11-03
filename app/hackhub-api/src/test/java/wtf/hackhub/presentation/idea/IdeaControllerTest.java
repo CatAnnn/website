@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 		"app.cors.allowed-origins=http://localhost:5173", "app.minio.endpoint=http://localhost:9000",
 		"app.minio.access-key=test", "app.minio.secret-key=test"})
 class IdeaControllerTest {
+	@MockBean wtf.hackhub.presentation.websocket.HackathonEventPublisher events;
 
 	@Autowired
 	MockMvc mvc;

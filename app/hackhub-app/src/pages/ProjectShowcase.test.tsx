@@ -1,3 +1,4 @@
+vi.mock('../hooks/useRealtime', () => ({useRealtime: () => ({isConnected:false, subscribeToHackathonUpdates:vi.fn()})}))
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { ReactElement } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -29,7 +30,7 @@ const { createIdea, getIdea, createTeam, getOrCreateNominationTeam, getComments,
       id: 'idea-1',
       title: 'Customer Portal Renewal',
       description: 'Uploaded by an administrator',
-      teamId: 'team-1',
+      teamId: null,
       createdBy: 'user-1',
       category: 'AI',
       tags: ['Java'],
@@ -79,6 +80,7 @@ vi.mock('../services/hackathonService', () => ({
 
 vi.mock('../services/ideaService', () => ({
   IdeaService: {
+    getMyNominations: vi.fn().mockResolvedValue([]),
     getIdea,
     getIdeas,
     voteIdea,
@@ -129,7 +131,7 @@ describe('ProjectShowcase', () => {
     expect(screen.getByRole('button', { name: 'Team', exact: true })).toHaveAttribute('aria-pressed', 'true')
     fireEvent.click(screen.getByRole('radio', { name: /Collaboration to Win/ }))
     expect(document.getElementById('nomination-track-description')).toHaveTextContent('Cross-Functional Synergy (30%)')
-    await screen.findByRole('button', { name: 'Create team' })
+    await screen.findByRole('button', { name: 'Submit nomination' })
     expect(screen.queryByRole('textbox', { name: /Executive Summary/ })).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Individual', exact: true }))
     await screen.findByRole('textbox', { name: /Executive Summary/ })
@@ -137,14 +139,14 @@ describe('ProjectShowcase', () => {
   })
   it('shows a white empty-window message only after a successful empty response', async () => {
     getHackathons.mockResolvedValueOnce({ content: [] })
-    render(<MantineProvider><MemoryRouter><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    render(<MantineProvider><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
     fireEvent.click(screen.getByRole('radio', { name: /Customer Values/ }))
     const message = await screen.findByText('No nomination window is currently open.')
     expect(message).toHaveStyle({ color: 'rgb(255, 255, 255)' })
   })
   it('distinguishes an API failure from an empty nomination window', async () => {
     getHackathons.mockRejectedValueOnce(new Error('Unavailable'))
-    render(<MantineProvider><MemoryRouter><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    render(<MantineProvider><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
     fireEvent.click(screen.getByRole('radio', { name: /Customer Values/ }))
     const message = await screen.findByText('Unable to load nominations. Refresh the page to try again.')
     expect(message).toHaveStyle({ color: 'rgb(255, 255, 255)' })
@@ -160,7 +162,7 @@ describe('ProjectShowcase', () => {
     })) }
     getIdeas.mockResolvedValueOnce(page).mockResolvedValueOnce(page)
     vi.mocked(StorageService.getPresignedUrl).mockResolvedValue('/shared-photo.jpg')
-    const show = () => render(<MantineProvider><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+    const show = () => render(<MantineProvider><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
     const first = show()
     await screen.findByText('Shared nominee 2')
     expect(ProfileService.getProfile).toHaveBeenCalledTimes(1)
@@ -192,7 +194,7 @@ describe('ProjectShowcase', () => {
       projectAttachments: [{ type: 'nomination', name: `Associate ${id}` }],
       votes: 0, userHasVoted: false, status: 'submitted', createdAt: '', updatedAt: '',
     })) })
-    const view = render(<MantineProvider><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+    const view = render(<MantineProvider><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
     try {
       await screen.findByText('Photo nominee 2')
       expect(screen.queryByRole('img', { name: /Associate .* nomination/ })).not.toBeInTheDocument()
@@ -227,7 +229,7 @@ describe('ProjectShowcase', () => {
       votes: 0, userHasVoted: false, status: 'submitted',
       createdAt: '2026-09-01T00:00:00Z', updatedAt: '2026-09-01T00:00:00Z',
     }] })
-    render(<MantineProvider><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+    render(<MantineProvider><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
     await screen.findByText('Named nominee')
     expect(ProfileService.getProfile).not.toHaveBeenCalled()
   })
@@ -235,7 +237,7 @@ describe('ProjectShowcase', () => {
   it('shows nominees without exposing internal event concepts', async () => {
     render(
       <MantineProvider>
-        <MemoryRouter>
+        <MemoryRouter initialEntries={["/projects?type=individual"]}>
           <ProjectShowcase />
         </MemoryRouter>
       </MantineProvider>
@@ -258,7 +260,7 @@ describe('ProjectShowcase', () => {
     const user = userEvent.setup()
     render(
       <MantineProvider>
-        <MemoryRouter>
+        <MemoryRouter initialEntries={["/projects?type=individual"]}>
           <ProjectShowcase />
         </MemoryRouter>
       </MantineProvider>
@@ -277,7 +279,7 @@ describe('ProjectShowcase', () => {
     const user = userEvent.setup()
     render(
       <MantineProvider env="test">
-        <MemoryRouter>
+        <MemoryRouter initialEntries={["/projects?type=individual"]}>
           <ProjectShowcase nominationMode />
         </MemoryRouter>
       </MantineProvider>
@@ -302,116 +304,48 @@ describe('ProjectShowcase', () => {
     expect(screen.getByRole('textbox', { name: /Executive Summary/ })).toHaveValue('Keep this contribution when switching categories.')
   })
 
-  const renderVoting = (path = '/projects') => render(<MantineProvider env="test"><MemoryRouter initialEntries={[path]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
-  const openCartWithSelection = async () => {
-    await userEvent.click(await screen.findByRole('button', { name: 'Vote, 2 votes' }))
-    await userEvent.click(screen.getByRole('button', { name: 'My votes (1)' }))
-    return screen.getByRole('dialog', { name: 'My votes (1)' })
-  }
+  const renderVoting = (path = '/projects?type=individual') => render(<MantineProvider env="test"><MemoryRouter initialEntries={[path]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
   const mockSubmitted = async () => {
     const page = await getIdeas.getMockImplementation()!()
     getIdeas.mockResolvedValueOnce({ ...page, content: page.content.map((idea) => ({ ...idea, userHasVoted: true, votes: 3 })) })
   }
-
-  it('keeps selections in the cart without writing votes until Submit', async () => {
+  it('submits a click immediately and shows only server-confirmed records', async () => {
     renderVoting()
-    const cart = await openCartWithSelection()
-    expect(within(cart).getByText('Customer Portal Renewal')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'In cart, 2 votes' })).toBeInTheDocument()
-    expect(voteIdea).not.toHaveBeenCalled()
-    expect(submitVotes).not.toHaveBeenCalled()
+    const vote = await screen.findByRole('button', { name: 'Vote, 2 votes' })
     await mockSubmitted()
-    await userEvent.click(within(cart).getByRole('button', { name: 'Submit' }))
-    const records = await screen.findByRole('dialog', { name: 'My voting records' }, { timeout: 2500 })
-    expect(await within(records).findByText('Customer Portal Renewal')).toBeInTheDocument()
-    expect(submitVotes).toHaveBeenCalledExactlyOnceWith(['idea-1'])
-    await waitFor(() => expect(getIdeas).toHaveBeenCalledTimes(2))
-    expect(getHackathons).toHaveBeenCalledTimes(1)
-    expect(TeamService.getTeams).toHaveBeenCalledTimes(1)
-    expect(ProfileService.getProfile).toHaveBeenCalledTimes(1)
-    expect(within(records).getByRole('status')).toHaveTextContent('saved to the database')
-    await userEvent.click(within(records).getByRole('button', { name: 'Back to nominees' }))
-    await userEvent.click(await screen.findByRole('button', { name: 'My votes (0)' }))
-    expect(screen.getByText('Your cart is empty.')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled()
-    expect(localStorage.getItem('award-voting-cart-v1:user-1')).toBe('[]')
-  })
-
-  it('loads submitted records through the account link with an empty cart', async () => {
-    await mockSubmitted()
-    renderVoting('/projects?view=voting-records')
-    const records = await screen.findByRole('dialog', { name: 'My voting records' }, { timeout: 2500 })
-    expect(await within(records).findByText('Customer Portal Renewal')).toBeInTheDocument()
-    await userEvent.click(within(records).getByRole('button', { name: 'Back to nominees' }))
-    expect(await screen.findByRole('button', { name: 'My votes (0)' })).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Submitted, 3 votes' }))
-    expect(await screen.findByRole('dialog', { name: 'My voting records' }, { timeout: 2500 })).toBeInTheDocument()
+    await userEvent.click(vote)
+    await waitFor(() => expect(submitVotes).toHaveBeenCalledExactlyOnceWith(['idea-1']))
+    expect(await screen.findByRole('button', { name: 'Submitted, 3 votes' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Submit', exact: true })).not.toBeInTheDocument()
     expect(voteIdea).not.toHaveBeenCalled()
   })
-
-  it.each(['Each participant can cast at most 4 votes per award category.', 'At most 2 votes may be cast for projects from your department.', 'Unable to connect. Please try again.'])('retains the entire cart when submission fails: %s', async (message) => {
-    renderVoting()
-    const cart = await openCartWithSelection()
+  it.each(['Each participant can cast at most 3 votes per award category.', 'At most 2 votes may be cast for projects from your department.', 'Unable to connect.'])('shows a modal and leaves failed votes unsubmitted: %s', async (message) => {
     submitVotes.mockRejectedValueOnce(new Error(message))
-    await userEvent.click(within(cart).getByRole('button', { name: 'Submit' }))
-    const failure = await screen.findByRole('dialog', { name: 'Votes not submitted' })
-    expect(within(failure).getByRole('alert')).toHaveTextContent(message)
-    await userEvent.click(within(failure).getByRole('button', { name: 'Back to cart' }))
-    await waitFor(() => expect(failure).not.toBeInTheDocument())
-    expect(within(cart).getByText('Customer Portal Renewal')).toBeInTheDocument()
-    expect(within(cart).getByRole('button', { name: 'Submit' })).toBeEnabled()
-    expect(screen.queryByRole('dialog', { name: 'My voting records' })).not.toBeInTheDocument()
-    await mockSubmitted()
-    await userEvent.click(within(cart).getByRole('button', { name: 'Submit' }))
-    expect(await screen.findByRole('dialog', { name: 'My voting records' }, { timeout: 2500 })).toBeInTheDocument()
+    renderVoting()
+    await userEvent.click(await screen.findByRole('button', { name: 'Vote, 2 votes' }))
+    expect(await screen.findByRole('dialog', { name: 'Vote not submitted' })).toHaveTextContent(message)
+    expect(screen.getByRole('button', { name: 'Vote, 2 votes' })).toBeInTheDocument()
   })
-
-  it('prevents repeat submission and cart edits while awaiting the server', async () => {
+  it('sends only one request for repeated clicks while saving', async () => {
     let resolve!: () => void
     submitVotes.mockImplementationOnce(() => new Promise<void>((done) => { resolve = done }))
     renderVoting()
-    const cart = await openCartWithSelection()
-    const submit = within(cart).getByRole('button', { name: 'Submit' })
-    await userEvent.dblClick(submit)
+    const vote = await screen.findByRole('button', { name: 'Vote, 2 votes' })
+    fireEvent.click(vote); fireEvent.click(vote)
     expect(submitVotes).toHaveBeenCalledTimes(1)
-    expect(within(cart).getByRole('button', { name: 'Clear all', hidden: true })).toBeDisabled()
-    const progress = screen.getByRole('dialog', { name: 'Submit votes' })
-    expect(within(progress).getByRole('status')).toHaveTextContent('Submitting your votes')
-    expect(document.querySelector('.dp-submit-animation')).toHaveAttribute('data-state', 'submitting')
-    await mockSubmitted()
-    resolve()
-    expect(await within(progress).findByRole('status')).toBeInTheDocument()
-    await waitFor(() => expect(document.querySelector('.dp-submit-animation')).toHaveAttribute('data-state', 'success'))
-    expect(await screen.findByRole('dialog', { name: 'My voting records' }, { timeout: 2500 })).toBeInTheDocument()
+    expect(vote).toBeDisabled()
+    await mockSubmitted(); await act(async () => resolve())
   })
-
-  it('preserves drafts on remount and keeps account carts separate', async () => {
-    const page = renderVoting()
-    await openCartWithSelection()
-    page.unmount()
-    const remounted = renderVoting()
-    expect(await screen.findByRole('button', { name: 'My votes (1)' })).toBeInTheDocument()
-    remounted.unmount()
-    const previous = currentUser.id
-    currentUser.id = 'another-user'
-    renderVoting()
-    expect(await screen.findByRole('button', { name: 'My votes (0)' })).toBeInTheDocument()
-    currentUser.id = previous
+  it('defaults to Team and can switch to Individual', async () => {
+    renderVoting('/projects')
+    expect(screen.getByRole('button', {name:'Team', exact:true})).toHaveAttribute('aria-pressed','true')
+    await waitFor(() => expect(getIdeas).toHaveBeenCalled())
+    await userEvent.click(screen.getByRole('button', {name:'Individual', exact:true}))
+    expect(await screen.findByText('Customer Portal Renewal')).toBeInTheDocument()
   })
-
-  it.each(['Clear all', 'Clear Spring 2026 Hackathon Innovation Breakthrough votes', 'Remove Customer Portal Renewal from cart'])('clears drafts without deleting submitted database records: %s', async (button) => {
-    renderVoting()
-    const cart = await openCartWithSelection()
-    await userEvent.click(within(cart).getByRole('button', { name: button }))
-    expect(await within(cart).findByText('Your cart is empty.')).toBeInTheDocument()
-    expect(clearMyVotes).not.toHaveBeenCalled()
-    expect(clearTrackVotes).not.toHaveBeenCalled()
-    expect(deleteVoteRecord).not.toHaveBeenCalled()
-  })
-
   it('requires irreversible deletion confirmation, supports cancel and retry, and allows a new selection', async () => {
     await mockSubmitted()
-    renderVoting('/projects?view=voting-records')
+    renderVoting('/projects?view=voting-records&type=individual')
     const records = await screen.findByRole('dialog', { name: 'My voting records' }, { timeout: 2500 })
     const remove = await within(records).findByRole('button', { name: 'Delete voting record for Customer Portal Renewal' })
     await userEvent.click(remove)
@@ -430,18 +364,19 @@ describe('ProjectShowcase', () => {
     expect(deleteVoteRecord).toHaveBeenLastCalledWith('idea-1')
     expect(await within(records).findByText('No submitted votes yet.')).toBeInTheDocument()
     await userEvent.click(within(records).getByRole('button', { name: 'Back to nominees' }))
+    await mockSubmitted()
     await userEvent.click(await screen.findByRole('button', { name: 'Vote, 2 votes' }))
     expect(screen.getByRole('button', { name: 'My votes (1)' })).toBeInTheDocument()
   })
 
   it('splits legacy combined tags into separate, deduplicated badges', async () => {
     getIdeas.mockResolvedValueOnce({ content: [{
-      id: 'idea-1', title: 'Legacy tags', description: 'Combined tags', teamId: 'team-1',
+      id: 'idea-1', title: 'Legacy tags', description: 'Combined tags', teamId: null,
       createdBy: 'user-1', category: 'AI', tags: ['IoT、Digital Twin，Cloud、IoT、'],
       attachments: [], projectAttachments: [], votes: 0, userHasVoted: false,
       status: 'submitted', createdAt: '', updatedAt: '',
     }] })
-    render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+    render(<MantineProvider env="test"><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
     await screen.findByText('Legacy tags')
     const tags = document.querySelector('.dp-nomination-tags') as HTMLElement
     expect(within(tags).getByText('IoT')).toBeInTheDocument()
@@ -452,12 +387,12 @@ describe('ProjectShowcase', () => {
 
   it('previews only the summary and keeps all answers in the detail dialog', async () => {
     getIdeas.mockResolvedValueOnce({ content: [{
-      id: 'idea-1', title: 'Nominee Name', teamId: 'team-1', createdBy: 'user-1',
+      id: 'idea-1', title: 'Nominee Name', teamId: null, createdBy: 'user-1',
       description: 'Executive Summary\nSummary first paragraph.\n\nSummary second paragraph.\n\nDetails of Your Core Achievement in 2026 and Business Impact (including financial figures)\nSaved RMB 200,000.\n\nHow You Demonstrate Bosch China Culture (Especially in Your Applied Category)\nWorked across departments.',
       category: 'AI', tags: ['Impact'], attachments: [], projectAttachments: [{ type: 'nomination', name: 'Nominee Name', nomineeOrgCode: 'HRL-CN C/HRR-JMPCN' }],
       votes: 0, userHasVoted: false, status: 'submitted', createdAt: '', updatedAt: '',
     }] })
-    render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+    render(<MantineProvider env="test"><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
     await screen.findByText('Nominee Name')
     const card = document.querySelector('.dp-project-card') as HTMLElement
     expect(within(card).getByText(/Summary first paragraph/)).toHaveTextContent('Summary second paragraph.')
@@ -479,7 +414,7 @@ describe('ProjectShowcase', () => {
     const user = userEvent.setup()
     render(
       <MantineProvider>
-        <MemoryRouter>
+        <MemoryRouter initialEntries={["/projects?type=individual"]}>
           <ProjectShowcase nominationMode />
         </MemoryRouter>
       </MantineProvider>
@@ -508,7 +443,7 @@ describe('ProjectShowcase', () => {
     currentUser.role = role
     try {
       const user = userEvent.setup()
-      render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+      render(<MantineProvider env="test"><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
       await user.click(await screen.findByRole('radio', { name: /Customer Values/ }))
       const nominee = await screen.findByRole('textbox', { name: /Outlook Name/ })
       expect(nominee).toHaveAttribute('readonly')
@@ -556,7 +491,7 @@ describe('ProjectShowcase', () => {
     const user = userEvent.setup()
     render(
       <MantineProvider>
-        <MemoryRouter>
+        <MemoryRouter initialEntries={["/projects?type=individual"]}>
           <ProjectShowcase nominationMode />
         </MemoryRouter>
       </MantineProvider>
@@ -631,7 +566,7 @@ describe('Nominee deletion', () => {
   afterEach(() => { currentUser.role = 'participant'; vi.clearAllMocks() })
 
   function renderManagement() {
-    return render(<MantineProvider><MemoryRouter><ProjectShowcase managementMode /></MemoryRouter></MantineProvider>)
+    return render(<MantineProvider><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase managementMode /></MemoryRouter></MantineProvider>)
   }
 
   it.each(['participant', 'manager'] as const)('does not expose deletion to %s', async (role) => {
@@ -699,7 +634,7 @@ it('renders nomination text and voting controls before a slow photo URL resolves
     projectAttachments: [{ type: 'nomination', name: 'Associate' }, { type: 'screenshot', storageKey: 'slow', url: '/fallback.jpg' }],
     votes: 0, userHasVoted: false, status: 'submitted', createdAt: '', updatedAt: '',
   }] })
-  render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+  render(<MantineProvider env="test"><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
   expect(await screen.findByText('Slow photo nominee')).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Vote, 0 votes' })).toBeEnabled()
   expect(screen.queryByAltText('Associate nomination')).not.toBeInTheDocument()
@@ -717,7 +652,7 @@ it('shows a ready photo without waiting for another nominee photo', async () => 
     projectAttachments: [{ type: 'nomination', name: key }, { type: 'screenshot', storageKey: key, url: '/fallback.jpg' }],
     votes: 0, userHasVoted: false, status: 'submitted', createdAt: '', updatedAt: '',
   })) })
-  render(<MantineProvider env="test"><MemoryRouter><ProjectShowcase /></MemoryRouter></MantineProvider>)
+  render(<MantineProvider env="test"><MemoryRouter initialEntries={["/projects?type=individual"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
   try {
     expect(await screen.findByAltText('fast nomination')).toHaveAttribute('src', '/fast.jpg')
     expect(screen.queryByAltText('slow nomination')).not.toBeInTheDocument()

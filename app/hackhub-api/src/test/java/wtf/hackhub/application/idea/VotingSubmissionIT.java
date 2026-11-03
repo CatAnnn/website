@@ -59,4 +59,32 @@ class VotingSubmissionIT extends PostgresIntegrationTest {
 		votes.submit(List.of(first), voter);
 		assertThat(jdbc.queryForObject("SELECT count(*) FROM idea_votes WHERE user_id=?", Integer.class, voter)).isEqualTo(2);
 	}
+ UUID teamIdea(UUID award, UUID owner) {
+  UUID team = jdbc.queryForObject("INSERT INTO teams(name,description,hackathon_id,created_by) VALUES (gen_random_uuid()::text,'TEST',?,?) RETURNING id", UUID.class, award, owner);
+  UUID id = idea(award, owner); jdbc.update("UPDATE ideas SET team_id=? WHERE id=?", team, id); return id;
+ }
+ @Test void team_three_without_department_constraints_and_individual_separate() {
+  UUID voter=participant("BD/DPA-SRE3"), award=award(voter);
+  UUID first=teamIdea(award,voter), second=teamIdea(award,voter), third=teamIdea(award,voter), fourth=teamIdea(award,voter);
+  votes.submit(List.of(first),voter); votes.submit(List.of(second),voter); votes.submit(List.of(third),voter);
+  votes.submit(List.of(first),voter);
+  assertThatThrownBy(()->votes.submit(List.of(fourth),voter)).isInstanceOf(VoteIdeaUseCase.VoteLimitExceededException.class);
+  votes.submit(List.of(idea(award,voter)),voter); votes.submit(List.of(idea(award,voter)),voter);
+  assertThatThrownBy(()->votes.submit(List.of(idea(award,voter)),voter)).isInstanceOf(VoteIdeaUseCase.OwnDepartmentVoteLimitExceededException.class);
+  jdbc.update("UPDATE ideas SET category='Collaboration to Win' WHERE id=?", fourth);
+  votes.submit(List.of(fourth),voter);
+  assertThat(jdbc.queryForObject("SELECT count(*) FROM idea_votes WHERE user_id=?",Integer.class,voter)).isEqualTo(6);
+ }
+ @Test void concurrent_team_clicks_cannot_exceed_three() throws Exception {
+  UUID voter=participant("BD/DPA-SRE3"), award=award(voter);
+  var ids=java.util.stream.IntStream.range(0,5).mapToObj(n->teamIdea(award,voter)).toList();
+  try(var pool=java.util.concurrent.Executors.newFixedThreadPool(5)) {
+   var start=new java.util.concurrent.CountDownLatch(1);
+   var futures=ids.stream().map(id->pool.submit(()->{start.await();try{votes.submit(List.of(id),voter);return true;}catch(VoteIdeaUseCase.VoteLimitExceededException ex){return false;}})).toList();
+   start.countDown();int ok=0;for(var f:futures)if(f.get(20,java.util.concurrent.TimeUnit.SECONDS))ok++;
+   assertThat(ok).isEqualTo(3);
+  }
+  assertThat(jdbc.queryForObject("SELECT count(*) FROM idea_votes WHERE user_id=?",Integer.class,voter)).isEqualTo(3);
+ }
+
 }

@@ -93,13 +93,14 @@ public class PublicAwardController {
 		return new Nomination(idea.getId(), idea.getTitle(), idea.getDescription(), idea.getHackathonId(), name,
 				orgCode, AwardTrack.normalize(idea.getCategory(), idea.getTags()), idea.getTags(), images,
 				idea.getVotes(), idea.getStatus().toDbValue(), idea.getCreatedAt(), idea.getUpdatedAt(),
-				idea.getRepositoryUrl(), idea.getDemoUrl());
+				idea.getRepositoryUrl(), idea.getDemoUrl(), idea.getTeamId() == null ? "individual" : "team");
 	}
 
 	public record AwardSummary(UUID id, String title, String status) {
 	}
 	public record Nomination(UUID id, String title, String description, UUID hackathon_id, String nominee_name,
 			String nominee_org_code, String category, List<String> technologies, List<String> images, int votes,
-			String status, Instant created_at, Instant submission_date, String github_url, String demo_url) {
+			String status, Instant created_at, Instant submission_date, String github_url, String demo_url,
+			String nomination_type) {
 	}
 }

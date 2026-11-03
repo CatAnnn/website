@@ -31,6 +31,10 @@ class SubmitIdeaUseCaseTest {
 	wtf.hackhub.infrastructure.persistence.IdeaMutationLock mutationLock;
 
 	@Mock
+	wtf.hackhub.infrastructure.storage.NominationPdfValidator pdfValidator;
+	@Mock
+	wtf.hackhub.application.team.CreateTeamUseCase createTeam;
+	@Mock
 	IdeaRepository ideaRepository;
 	@Mock
 	HackathonRepository hackathonRepository;
@@ -222,7 +226,7 @@ class SubmitIdeaUseCaseTest {
 		when(profileRepository.findById(USER_ID))
 				.thenReturn(Optional.of(new wtf.hackhub.domain.Profile("p@bosch.com", "Participant", "hash")));
 		String metadata = "[{\"type\":\"nomination\",\"nomineeUserId\":\"" + nomineeId + "\"}]";
-		assertThatThrownBy(() -> useCase.update(ideaId, USER_ID, "Title", "Desc", "Customer Values", List.of(), null,
+		assertThatThrownBy(() -> useCase.update(ideaId, USER_ID, "Title", "Desc", idea(USER_ID).getCategory(), List.of(), null,
 				null, null, metadata)).isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
 		org.mockito.Mockito.verify(ideaRepository, org.mockito.Mockito.never()).save(any());
 	}
@@ -258,8 +262,8 @@ class SubmitIdeaUseCaseTest {
 		org.springframework.test.util.ReflectionTestUtils.setField(existing, "votes", 1);
 		when(ideaRepository.findById(ideaId)).thenReturn(Optional.of(existing));
 		assertThatThrownBy(() -> useCase.update(ideaId, USER_ID, "Title", "Desc", "Customer Values", List.of(), null,
-				null, null, null)).isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("Track and nominee cannot change");
+				null, null, null)).isInstanceOf(org.springframework.web.server.ResponseStatusException.class)
+				.hasMessageContaining("award category cannot change");
 		org.mockito.Mockito.verify(ideaRepository, org.mockito.Mockito.never()).save(any());
 		var ordered = org.mockito.Mockito.inOrder(mutationLock, ideaRepository);
 		ordered.verify(mutationLock).acquire(ideaId);
@@ -278,6 +282,32 @@ class SubmitIdeaUseCaseTest {
 		assertThatThrownBy(
 				() -> useCase.update(ideaId, USER_ID, "Title", "Desc", "AI", List.of(), null, null, null, null))
 				.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Track and nominee cannot change");
+	}
+
+	@Test
+	void individual_document_requires_owned_pdf_and_checks_stored_object() {
+		stubValidSubmit();
+		when(ideaRepository.save(any())).thenAnswer(call -> call.getArgument(0));
+		String key = "nominations/" + HACKATHON_ID + "/" + USER_ID + "/evidence.pdf";
+		String attachment = "[{\"type\":\"document\",\"storageKey\":\"" + key + "\",\"size\":1,\"mimeType\":\"application/pdf\"}]";
+		useCase.executeNomination("Nomination", "Evidence", HACKATHON_ID, null, USER_ID,
+				"Customer Values", List.of(), Idea.Status.SUBMITTED, null, null, attachment);
+		verify(pdfValidator).validate(key);
+		for (String invalid : List.of(attachment.replace(USER_ID.toString(), UUID.randomUUID().toString()),
+				attachment.replace("evidence.pdf", "evidence.zip"), "[{\"type\":\"document\",\"url\":\"https://example.invalid/file.pdf\"}]"))
+			assertThatThrownBy(() -> useCase.executeNomination("Nomination", "Evidence", HACKATHON_ID, null, USER_ID,
+					"Customer Values", List.of(), Idea.Status.SUBMITTED, null, null, invalid))
+					.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("own PDF");
+	}
+
+	@Test
+	void existing_individual_nomination_blocks_another_track_before_saving() {
+		stubValidSubmit();
+		when(ideaRepository.findByCreatedByOrderByCreatedAtDesc(USER_ID)).thenReturn(List.of(idea(USER_ID)));
+		assertThatThrownBy(() -> useCase.executeNomination("Second", "Evidence", HACKATHON_ID, null, USER_ID,
+				"Innovation Breakthrough", List.of(), Idea.Status.SUBMITTED, null, null, null))
+				.isInstanceOf(org.springframework.web.server.ResponseStatusException.class).hasMessageContaining("only one individual");
+		org.mockito.Mockito.verify(ideaRepository, org.mockito.Mockito.never()).save(any());
 	}
 
 	private void stubIndividualRequester(wtf.hackhub.domain.Profile.Role role, UUID orgId) {
@@ -312,7 +342,8 @@ class SubmitIdeaUseCaseTest {
 		assertThatThrownBy(() -> useCase.executeNomination("Nominee", "Impact", HACKATHON_ID, null, USER_ID,
 				"Customer Values", List.of(), Idea.Status.SUBMITTED, null, null, null))
 				.isInstanceOf(IllegalArgumentException.class);
-		org.mockito.Mockito.verifyNoInteractions(ideaRepository, teamRepository, teamMemberRepository);
+		org.mockito.Mockito.verifyNoInteractions(teamRepository, teamMemberRepository);
+		org.mockito.Mockito.verify(ideaRepository, org.mockito.Mockito.never()).save(any());
 	}
 
 	@Test
@@ -321,7 +352,8 @@ class SubmitIdeaUseCaseTest {
 		assertThatThrownBy(() -> useCase.executeNomination("Nominee", "Impact", HACKATHON_ID, null, USER_ID,
 				"Customer Values", List.of(), Idea.Status.SUBMITTED, null, null, null))
 				.isInstanceOf(SubmitIdeaUseCase.IdeaAccessDeniedException.class);
-		org.mockito.Mockito.verifyNoInteractions(ideaRepository, teamRepository, teamMemberRepository);
+		org.mockito.Mockito.verifyNoInteractions(teamRepository, teamMemberRepository);
+		org.mockito.Mockito.verify(ideaRepository, org.mockito.Mockito.never()).save(any());
 	}
 
 }

@@ -11,10 +11,11 @@ vi.stubGlobal('ResizeObserver', class { observe() {} unobserve() {} disconnect()
 vi.mock('../contexts/LanguageContext', () => ({ useLanguage: () => ({ language: 'en' }) }))
 
 const mocks = vi.hoisted(() => ({
-  user: { id: 'judge-1', role: 'participant' },
+  user: { id: 'judge-1', role: 'participant' }, hod: false,
   getCriteria: vi.fn(), applyAwardTemplate: vi.fn(),
   deleteEvaluation: vi.fn(), getJudges: vi.fn(), getMyScores: vi.fn(), submitEvaluation: vi.fn(), notify: vi.fn(),
 }))
+vi.mock('../hooks/useNominationEligibility', () => ({useNominationEligibility: () => ({data:{canReview:mocks.hod}, isLoading:false})}))
 vi.mock('../store/authStore', () => ({ useAuthStore: () => ({ user: mocks.user }) }))
 vi.mock('@mantine/notifications', () => ({ notifications: { show: mocks.notify } }))
 vi.mock('../services/judgingService', () => ({ JudgingService: mocks }))
@@ -31,8 +32,8 @@ function show() {
 }
 
 beforeEach(() => {
-  vi.clearAllMocks()
-  mocks.getCriteria.mockResolvedValue([{ id: 'behavior', name: 'Behavior Demonstration', weight: 70 }, { id: 'impact', name: 'Business Impact', weight: 30 }])
+  vi.clearAllMocks(); mocks.hod = false
+  mocks.getCriteria.mockResolvedValue([{ id: 'behavior', name: 'DPA track criterion 1', weight: 40 }, { id: 'impact', name: 'DPA track criterion 2', weight: 30 }, { id: 'growth', name: 'DPA track criterion 3', weight: 30 }])
   mocks.user.role = 'participant'
   mocks.getJudges.mockResolvedValue([{ userId: 'judge-1' }])
   mocks.getMyScores.mockResolvedValue([])
@@ -48,17 +49,18 @@ it('requires explicit scores and submits the Excel example as one complete evalu
   show()
   const submit = await screen.findByRole('button', { name: 'Submit rating' })
   expect(submit).toBeDisabled()
-  await user.type(screen.getByRole('textbox', { name: /Behavior score/ }), '8')
+  await user.type(screen.getByRole('textbox', { name: /Customer Impact score/ }), '8')
   expect(submit).toBeDisabled()
-  await user.type(screen.getByRole('textbox', { name: /Business Impact score/ }), '5')
-  expect(screen.getByText('7.1', { exact: true })).toBeInTheDocument()
+  await user.type(screen.getByRole('textbox', { name: /Deep Customer Insight score/ }), '5')
+  await user.type(screen.getByRole('textbox', { name: /Growing Together with Customers score/ }), '9')
+  expect(screen.getByText('7.4', { exact: true })).toBeInTheDocument()
   expect(submit).toBeDisabled()
   await user.click(screen.getByRole('textbox', { name: /Recommendation/ }))
   await user.click(await screen.findByRole('option', { name: 'Recommend', exact: true }))
   await user.type(screen.getByRole('textbox', { name: 'Comments, if any' }), 'Verified outcome')
   await user.click(submit)
   await waitFor(() => expect(mocks.submitEvaluation).toHaveBeenCalledWith('award-1', {
-    ideaId: 'case-1', scores: [{ criterionId: 'behavior', score: 8 }, { criterionId: 'impact', score: 5 }],
+    ideaId: 'case-1', scores: [{ criterionId: 'behavior', score: 8 }, { criterionId: 'impact', score: 5 }, { criterionId: 'growth', score: 9 }],
     comment: 'Recommendation: Recommend\n\nVerified outcome',
   }))
   await screen.findByRole('button', { name: 'Delete rating' })
@@ -69,8 +71,8 @@ it('requires explicit scores and submits the Excel example as one complete evalu
 it('leaves partial historical evaluations incomplete and restores the saved value', async () => {
   mocks.getMyScores.mockResolvedValue([{ id: 'old-score', ideaId: 'case-1', judgeId: 'judge-1', criterionId: 'behavior', score: 8, comment: 'Recommendation: Recommend' }])
   show()
-  expect(await screen.findByRole('textbox', { name: /Behavior score/ })).toHaveValue('8')
-  expect(screen.getByRole('textbox', { name: /Business Impact score/ })).toHaveValue('')
+  expect(await screen.findByRole('textbox', { name: /Customer Impact score/ })).toHaveValue('8')
+  expect(screen.getByRole('textbox', { name: /Deep Customer Insight score/ })).toHaveValue('')
   expect(screen.queryByText('Recorded')).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Submit rating' })).toBeDisabled()
 })
@@ -79,7 +81,7 @@ it('lets an unassigned manager review the form without submitting scores', async
   mocks.user.role = 'admin'
   mocks.getJudges.mockResolvedValue([])
   show()
-  expect(await screen.findByRole('textbox', { name: /Behavior score/ })).toBeDisabled()
+  expect(await screen.findByRole('textbox', { name: /Customer Impact score/ })).toBeDisabled()
   expect(screen.getByRole('button', { name: 'Submit rating' })).toBeDisabled()
   expect(mocks.getMyScores).not.toHaveBeenCalled()
 })
@@ -102,7 +104,7 @@ it('deletes only the current judges complete evaluation and refreshes the form',
 it('repairs an unscored invalid rubric from the blocked scoring screen', async () => {
   mocks.user.role = 'admin'
   mocks.getCriteria.mockResolvedValue([{ id: 'old', name: '111111', weight: 100 }])
-  mocks.applyAwardTemplate.mockResolvedValue([{ id: 'behavior', name: 'Behavior Demonstration', weight: 70 }, { id: 'impact', name: 'Business Impact', weight: 30 }])
+  mocks.applyAwardTemplate.mockResolvedValue([{ id: 'behavior', name: 'DPA track criterion 1', weight: 40 }, { id: 'impact', name: 'DPA track criterion 2', weight: 30 }, { id: 'growth', name: 'DPA track criterion 3', weight: 30 }])
   show()
   await userEvent.click(await screen.findByRole('button', { name: 'Apply 2026 DPA template' }))
   expect(mocks.applyAwardTemplate).not.toHaveBeenCalled()
@@ -123,3 +125,5 @@ it('keeps the invalid setup visible when existing scores prevent replacement', a
   expect(screen.getByText('Check setup')).toBeInTheDocument()
   expect(screen.queryByText('Score the evidence')).not.toBeInTheDocument()
 })
+
+it('allows a verified roster HoD to score without a committee assignment', async () => { mocks.hod = true; mocks.getJudges.mockResolvedValue([]); show(); expect(await screen.findByRole('textbox', {name:/Customer Impact score/})).toBeEnabled(); expect(mocks.getMyScores).toHaveBeenCalled(); })

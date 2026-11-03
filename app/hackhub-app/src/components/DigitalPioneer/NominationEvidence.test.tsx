@@ -19,3 +19,9 @@ it('shows failure and retries without opening an expired URL', async () => {
   await userEvent.click(screen.getByRole('button', { name: 'Retry' }))
   expect(await screen.findByRole('link', { name: 'Photo' })).toHaveAttribute('href', '/storage/retry')
 })
+
+it('embeds the signed PDF in the current page', async () => {
+ getPresignedUrl.mockResolvedValue('/storage/current.pdf')
+ render(<MantineProvider><NominationEvidence attachment={{type:'document',name:'evidence.pdf',storageKey:'folder/evidence.pdf',url:''}} /></MantineProvider>)
+ expect(await screen.findByTitle('PDF preview: evidence.pdf')).toHaveAttribute('src','/storage/current.pdf')
+})

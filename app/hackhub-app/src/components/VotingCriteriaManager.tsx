@@ -32,7 +32,6 @@ import { notifications } from '@mantine/notifications'
 import { VotingService } from '../services/votingService'
 import type { VotingCriteria } from '../services/votingService'
 import { officialCriteria } from '../utils/committeeScoring'
-import { DIGITAL_PIONEER_RUBRIC } from '../config/digitalPioneer'
 
 interface VotingCriteriaManagerProps {
   hackathonId: string
@@ -216,7 +215,7 @@ export function VotingCriteriaManager({ hackathonId, isManager }: VotingCriteria
       await loadCriteria()
       notifications.show({
         title: 'Evaluation form ready',
-        message: 'Behavior Demonstration 70% and Business Impact 30% were added.',
+        message: 'The three category scoring criteria were added.',
         color: 'teal',
       })
     } catch (error) {
@@ -303,7 +302,7 @@ export function VotingCriteriaManager({ hackathonId, isManager }: VotingCriteria
           )}
 
           {!officialCriteria(criteria) && criteria.length > 0 && <Alert color="orange">
-            Configure exactly two criteria totaling 100% before committee scoring: Behavior Demonstration 70% and Business Impact 30%.
+            Configure the three category scoring criteria before committee scoring.
           </Alert>}
           {criteria.length === 0 ? (
             <Alert color="blue">
@@ -383,7 +382,7 @@ export function VotingCriteriaManager({ hackathonId, isManager }: VotingCriteria
           )}
 
           {confirmTemplate && <Alert color="orange">
-            <Text>Apply Behavior Demonstration 70% and Business Impact 30%? Existing criteria will be replaced only if no scores have been recorded.</Text>
+            <Text>Add three category scoring criteria? Historical criteria and ratings will be preserved.</Text>
             <Group mt="sm"><Button loading={applyingTemplate} onClick={() => void applyDigitalPioneerTemplate()}>Confirm official criteria</Button><Button variant="default" onClick={() => setConfirmTemplate(false)}>Cancel</Button></Group>
           </Alert>}
           {criteria.length > 0 && (
@@ -391,14 +390,7 @@ export function VotingCriteriaManager({ hackathonId, isManager }: VotingCriteria
               <Divider />
               <Stack gap="xs">
                 <Text size="sm" fw={500}>Official evaluation scale · 1–10</Text>
-                {DIGITAL_PIONEER_RUBRIC.map((rubric) => (
-                  <div key={rubric.key}>
-                    <Text size="sm" fw={600}>{rubric.name} · {rubric.weight}%</Text>
-                    {rubric.levels.map((level) => <Text key={level.range} size="xs" c="dimmed" mt={4}>
-                      {level.range === '≤ 4' ? '1–4' : level.range} · {level.label}: {level.detail}
-                    </Text>)}
-                  </div>
-                ))}
+                <Text size="sm">Customer Values / Innovation: 40% / 30% / 30%. Collaboration: 30% / 35% / 35%. Labels and evidence follow each nomination’s Individual or Team criteria.</Text>
               </Stack>
             </>
           )}

@@ -1,7 +1,6 @@
 import { MantineProvider } from '@mantine/core'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { TeamNominationForm } from './TeamNominationForm'
 import { TeamService, type Team, type TeamMember } from '../../services/teamService'
@@ -16,9 +15,9 @@ vi.mock('../../services/storageService', async (importOriginal) => ({
 }))
 const user = { id: 'captain', name: 'Signed-in Captain', email: 'captain@example.com', role: 'participant' as const, skills: [] }
 const team: Team = { id: 'team', name: 'Created team', description: '', hackathonId: 'campaign', createdBy: user.id, isOpen: true, skills: [], avatarUrl: null, createdAt: '', updatedAt: '' }
-const member: TeamMember = { id: 'membership', teamId: team.id, userId: user.id, role: 'leader', joinedAt: '' }
+const member: TeamMember = { id: 'membership', teamId: undefined, userId: user.id, role: 'leader', joinedAt: '' }
 const existing = {
-  id: 'rejected', createdBy: user.id, teamId: team.id, hackathonId: 'campaign', category: 'customer-values', approvalStatus: 'rejected', approvalVersion: 4,
+  id: 'rejected', createdBy: user.id, teamId: undefined, hackathonId: 'campaign', category: 'customer-values', approvalStatus: 'rejected', approvalVersion: 4,
   projectAttachments: [
     { type: 'nomination', nominationType: 'team', url: '', name: 'Real project', projectName: 'Real project', coreTeamMembers: 'Actual Member;Another Member', achievementSummary: 'Actual submitted summary', teamAchievementImpact: 'Actual impact', cultureDemonstration: 'Actual culture', nominatorName: 'Saved nominator' },
     { type: 'screenshot', name: 'team.png', storageKey: 'nominations/campaign/captain/team.png', url: '/original-photo' },
@@ -57,19 +56,9 @@ beforeEach(() => {
 })
 
 describe('Team nomination form', () => {
-  it('shows a membership notice and no editable form to members', async () => {
-    vi.mocked(TeamService.getMyTeams).mockResolvedValue([{ ...member, role: 'member' }])
-    show()
-    await screen.findByText(/Only the team creator/)
-    expect(screen.queryByRole('textbox', { name: /Project Name/ })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Submit nomination' })).not.toBeInTheDocument()
-  })
-  it('does not give a promoted leader who did not create the team editing rights', async () => {
-    vi.mocked(TeamService.getTeams).mockResolvedValue([{ ...team, createdBy: 'someone-else' }])
-    show()
-    await screen.findByText(/Only the team creator/)
-    expect(screen.queryByRole('textbox', { name: /Project Name/ })).not.toBeInTheDocument()
-  })
+  it('opens the fields directly without separate team creation', () => { show(); expect(screen.getByRole('textbox', {name:'Project Name'})).toBeInTheDocument(); expect(screen.queryByRole('button', {name:'Create team'})).not.toBeInTheDocument(); expect(TeamService.getMyTeams).not.toHaveBeenCalled(); })
+
+
   it('submits the captain’s actual structured fields and original team photo without cropping', async () => {
     const view = show()
     await fill(view)
@@ -79,7 +68,7 @@ describe('Team nomination form', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Submit nomination' }))
     await waitFor(() => expect(IdeaService.createIdea).toHaveBeenCalledOnce())
     expect(StorageService.uploadFile).toHaveBeenCalledWith(expect.objectContaining({ name: 'team.png' }), 'project-attachments', 'nominations/campaign/captain')
-    expect(IdeaService.createIdea).toHaveBeenCalledWith(expect.objectContaining({ teamId: team.id,
+    expect(IdeaService.createIdea).toHaveBeenCalledWith(expect.objectContaining({ teamId: undefined,
       projectAttachments: expect.arrayContaining([expect.objectContaining({ nominationType: 'team', projectName: 'Test project', coreTeamMembers: 'Member One;Member Two', achievementSummary: 'Test-only achievement summary', teamAchievementImpact: 'Measurable test impact', cultureDemonstration: 'Test culture evidence' })]),
     }))
     expect(TeamService.createTeam).not.toHaveBeenCalled()
@@ -115,27 +104,8 @@ describe('Team nomination form', () => {
     expect(IdeaService.createIdea).not.toHaveBeenCalled()
     expect(StorageService.uploadFile).not.toHaveBeenCalled()
   })
-  it('creates the team only once then verifies captain membership before showing its form', async () => {
-    vi.mocked(TeamService.getMyTeams).mockResolvedValueOnce([]).mockResolvedValue([member])
-    vi.mocked(TeamService.createTeam).mockResolvedValue(team)
-    show()
-    await screen.findByRole('textbox', { name: 'Team name' })
-    fireEvent.change(screen.getByRole('textbox', { name: 'Team name' }), { target: { value: 'New real team' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Create team' }))
-    await screen.findByRole('textbox', { name: /Project Name/ })
-    expect(TeamService.createTeam).toHaveBeenCalledExactlyOnceWith({ name: 'New real team', description: '', hackathonId: 'campaign' })
-  })
-  it('joins an existing team and then exposes only the member notice', async () => {
-    vi.mocked(TeamService.getMyTeams).mockResolvedValueOnce([]).mockResolvedValue([{ ...member, role: 'member' }])
-    vi.mocked(TeamService.joinTeam).mockResolvedValue({ ...member, role: 'member' })
-    show()
-    await userEvent.click(await screen.findByRole('textbox', { name: 'Available teams' }))
-    await userEvent.click(await screen.findByRole('option', { name: team.name }))
-    await userEvent.click(screen.getByRole('button', { name: 'Join team' }))
-    await screen.findByText(/Only the team creator/)
-    expect(TeamService.joinTeam).toHaveBeenCalledExactlyOnceWith(team.id)
-    expect(screen.queryByRole('textbox', { name: /Project Name/ })).not.toBeInTheDocument()
-  })
+
+
   it('rejects documents over 50 MB without uploading them', async () => {
     const view = show(existing)
     await screen.findByRole('textbox', { name: /Project Name/ })
@@ -146,11 +116,5 @@ describe('Team nomination form', () => {
     expect(screen.getByRole('button', { name: 'Resubmit nomination' })).toBeDisabled()
     expect(StorageService.uploadFile).not.toHaveBeenCalled()
   })
-  it('fails closed when current membership cannot be loaded', async () => {
-    vi.mocked(TeamService.getMyTeams).mockRejectedValue(new Error('Unavailable'))
-    show()
-    await screen.findByText(/Unable to load your team membership/)
-    expect(screen.queryByRole('button', { name: 'Create team' })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Submit nomination' })).not.toBeInTheDocument()
-  })
+
 })

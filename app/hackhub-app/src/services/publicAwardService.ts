@@ -7,6 +7,7 @@ export interface PublicNomination {
   title: string
   description: string
   hackathon_id: string
+  nomination_type?: 'individual' | 'team'
   nominee_name: string
   nominee_org_code: string
   category: string

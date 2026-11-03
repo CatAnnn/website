@@ -44,19 +44,21 @@ import {
   IconTrash,
 } from '@tabler/icons-react'
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 import { useLanguage } from '../contexts/LanguageContext'
 import { notifications } from '@mantine/notifications'
 import { getAllPages } from '../services/pagination'
 import { ApiError } from '../lib/apiClient'
-import folderUploadIcon from '../assets/folder-upload.svg'
 import { HackathonService } from '../services/hackathonService'
 import { PublicAwardService, type AwardSummary } from '../services/publicAwardService'
-import { IdeaService, type Idea, type CreateIdeaInput } from '../services/ideaService'
+import { IdeaService, type Idea, type CreateIdeaInput, type ProjectAttachment } from '../services/ideaService'
+import { useRealtime } from '../hooks/useRealtime'
 import { useNominationEligibility } from '../hooks/useNominationEligibility'
 import { NominationProgress } from '../components/DigitalPioneer/NominationProgress'
+import { validateNominationPdf } from '../services/storageService'
+import { NominationEvidence } from '../components/DigitalPioneer/NominationEvidence'
 import { TeamNominationForm } from '../components/DigitalPioneer/TeamNominationForm'
 import { useNominationType } from '../hooks/useNominationType'
 import { ProfileService } from '../services/profileService'
@@ -65,7 +67,6 @@ import { TeamService } from '../services/teamService'
 import { JudgingService } from '../services/judgingService'
 import {
   DIGITAL_PIONEER_TRACKS,
-  DIGITAL_PIONEER_VOTING_RULES,
   getDigitalPioneerTracks,
   normalizeDigitalPioneerTrack,
 } from '../config/digitalPioneer'
@@ -93,6 +94,8 @@ interface Project {
   images: string[]
   votes: number
   user_vote?: boolean
+  nomination_type: 'individual' | 'team'
+  documents?: ProjectAttachment[]
   status: 'draft' | 'submitted' | 'in-progress' | 'completed'
   created_at: string
   submission_date: string
@@ -159,15 +162,6 @@ function nominationSummary(description: string) {
   const sections = parseNominationDescription(description)
   return sections.find((section) => section.heading === nominationHeadings[0])?.body
     ?? sections.find((section) => !section.heading)?.body ?? ''
-}
-
-function readVotingCart(userId: string | undefined): { userId: string | undefined; ids: string[] } {
-  try {
-    const stored: unknown = userId ? JSON.parse(localStorage.getItem(`award-voting-cart-v1:${userId}`) ?? '[]') : []
-    return { userId, ids: Array.isArray(stored) ? stored.filter((id): id is string => typeof id === 'string') : [] }
-  } catch {
-    return { userId, ids: [] }
-  }
 }
 
 function NomineePhoto({ src, name }: { src: string; name: string }) {
@@ -330,17 +324,21 @@ function PersonalPhotoCrop({ file, language, onConfirm, onClose }: {
   )
 }
 
+function LocalPdfPreview({ file }: { file: File }) {
+  const url = usePhotoUrl(file)
+  return url ? <iframe title="Selected PDF preview" src={url} style={{ width: '100%', height: 500, marginTop: 12, border: 0 }} /> : null
+}
+
 export function ProjectShowcase({ nominationMode = false, managementMode = false }: { nominationMode?: boolean; managementMode?: boolean }) {
+  const { isConnected, subscribeToHackathonUpdates } = useRealtime()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { user } = useAuthStore()
   const { language } = useLanguage()
   const [searchParams, setSearchParams] = useSearchParams()
   const [preferredNominationType, setNominationType] = useNominationType()
-  const [cart, setCart] = useState(() => readVotingCart(user?.id))
-  const cartIds = useMemo(() => new Set(cart.userId === user?.id ? cart.ids : []), [cart, user?.id])
+  const [votingType, setVotingType] = useState<'individual' | 'team'>(() => searchParams.get('type') === 'individual' ? 'individual' : 'team')
   const [submitting, setSubmitting] = useState(false)
-  const [submissionState, setSubmissionState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [recordToDelete, setRecordToDelete] = useState<Project | null>(null)
   const [deletingRecord, setDeletingRecord] = useState(false)
   const [recordError, setRecordError] = useState<string | null>(null)
@@ -356,6 +354,10 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const nomineeToOpen = searchParams.get('nominee')
   const eligibility = useNominationEligibility()
   const canNominate = eligibility.data?.canSubmit === true
+  const ownNominations = useQuery({
+    queryKey: ['my-nomination-slots', user?.id], queryFn: () => IdeaService.getMyNominations(),
+    enabled: nominationMode && Boolean(user), staleTime: 0, retry: false,
+  })
   const editId = nominationMode ? searchParams.get('edit') : null
   const [editingNomination, setEditingNomination] = useState<Idea | null>(null)
   const [editError, setEditError] = useState<string | null>(null)
@@ -387,6 +389,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const [uploading, setUploading] = useState(false)
   const [hackathons, setHackathons] = useState<AwardSummary[]>([])
   const [projectImage, setProjectImage] = useState<File | null>(null)
+  const [individualDocument, setIndividualDocument] = useState<File | null>(null)
   const [photoToCrop, setPhotoToCrop] = useState<File | null>(null)
   const photoPreview = usePhotoUrl(projectImage && !validatePersonalPhoto(projectImage) ? projectImage : null)
   const [uploadForm, setUploadForm] = useState<ProjectUploadForm>(emptyUploadForm)
@@ -429,7 +432,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           setHackathons(awards)
           const nominations = await Promise.all(awards.map((award) => getAllPages((page) => PublicAwardService.getNominations(award.id, page))))
           if (sequence !== loadSequence.current) return
-          setProjects(nominations.flat().map((nomination) => ({ ...nomination, technologies: parseNominationTags(nomination.technologies.join(',')), team_members: [], user_vote: false })))
+          setProjects(nominations.flat().map((nomination) => ({ ...nomination, technologies: parseNominationTags(nomination.technologies.join(',')), team_members: [], user_vote: false, nomination_type: nomination.nomination_type ?? 'individual' })))
           return
         }
         const loadedHackathons = await getAllPages((page) => HackathonService.getHackathons(page, 100))
@@ -501,6 +504,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
 
             return {
               id: idea.id,
+              nomination_type: idea.teamId || nomination?.nominationType === 'team' ? 'team' : 'individual',
+              documents: idea.projectAttachments?.filter((item) => item.type === 'document') ?? [],
               title: idea.title,
               description: idea.description,
               nominee_org_code: nomination?.nomineeOrgCode ?? '',
@@ -548,14 +553,13 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   }, [user])
 
   useEffect(() => {
-    setCart(readVotingCart(user?.id))
     setRecordToDelete(null)
-    setSubmissionState('idle')
     setRecordError(null)
     setProjects([])
     setAssignedJudgeHackathons(new Set())
     setUploadForm(emptyUploadForm())
     setProjectImage(null)
+    setIndividualDocument(null)
     setSelectedProject(null)
     setModalOpened(false)
     setCartOpened(false)
@@ -568,21 +572,13 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     return () => { loadSequence.current += 1 }
   }, [loadProjects, user?.id])
 
-  useEffect(() => {
-    if (!cart.userId || cart.userId !== user?.id) return
-    try {
-      localStorage.setItem(`award-voting-cart-v1:${cart.userId}`, JSON.stringify(cart.ids))
-    } catch {
-      // The cart remains usable in memory when browser storage is unavailable.
-    }
-  }, [cart, user?.id])
-
   const nominationTags = parseNominationTags(uploadForm.technologies)
   const tooManyTags = nominationTags.length > 5
   const photoError = validatePersonalPhoto(projectImage)
+  const documentError = validateNominationPdf(individualDocument)
 
   const handleProjectUpload = async () => {
-    if (!user || !canNominate || uploading) return
+    if (!user || !canNominate || uploading || (!editId && (ownNominations.isPending || ownNominations.isError || existingNomination))) return
     if (editId && editingNomination?.id !== editId) return
     if (!uploadForm.hackathonId || !uploadForm.executiveSummary.trim()
       || !uploadForm.achievementImpact.trim() || !uploadForm.cultureDemonstration.trim()
@@ -595,8 +591,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
       return
     }
 
-    if (photoError) {
-      notifications.show({ title: 'Invalid photo', message: photoError, color: 'orange' })
+    if (photoError || documentError) {
+      notifications.show({ title: 'Invalid upload', message: photoError || documentError, color: 'orange' })
       return
     }
 
@@ -615,11 +611,11 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         `Details of Your Core Achievement in 2026 and Business Impact (including financial figures)\n${uploadForm.achievementImpact.trim()}`,
         `How You Demonstrate Bosch China Culture (Especially in Your Applied Category)\n${uploadForm.cultureDemonstration.trim()}`,
       ].join('\n\n')
-      const uploadedImage = projectImage ? await StorageService.uploadFile(
-        projectImage,
-        'project-attachments',
-        `nominations/${uploadForm.hackathonId}/${user.id}`
-      ) : null
+      const prefix = `nominations/${uploadForm.hackathonId}/${user.id}`
+      const [uploadedImage, uploadedDocument] = await Promise.all([
+        projectImage ? StorageService.uploadFile(projectImage, 'project-attachments', prefix) : null,
+        individualDocument ? StorageService.uploadFile(individualDocument, 'project-attachments', prefix) : null,
+      ])
       const payload: CreateIdeaInput = {
         title: nomineeName,
         description,
@@ -627,23 +623,19 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         category: uploadForm.category.trim(),
         tags: technologies,
         status: 'submitted',
-        projectAttachments: [{
-          type: 'nomination',
-          url: '',
-          name: nomineeName,
-          nomineeUserId,
-        }, ...(uploadedImage && projectImage ? [{
-          type: 'screenshot' as const,
-          url: uploadedImage.url,
-          name: projectImage.name,
-          storageKey: uploadedImage.key,
-        }, ...(editingNomination?.projectAttachments?.filter((item) => item.type !== 'nomination' && item.type !== 'screenshot') ?? [])]
-          : editingNomination?.projectAttachments?.filter((item) => item.type !== 'nomination') ?? [])],
+        projectAttachments: [{ type: 'nomination', nominationType: 'individual', url: '', name: nomineeName, nomineeUserId },
+          ...(uploadedImage && projectImage ? [{ type: 'screenshot' as const, url: uploadedImage.url, name: projectImage.name, storageKey: uploadedImage.key }]
+            : editingNomination?.projectAttachments?.filter((item) => item.type === 'screenshot') ?? []),
+          ...(uploadedDocument && individualDocument ? [{ type: 'document' as const, url: uploadedDocument.url, name: individualDocument.name, storageKey: uploadedDocument.key }]
+            : editingNomination?.projectAttachments?.filter((item) => item.type !== 'nomination' && item.type !== 'screenshot') ?? []),
+        ],
       }
       const submitted = editingNomination
         ? await IdeaService.updateIdea(editingNomination.id, { ...payload, approvalVersion: editingNomination.approvalVersion })
         : await IdeaService.createIdea(payload)
       setSubmittedNomination(submitted)
+      void ownNominations.refetch()
+      setIndividualDocument(null)
 
       notifications.show({
         title: 'Nomination submitted',
@@ -666,35 +658,6 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     }
   }
 
-  const showVotingRecords = () => {
-    setCartOpened(false)
-    setModalOpened(false)
-    setSearchParams((current) => {
-      const next = new URLSearchParams(current)
-      next.set('view', 'voting-records')
-      return next
-    })
-  }
-
-  const handleVote = (projectId: string) => {
-    if (!user) {
-      navigate(`/login?redirect=${encodeURIComponent(`/projects?nominee=${projectId}`)}`)
-      return
-    }
-    if (ballotBusy.current || loading || loadError) return
-    const project = projects.find((item) => item.id === projectId)
-    if (!project) return
-    if (project.user_vote) {
-      showVotingRecords()
-      return
-    }
-    setVoteError(null)
-    setCart((current) => {
-      const ids = current.userId === user.id ? current.ids : []
-      return { userId: user.id, ids: ids.includes(projectId) ? ids.filter((id) => id !== projectId) : [...ids, projectId] }
-    })
-  }
-
   const refreshVoteState = async (ids: string[], sequence: number) => {
     const awardIds = [...new Set(projects.filter((project) => ids.includes(project.id)).map((project) => project.hackathon_id))]
     for (const awardId of awardIds) {
@@ -714,41 +677,66 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     }
   }
 
-  const submitCart = async () => {
-    if (!user || ballotBusy.current || loading || loadError) return
-    const ids = projects.filter((project) => cartIds.has(project.id) && !project.user_vote).map((project) => project.id)
-    if (!ids.length) return
+  useEffect(() => {
+    if (nominationMode || managementMode || loading || loadError) return
+    let active = true
+    let running = false
+    const sequence = loadSequence.current
+    const refresh = async () => {
+      if (document.visibilityState === 'hidden' || running || ballotBusy.current) return
+      running = true
+      try {
+        const pages = await Promise.all(hackathons.map(async (award) => user
+          ? (await getAllPages((page) => IdeaService.getIdeas(award.id, page, 100))).map((idea) => ({ id: idea.id, votes: idea.votes ?? 0, user_vote: idea.userHasVoted ?? false }))
+          : (await getAllPages((page) => PublicAwardService.getNominations(award.id, page))).map((idea) => ({ id: idea.id, votes: idea.votes ?? 0, user_vote: false }))))
+        if (!active || sequence !== loadSequence.current) return
+        const counts = new Map(pages.flat().map((idea) => [idea.id, { votes: idea.votes, user_vote: idea.user_vote }]))
+        setProjects((current) => current.map((project) => ({ ...project, ...counts.get(project.id) })))
+        setSelectedProject((current) => current ? { ...current, ...counts.get(current.id) } : null)
+      } catch { /* Existing totals remain visible; the next refresh can retry. */ }
+      finally { running = false }
+    }
+    const timer = window.setInterval(() => void refresh(), 30_000)
+    window.addEventListener('focus', refresh)
+    document.addEventListener('visibilitychange', refresh)
+    return () => { active = false; window.clearInterval(timer); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', refresh) }
+  }, [nominationMode, managementMode, loading, loadError, hackathons, user])
+
+  useEffect(() => {
+    if (nominationMode || managementMode || !isConnected) return
+    const stops = hackathons.map((award) => subscribeToHackathonUpdates(award.id, (event) => {
+      if (event.event !== 'VOTE_UPDATED' || typeof event.ideaId !== 'string' || typeof event.voteCount !== 'number' || event.voteCount < 0) return
+      const count = event.voteCount
+      setProjects((current) => current.map((item) => item.id === event.ideaId ? { ...item, votes: count } : item))
+      setSelectedProject((current) => current && current.id === event.ideaId ? { ...current, votes: count } : current)
+    }))
+    return () => stops.forEach((stop) => stop?.())
+  }, [hackathons, isConnected, subscribeToHackathonUpdates, nominationMode, managementMode])
+
+  const handleVote = async (projectId: string) => {
+    if (!user) {
+      navigate(`/login?redirect=${encodeURIComponent(`/projects?nominee=${projectId}`)}`)
+      return
+    }
+    if (ballotBusy.current || loading || loadError) return
+    const project = projects.find((item) => item.id === projectId)
+    if (!project) return
+    if (project.user_vote) { setCartOpened(true); return }
     const sequence = loadSequence.current
     ballotBusy.current = true
     setSubmitting(true)
-    setSubmissionState('submitting')
     setVoteError(null)
     try {
-      // Keep the progress ring visible long enough to avoid a flash on fast responses.
-      const [result] = await Promise.allSettled([
-        IdeaService.submitVotes(ids),
-        new Promise<void>((resolve) => window.setTimeout(resolve, 400)),
-      ])
-      if (result.status === 'rejected') throw result.reason
+      await IdeaService.submitVotes([projectId])
       if (sequence !== loadSequence.current) return
-      setCart({ userId: user.id, ids: [] })
-      setProjects((current) => current.map((project) => ids.includes(project.id)
-        ? { ...project, user_vote: true, votes: project.votes + 1 } : project))
-      setSubmissionState('success')
-      await new Promise<void>((resolve) => window.setTimeout(resolve, 500))
-      if (sequence !== loadSequence.current) return
-      setSubmissionState('idle')
-      showVotingRecords()
-      await refreshVoteState(ids, sequence)
+      setProjects((current) => current.map((item) => item.id === projectId
+        ? { ...item, user_vote: true } : item))
+      setSelectedProject((current) => current?.id === projectId
+        ? { ...current, user_vote: true } : current)
+      setCartOpened(true)
+      await refreshVoteState([projectId], sequence)
     } catch (error) {
-      if (sequence !== loadSequence.current) return
-      const message = error instanceof ApiError && error.status === 401
-        ? 'Your session has expired. Sign in again to submit your cart.'
-        : error instanceof ApiError && (error.status === 404 || error.status === 405)
-          ? 'The submission service is unavailable. Please try again after the service has been updated.'
-          : error instanceof Error ? error.message : 'Unable to submit your votes. Please try again.'
-      setVoteError(message)
-      setSubmissionState('error')
+      if (sequence === loadSequence.current) setVoteError(error instanceof Error ? error.message : 'Unable to save your vote. Please try again.')
     } finally {
       ballotBusy.current = false
       setSubmitting(false)
@@ -769,7 +757,6 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         ? { ...project, user_vote: false, votes: Math.max(0, project.votes - 1) } : project))
       setSelectedProject((project) => project?.id === id
         ? { ...project, user_vote: false, votes: Math.max(0, project.votes - 1) } : project)
-      setCart((current) => ({ ...current, ids: current.ids.filter((item) => item !== id) }))
       setRecordToDelete(null)
       await refreshVoteState([id], sequence)
     } catch (error) {
@@ -802,12 +789,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
       const matchesCategory = !filters.category || project.category === filters.category
       const matchesDepartment = !filters.department || project.nominee_org_code.split('-')[0] === filters.department
       
-      return matchesSearch && matchesCategory && matchesDepartment
+      return (canDelete || project.nomination_type === votingType) && matchesSearch && matchesCategory && matchesDepartment
     })
-  }, [projects, filters])
+  }, [projects, filters, canDelete, votingType])
 
   const submittedProjects = projects.filter((project) => project.user_vote)
-  const votedProjects = projects.filter((project) => cartIds.has(project.id) && !project.user_vote)
+  const typeProjects = canDelete ? projects : projects.filter((project) => project.nomination_type === votingType)
   const departments = useMemo(
     () => [...new Set(projects.map((project) => project.nominee_org_code.split('-')[0]).filter(Boolean))].sort(),
     [projects]
@@ -815,23 +802,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const nominationType = editingNomination
     ? editingNomination.projectAttachments?.find((item) => item.type === 'nomination')?.nominationType ?? 'individual'
     : preferredNominationType
+  const existingNomination = ownNominations.data?.find((idea) => idea.hackathonId === uploadForm.hackathonId
+    && (idea.teamId || idea.projectAttachments?.some((item) => item.type === 'nomination' && item.nominationType === 'team') ? 'team' : 'individual') === nominationType)
   const nominationTracks = getDigitalPioneerTracks(nominationType)
   const selectedNominationTrack = nominationTracks.find(
     (track) => track.value === uploadForm.category
   )
-
-  const clearAllVotes = () => {
-    if (!user || ballotBusy.current) return
-    setCart({ userId: user.id, ids: [] })
-    setVoteError(null)
-  }
-
-  const clearTrackVotes = (awardId: string, category: string) => {
-    if (ballotBusy.current) return
-    const ids = new Set(projects.filter((project) => project.hackathon_id === awardId && project.category === category).map((project) => project.id))
-    setCart((current) => ({ ...current, ids: current.ids.filter((id) => !ids.has(id)) }))
-    setVoteError(null)
-  }
 
   const openProjectModal = (project: Project) => {
     setSelectedProject(project)
@@ -899,7 +875,6 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         <section className="dp-nomination-flow" aria-labelledby="track-choice-title">
           {eligibility.isError && <Alert color="red">Unable to verify your nomination eligibility. Please refresh.</Alert>}
           {eligibility.data && !canNominate && <Alert color="orange">{eligibility.data.message || 'Your signed-in account could not be matched to an eligible employee and Nominating HoD.'}</Alert>}
-          {eligibility.data?.nominatingHead && <Text mb="md">Nominating HoD: {eligibility.data.nominatingHead}</Text>}
           {editError && <Alert color="red">{editError}</Alert>}
           {editId && !editingNomination && !editError && <Text>Loading your submitted nomination…</Text>}
           {editingNomination?.approvalReason && <Alert color="orange" title="Requested changes">{editingNomination.approvalReason}</Alert>}
@@ -928,6 +903,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                   aria-checked={isSelected}
                   aria-controls="nomination-track-description nomination-form"
                   aria-expanded={isSelected}
+                  disabled={Boolean(editingNomination) && track.value !== editingNomination?.category}
                   onClick={() => setUploadForm((current) => ({ ...current, category: track.value }))}
                 >
                   <span className="dp-nomination-track__topline">
@@ -967,11 +943,17 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             <Alert color="orange" icon={<IconInfoCircle size={18} />} mt="lg" styles={{ message: { color: 'white' } }}>
               No nomination window is currently open.
             </Alert>
-          ) : editId && !editingNomination ? null : nominationType === 'team' && user ? (
+          ) : user && ownNominations.isPending ? <Text role="status">Checking your existing nominations…</Text>
+            : user && ownNominations.isError ? <Alert color="red">Unable to verify your existing nominations. <Button variant="subtle" onClick={() => void ownNominations.refetch()}>Retry</Button></Alert>
+            : !editId && existingNomination ? <Alert color="blue" title="Nomination already submitted">
+              You can submit one Individual nomination and one Team nomination per award, across all categories.
+              <Button variant="subtle" onClick={() => navigate(`/my-nominations?id=${encodeURIComponent(existingNomination.id)}`)}>View your nomination</Button>
+            </Alert>
+            : editId && !editingNomination ? null : nominationType === 'team' && user ? (
             <TeamNominationForm key={`${user.id}:${uploadForm.hackathonId}:${editingNomination?.id ?? 'new'}`}
               user={user} hackathonId={uploadForm.hackathonId} category={uploadForm.category}
               onCategoryChange={(category) => setUploadForm((current) => ({ ...current, category }))}
-              canSubmit={canNominate} editing={editingNomination} onSubmitted={setSubmittedNomination} />
+              canSubmit={canNominate} editing={editingNomination} onSubmitted={(idea) => { setSubmittedNomination(idea); void ownNominations.refetch() }} />
           ) : (
             <Card className="dp-form-shell" p={{ base: 'lg', md: 38 }}>
               <Stack gap={0} id="nomination-form">
@@ -1033,6 +1015,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                           data={nominationTracks.map((track) => ({ value: track.value, label: track.label }))}
                           value={uploadForm.category}
                           allowDeselect={false}
+                          disabled={Boolean(editingNomination)}
                           onChange={(value) => {
                             if (value) setUploadForm((current) => ({ ...current, category: value }))
                           }}
@@ -1112,13 +1095,19 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     </div>
                   </div>
 
+                  <div className="dp-fieldset" translate="no">
+                    <FileInput label="Attachment" description="Optional PDF; up to 10 MB. Preview it on this page." accept="application/pdf,.pdf"
+                      clearable value={individualDocument} error={documentError} disabled={uploading} onChange={setIndividualDocument} />
+                    {individualDocument && !documentError && <LocalPdfPreview file={individualDocument} />}
+                    {!individualDocument && editingNomination?.projectAttachments?.filter((item) => item.type === 'document').map((item) => <NominationEvidence key={item.storageKey ?? item.url} attachment={item} />)}
+                  </div>
                   <Group justify="flex-end" align="center" pt="lg">
                     <Button
                       className="dp-primary-button"
                       rightSection={<IconArrowRight size={17} />}
                       onClick={() => void handleProjectUpload()}
                       loading={uploading}
-                      disabled={!canNominate || tooManyTags || Boolean(photoError) || Boolean(editId && editingNomination?.id !== editId)}
+                      disabled={!canNominate || tooManyTags || Boolean(photoError || documentError) || Boolean(editId && editingNomination?.id !== editId)}
                     >
                       {editingNomination ? 'Resubmit nomination' : 'Submit nomination'}
                     </Button>
@@ -1140,15 +1129,29 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             <div>
               <h1 className="dp-section-title dp-selection-title">{canDelete ? (language === 'zh' ? '提名管理' : 'Manage nominees') : <>Meet this year&apos;s nominees</>}</h1>
             </div>
+            {!canDelete && <Button.Group aria-label="Voting nomination type">{(['team', 'individual'] as const).map((type) => <Button key={type} radius="xl" variant={votingType === type ? 'filled' : 'outline'} aria-pressed={votingType === type}
+              onClick={() => { setVotingType(type); setFilters((current) => ({ ...current, department: '' })) }}>{type === 'team' ? 'Team' : 'Individual'}</Button>)}</Button.Group>}
           </Group>
         </div>
 
+        {!canDelete && <Stack gap="xs" aria-live="polite" aria-label="Live vote totals">
+          <Text fw={700}>Live votes: {typeProjects.reduce((total, project) => total + project.votes, 0)}</Text>
+          <Text size="xs">Live updates when connected; totals also refresh every 30 seconds and after each vote.</Text>
+          <Group>{DIGITAL_PIONEER_TRACKS.map((track) => <Badge key={track.value} variant="light">
+            {track.label}: {typeProjects.filter((project) => project.category === track.value).reduce((total, project) => total + project.votes, 0)} votes
+          </Badge>)}</Group>
+          {user && hackathons.map((award) => <Group key={award.id} aria-label={`Your ${votingType} votes for ${award.title}`}>
+            <Text size="xs">{award.title} · Your votes:</Text>
+            {DIGITAL_PIONEER_TRACKS.map((track) => <Text size="xs" key={track.value}>{track.label}: {submittedProjects.filter((project) => project.hackathon_id === award.id && project.nomination_type === votingType && project.category === track.value).length}/{votingType === 'team' ? 3 : 4}</Text>)}
+          </Group>)}
+        </Stack>}
         {user && !canDelete && <details className="dp-voting-rules">
           <summary>{language === 'zh' ? '查看投票规则' : 'Voting rules'}</summary>
           <ul>
-            <li>{language === 'zh' ? '每人每赛道最多4票，各赛道独立计算；每位候选人最多1票，再次点击即可取消。' : 'Up to 4 votes per person per category. Each nominee receives at most one of your votes; add your selections to the cart, then click Submit.'}</li>
-            <li>{language === 'zh' ? '本部门最多2票，其他部门合计最多2票；两组额度独立，均可投0、1或2票。' : 'Up to 2 votes for your department and up to 2 votes in total for other departments. Each allowance is independent and may be used for 0, 1 or 2 votes.'}</li>
-            <li>{language === 'zh' ? '每赛道可投0–4票，无需投满；投票和撤票均不限制先后顺序。' : 'You may cast 0–4 votes per category. You do not have to use all votes, and may submit or delete voting records in any order.'}</li>
+            <li>Click Vote to save immediately. Each nominee receives at most one of your votes.</li>
+            {votingType === 'team' ? <li>Team: up to 3 votes per category, with no department restriction.</li>
+              : <li>Individual: up to 2 votes for your department and up to 2 votes for other departments per category. Each allowance is independent.</li>}
+            <li>You do not have to use all votes. View or delete your saved votes in the panel on the right.</li>
           </ul>
         </details>}
 
@@ -1160,7 +1163,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             onClick={() => setFilters((current) => ({ ...current, category: '' }))}
           >
             <span>All nominees</span>
-            <span className="dp-category-tab__count">{projects.length}</span>
+            <span className="dp-category-tab__count">{typeProjects.length}</span>
           </UnstyledButton>
           {DIGITAL_PIONEER_TRACKS.map((track) => (
             <UnstyledButton
@@ -1172,7 +1175,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             >
               <span>{track.label}</span>
               <span className="dp-category-tab__count">
-                {projects.filter((project) => project.category === track.value).length}
+                {typeProjects.filter((project) => project.category === track.value).length}
               </span>
             </UnstyledButton>
           ))}
@@ -1245,7 +1248,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
               <Card
                 key={project.id}
                 className="dp-project-card"
-                data-voted={project.user_vote || cartIds.has(project.id) ? 'true' : undefined}
+                data-voted={project.user_vote ? 'true' : undefined}
                 p={0}
               >
                 <div className="dp-candidate-layout">
@@ -1331,16 +1334,16 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     </Button> : <Button
                       className="dp-vote-button"
                       disabled={submitting || deletingRecord}
-                      data-voted={project.user_vote || cartIds.has(project.id) ? 'true' : 'false'}
-                      variant={project.user_vote || cartIds.has(project.id) ? 'filled' : 'default'}
+                      data-voted={project.user_vote ? 'true' : 'false'}
+                      variant={project.user_vote ? 'filled' : 'default'}
                       leftSection={project.user_vote ? <IconThumbUpFilled size={16} /> : <IconThumbUp size={16} />}
-                      aria-label={project.user_vote ? `Submitted, ${project.votes} votes` : cartIds.has(project.id) ? `In cart, ${project.votes} votes` : `Vote, ${project.votes} votes`}
+                      aria-label={project.user_vote ? `Submitted, ${project.votes} votes` : `Vote, ${project.votes} votes`}
                       onClick={(event) => {
                         event.stopPropagation()
                         void handleVote(project.id)
                       }}
                     >
-                      {project.user_vote ? 'Submitted' : cartIds.has(project.id) ? 'In cart' : 'Vote'} ({project.votes})
+                      {project.user_vote ? 'Submitted' : 'Vote'} ({project.votes})
                     </Button>}
                   </Group>
                   </div>
@@ -1369,8 +1372,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         {!canDelete && <Button
           className="dp-vote-cart-button"
           leftSection={<IconThumbUp size={22} />}
-          rightSection={<Badge className="dp-vote-cart-count" variant="filled">{votedProjects.length}</Badge>}
-          aria-label={language === 'zh' ? `我的点赞（${votedProjects.length}）` : `My votes (${votedProjects.length})`}
+          rightSection={<Badge className="dp-vote-cart-count" variant="filled">{submittedProjects.length}</Badge>}
+          aria-label={language === 'zh' ? `我的点赞（${submittedProjects.length}）` : `My votes (${submittedProjects.length})`}
           aria-controls="vote-cart"
           aria-haspopup="dialog"
           aria-expanded={cartOpened}
@@ -1379,134 +1382,37 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           {language === 'zh' ? '我的点赞' : 'My votes'}
         </Button>}
 
-        {cartOpened && <section
-          id="vote-cart"
-          className="dp-vote-cart-panel"
-          role="dialog"
-          aria-modal="false"
-          aria-labelledby="vote-cart-title"
-          onKeyDown={(event) => {
-            if (event.key === 'Escape') {
-              closeVoteCart()
-            }
-          }}
-        >
-          <Group className="dp-vote-cart-header" justify="space-between" wrap="nowrap" gap={6}>
-            <Title order={2} size="h4" id="vote-cart-title" aria-live="polite">{language === 'zh' ? `我的点赞（${votedProjects.length}）` : `My votes (${votedProjects.length})`}</Title>
-            <Button variant="subtle" c="#fff" loading={submitting} h="auto" py={4} px={8} style={{ flexShrink: 0 }}
-              disabled={!user || loading || loadError || deletingRecord || !votedProjects.length}
-              onClick={() => void submitCart()}>
-              <Stack gap={0} align="center">
-                <img src={folderUploadIcon} alt="" aria-hidden="true" width={32} height={32} style={{ filter: 'invert(1)' }} />
-                <Text component="span" size="xs">Submit</Text>
-              </Stack>
-            </Button>
-            <Group gap={4} wrap="nowrap">
-            <Button variant="subtle" color="red" c="#ffb1b1" size="compact-xs"
-              disabled={!votedProjects.length || submitting || deletingRecord || loading}
-              leftSection={<IconTrash size={14} />} onClick={() => void clearAllVotes()}>
-              {language === 'zh' ? '一键清空' : 'Clear all'}
-            </Button>
-            <CloseButton aria-label={language === 'zh' ? '关闭我的点赞' : 'Close my votes'} onClick={closeVoteCart} />
-            </Group>
+        {cartOpened && <section id="vote-cart" className="dp-vote-cart-panel" role="dialog" aria-modal="false"
+          aria-labelledby="vote-cart-title" onKeyDown={(event) => { if (event.key === 'Escape') closeVoteCart() }}>
+          <Group className="dp-vote-cart-header" justify="space-between" wrap="nowrap">
+            <Title order={2} size="h4" id="vote-cart-title" aria-live="polite">My votes ({submittedProjects.length})</Title>
+            <CloseButton aria-label="Close my votes" onClick={closeVoteCart} />
           </Group>
-          <div className="dp-vote-cart-body">
-          <Stack gap="md">
-            <Text size="sm" c="dimmed">{language === 'zh' ? '点赞后自动保存，可继续浏览候选人并点赞。每赛道最多4票：本部门和其他部门各最多2票，均可少投或不投。' : 'Selections stay in your cart until you click Submit. Submitted votes are available in My voting records from your account menu. Up to 4 votes per category: up to 2 for your department and 2 for other departments. Either allowance may be partly or entirely unused.'}</Text>
-            {voteError && <Alert color="red" styles={{ root: { background: 'transparent' }, message: { color: '#fff' } }} role="alert">{voteError}</Alert>}
-            {user && !loading && !loadError && hackathons.filter((award) => projects.some((project) => project.hackathon_id === award.id)).map((award) => (
-              <section key={award.id} className="dp-ballot-summary" aria-label={language === 'zh' ? `${award.title} 已投票数` : `Saved votes for ${award.title}`}>
-                <Text size="sm" fw={700}>{award.title}</Text>
-                {DIGITAL_PIONEER_TRACKS.map((track) => {
-                  const count = votedProjects.filter((project) => project.hackathon_id === award.id && project.category === track.value).length
-                  return <Group key={track.value} justify="space-between" wrap="nowrap" gap="xs" mt="xs">
-                    <Text size="xs">{language === 'zh' ? track.labelZh : track.label} · {count}/{DIGITAL_PIONEER_VOTING_RULES.votesPerTrack}</Text>
-                    <Button variant="subtle" size="compact-xs" c="#c9d8ee" disabled={!count || submitting || deletingRecord}
-                      aria-label={language === 'zh' ? `清空 ${award.title} ${track.labelZh} 点赞` : `Clear ${award.title} ${track.label} votes`}
-                      onClick={() => void clearTrackVotes(award.id, track.value)}>
-                      {language === 'zh' ? '清空本赛道' : 'Clear category'}
-                    </Button>
-                  </Group>
-                })}
-              </section>
-            ))}
-            {loadError ? (
-              <Alert color="red"><Text>Unable to load nominations</Text><Button variant="subtle" onClick={() => void loadProjects()}>Retry</Button></Alert>
-            ) : loading ? (
-              <Text c="dimmed">Loading nominations…</Text>
-            ) : !user ? (
-              <Stack align="center" py="xl">
-                <IconThumbUp size={40} />
-                <Text>{language === 'zh' ? '登录后查看已点赞的候选人' : 'Sign in to view your votes'}</Text>
-                <Button onClick={() => navigate('/login?redirect=%2Fprojects')}>{language === 'zh' ? '登录' : 'Sign in'}</Button>
-              </Stack>
-            ) : votedProjects.length === 0 ? (
-              <Stack align="center" py="xl">
-                <IconThumbUp size={40} />
-                <Text>Your cart is empty.</Text>
-                <Button variant="light" onClick={closeVoteCart}>{language === 'zh' ? '继续浏览候选人' : 'Browse nominees'}</Button>
-              </Stack>
-            ) : votedProjects.map((project) => (
-              <div className="dp-vote-cart-item" key={project.id}>
+          <div className="dp-vote-cart-body"><Stack gap="md">
+            <Text size="sm">Each successful click is saved immediately. All your submitted Individual and Team votes appear here.</Text>
+            {!user ? <Text>Sign in to view your votes.</Text>
+              : loading ? <Text role="status">Loading voting records…</Text>
+              : loadError ? <Alert color="red">Unable to load voting records.</Alert>
+              : submittedProjects.length === 0 ? <Text>No submitted votes yet.</Text>
+              : submittedProjects.map((project) => <div className="dp-vote-cart-item" key={project.id}>
                 <Group wrap="nowrap" align="flex-start">
                   <Avatar src={project.images[0]} alt={project.nominee_name} size={56} radius="md"><IconUser /></Avatar>
                   <Stack gap={6} style={{ flex: 1, minWidth: 0 }}>
                     <Text fw={700} style={{ overflowWrap: 'anywhere' }} translate="no">{project.title}</Text>
-                    {project.nominee_name.trim() !== project.title.trim() && <Text size="sm" translate="no">{project.nominee_name}</Text>}
-                    <Badge variant="light" w="fit-content" maw="100%">{project.category}</Badge>
-                    <Text size="sm" c="dimmed"><span>Department</span>: <span translate="no">{project.nominee_org_code || '—'}</span></Text>
+                    <Text size="xs">{project.nomination_type === 'team' ? 'Team' : 'Individual'} · {project.category}</Text>
                   </Stack>
                 </Group>
                 <Group justify="space-between" mt="sm">
-                  <Button variant="subtle" size="xs" onClick={() => { setCartOpened(false); openProjectModal(project) }}>View details</Button>
-                  <Button
-                    variant="light"
-                    color="red"
-                    c="#ffb1b1"
-                    size="xs"
-                    leftSection={<IconTrash size={15} />}
-                    disabled={submitting || deletingRecord}
-                    aria-label={`Remove ${project.title} from cart`}
-                    onClick={() => void handleVote(project.id)}
-                  >Remove from cart</Button>
+                  <Button variant="subtle" size="xs" onClick={() => openProjectModal(project)}>View details</Button>
+                  <Button variant="light" color="red" c="#ffb1b1" size="xs" leftSection={<IconTrash size={15} />}
+                    disabled={submitting || deletingRecord} aria-label={`Delete voting record for ${project.title}`}
+                    onClick={() => { setRecordError(null); setRecordToDelete(project) }}>Delete</Button>
                 </Group>
-              </div>
-            ))}
-          </Stack>
-          </div>
+              </div>)}
+          </Stack></div>
         </section>}
-
-        <Modal opened={submissionState !== 'idle'} zIndex={400} centered size="sm"
-          title={submissionState === 'error' ? 'Votes not submitted' : 'Submit votes'}
-          onClose={() => { if (submissionState === 'error') setSubmissionState('idle') }}
-          closeOnClickOutside={false} closeOnEscape={submissionState === 'error'}
-          withCloseButton={submissionState === 'error'}
-          classNames={{ content: 'dp-submit-feedback', header: 'dp-submit-feedback-header' }}>
-          <Stack align="center" gap="md" py="md">
-            {submissionState !== 'error' ? <>
-              <div className="dp-submit-animation" data-state={submissionState} aria-hidden="true">
-                <svg viewBox="0 0 80 80" fill="none">
-                  <circle className="dp-submit-ring-track" cx="40" cy="40" r="32" />
-                  <circle className="dp-submit-ring" cx="40" cy="40" r="32" />
-                  {submissionState === 'success' && <path className="dp-submit-check" d="M25 40l10 10 21-22" />}
-                </svg>
-              </div>
-              <Text role="status" fw={600}>{submissionState === 'success' ? 'Votes submitted' : 'Submitting your votes…'}</Text>
-              <Text size="sm" ta="center">{submissionState === 'success' ? 'Opening your voting records…' : 'Please wait while your votes are saved.'}</Text>
-            </> : <>
-              <Alert color="red" role="alert" w="100%"
-                styles={{ root: { backgroundColor: 'transparent' }, message: { color: '#fff', fontWeight: 700 } }}>{voteError}</Alert>
-              <Text size="sm" ta="center">Your cart has been kept. Review the message above before trying again.</Text>
-              <Group justify="center">
-                <Button variant="light" onClick={() => {
-                  setSubmissionState('idle')
-                  setCartOpened(true)
-                  document.querySelector('.dp-vote-cart-body')?.scrollTo({ top: 0, behavior: 'smooth' })
-                }}>Back to cart</Button>
-                <Button variant="subtle" onClick={() => { setSubmissionState('idle'); showVotingRecords() }}>My voting records</Button>
-              </Group>
-            </>}
-          </Stack>
+        <Modal opened={Boolean(voteError)} onClose={() => setVoteError(null)} title="Vote not submitted" centered zIndex={400}>
+          <Stack><Alert color="red" role="alert">{voteError}</Alert><Button onClick={() => setVoteError(null)}>OK</Button></Stack>
         </Modal>
 
         <Modal opened={recordsOpened} zIndex={310} onClose={closeVotingRecords} title="My voting records" size="lg" centered>
@@ -1518,7 +1424,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
               </Alert>
               : <>
                 <Text role="status">Your submitted votes are saved to the database. You can view them here anytime from your account menu.</Text>
-                <Text size="sm" c="dimmed">To change a submitted vote, delete its record, then add your new selection to the cart and submit again.</Text>
+                <Text size="sm" c="dimmed">To change a submitted vote, delete its record, then click Vote on your new selection.</Text>
                 {submittedProjects.length === 0 ? <Text>No submitted votes yet.</Text> : submittedProjects.map((project) => (
                   <Card key={project.id} withBorder>
                     <Group justify="space-between" wrap="nowrap" mb="sm">
@@ -1685,9 +1591,10 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                 color="red"
                 onClick={() => handleVote(selectedProject.id)}
               >
-                {selectedProject.user_vote ? 'View voting record' : cartIds.has(selectedProject.id) ? 'Remove from cart' : 'Add to cart'} ({selectedProject.votes})
+                {selectedProject.user_vote ? 'View voting record' : 'Vote'} ({selectedProject.votes})
               </Button>
             </Stack>
+            {selectedProject.documents?.map((item) => <NominationEvidence key={item.storageKey ?? item.url} attachment={item} />)}
             {/* Description */}
             <div className="dp-candidate-detail-sections">
               {parseNominationDescription(selectedProject.description).map((section, index) => (

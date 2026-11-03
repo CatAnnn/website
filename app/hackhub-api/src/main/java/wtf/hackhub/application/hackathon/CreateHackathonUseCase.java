@@ -4,7 +4,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wtf.hackhub.domain.Hackathon;
-import wtf.hackhub.domain.VotingCriteria;
 import wtf.hackhub.infrastructure.persistence.hackathon.HackathonRepository;
 import wtf.hackhub.infrastructure.persistence.idea.VotingCriteriaRepository;
 
@@ -38,9 +37,7 @@ public class CreateHackathonUseCase {
 		boolean pioneer = cmd.title().toLowerCase(Locale.ROOT).contains("digital pioneer") || cmd.title().contains("数字先锋");
 		if (pioneer) hackathon.updateJudgingConfig(hackathon.getVisibility(), hackathon.getJoinPolicy(), Hackathon.JudgingMode.PANEL, 100);
 		Hackathon saved = hackathonRepository.save(hackathon);
-		if (pioneer) criteriaRepository.saveAll(List.of(
-				new VotingCriteria(saved.getId(), "Behavior", "Track-specific behavior demonstrated by the nominee", 70, 0),
-				new VotingCriteria(saved.getId(), "Business Impact", "Measured customer or business outcomes", 30, 1)));
+		if (pioneer) criteriaRepository.saveAll(wtf.hackhub.application.judging.DigitalPioneerCriteria.template(saved.getId()));
 		return saved;
 	}
 

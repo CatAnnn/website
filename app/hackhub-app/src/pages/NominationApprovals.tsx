@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Alert, Anchor, Badge, Button, Card, Checkbox, Container, Group, Loader, Modal, Stack, Table, Tabs, Text, Textarea, Title } from '@mantine/core'
-import { IdeaService, type Idea, type ProjectAttachment } from '../services/ideaService'
-import { StorageService } from '../services/storageService'
+import { IdeaService, type Idea } from '../services/ideaService'
+import { NominationEvidence } from '../components/DigitalPioneer/NominationEvidence'
 import { useAuthStore } from '../store/authStore'
 import { useNominationEligibility } from '../hooks/useNominationEligibility'
 import { DIGITAL_PIONEER_TRACKS } from '../config/digitalPioneer'
@@ -13,27 +13,6 @@ import './DigitalPioneer.css'
 
 function trackName(idea: Idea) {
   return DIGITAL_PIONEER_TRACKS.find((track) => track.value === idea.category)?.label ?? idea.category
-}
-
-function SubmittedAttachment({ attachment }: { attachment: ProjectAttachment }) {
-  const [url, setUrl] = useState<string | null>(null)
-  const [error, setError] = useState(false)
-  useEffect(() => {
-    let active = true
-    const request = attachment.storageKey
-      ? StorageService.getPresignedUrl('project-attachments', attachment.storageKey)
-      : Promise.resolve(attachment.url)
-    void request.then((value) => {
-      if (!active) return
-      const parsed = new URL(value, window.location.origin)
-      if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error('Invalid attachment URL')
-      setUrl(value)
-    }).catch(() => { if (active) setError(true) })
-    return () => { active = false }
-  }, [attachment])
-  return error ? <Text c="red">Unable to open {attachment.name}</Text>
-    : url ? <Anchor href={url} target="_blank" rel="noopener noreferrer">{attachment.name || attachment.type}</Anchor>
-      : <Text>Loading {attachment.name}…</Text>
 }
 
 export function NominationApprovals({ reviewMode = false }: { reviewMode?: boolean }) {
@@ -133,7 +112,7 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
                   {current.approvalReason && <Text style={{ whiteSpace: 'pre-wrap' }}>{current.approvalReason}</Text>}
                 </Stack></Tabs.Panel>
                 <Tabs.Panel value="attachments" pt="lg"><Stack>
-                  {current.projectAttachments?.filter((item) => item.type !== 'nomination').map((item, index) => <SubmittedAttachment key={`${current.id}-${index}`} attachment={item} />)}
+                  {current.projectAttachments?.filter((item) => item.type !== 'nomination').map((item, index) => <NominationEvidence key={`${current.id}-${index}`} attachment={item} />)}
                   {!current.projectAttachments?.some((item) => item.type !== 'nomination') && <Text>No attachments submitted.</Text>}
                 </Stack></Tabs.Panel>
               </Tabs>

@@ -65,10 +65,13 @@ public class VoteIdeaUseCase {
 		List<Idea> currentTrackIdeas = currentVotes.stream()
 				.map(IdeaVote::getIdeaId)
 				.map(ideaRepository::findById).flatMap(Optional::stream)
-				.filter(votedIdea -> track(idea).equals(track(votedIdea))).toList();
-		if (currentTrackIdeas.size() >= maxVotesPerTrack) {
-			throw new VoteLimitExceededException(maxVotesPerTrack);
+				.filter(votedIdea -> track(idea).equals(track(votedIdea)))
+				.filter(votedIdea -> (idea.getTeamId() != null) == (votedIdea.getTeamId() != null)).toList();
+		int limit = idea.getTeamId() == null ? maxVotesPerTrack : 3;
+		if (currentTrackIdeas.size() >= limit) {
+			throw new VoteLimitExceededException(limit);
 		}
+		if (idea.getTeamId() == null) {
 		String voterDepartment = departmentCode(voter.getOrganizationalUnit());
 		long ownVotes = currentTrackIdeas.stream().map(this::resolveProjectOwner)
 				.map(VotingParticipant::getOrganizationalUnit).map(VoteIdeaUseCase::departmentCode)
@@ -82,12 +85,14 @@ public class VoteIdeaUseCase {
 			throw new IllegalArgumentException("At most 2 votes per award category may go outside your department.");
 		}
 
+		}
+
 		voteRepository.save(new IdeaVote(ideaId, userId));
 		long count = voteRepository.countByIdeaId(ideaId);
 		return new Result(true, count);
 	}
 
-	/** Commit a cart atomically. Retrying a submitted cart never toggles votes off. */
+	/** Record selected votes atomically. Retrying a click never toggles votes off. */
 	@Transactional
 	public void submit(List<UUID> ideaIds, UUID userId) {
 		if (ideaIds == null || ideaIds.isEmpty() || ideaIds.stream().anyMatch(java.util.Objects::isNull))
