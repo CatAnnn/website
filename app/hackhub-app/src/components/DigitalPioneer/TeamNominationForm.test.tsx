@@ -6,9 +6,9 @@ import { TeamNominationForm } from './TeamNominationForm'
 import { TeamService, type Team, type TeamMember } from '../../services/teamService'
 import { IdeaService, type Idea } from '../../services/ideaService'
 import { StorageService } from '../../services/storageService'
-import { ProfileService } from '../../services/profileService'
+import { TeamMemberService } from '../../services/teamMemberService'
 
-vi.mock('../../services/profileService', () => ({ ProfileService: { searchProfiles: vi.fn() } }))
+vi.mock('../../services/teamMemberService', () => ({ TeamMemberService: { search: vi.fn() } }))
 vi.mock('../../services/teamService', () => ({ TeamService: { getTeams: vi.fn(), getMyTeams: vi.fn(), createTeam: vi.fn(), joinTeam: vi.fn() } }))
 vi.mock('../../services/ideaService', () => ({ IdeaService: { createIdea: vi.fn(), updateIdea: vi.fn() } }))
 vi.mock('../../services/storageService', async (importOriginal) => ({
@@ -47,7 +47,7 @@ async function fill(view: ReturnType<typeof show>, summary = 'Test-only achievem
 
 beforeEach(() => {
   vi.clearAllMocks()
-  vi.mocked(ProfileService.searchProfiles).mockResolvedValue([])
+  vi.mocked(TeamMemberService.search).mockResolvedValue([])
   vi.mocked(TeamService.getTeams).mockResolvedValue([team])
   vi.mocked(TeamService.getMyTeams).mockResolvedValue([member])
   vi.mocked(StorageService.uploadFile).mockResolvedValue({ url: '/uploaded-photo', key: 'nominations/campaign/captain/upload.png' })
@@ -119,13 +119,13 @@ describe('Team nomination form', () => {
     expect(StorageService.uploadFile).not.toHaveBeenCalled()
   })
 
-  it('rejects documents over 50 MB without uploading them', async () => {
+  it.each([20 * 1024 * 1024, 20 * 1024 * 1024 + 1])('rejects documents at or above 20 MB without uploading them (%s bytes)', async (size) => {
     const view = show(existing)
     await screen.findByRole('textbox', { name: /Project Name/ })
     const oversized = new File(['document'], 'too-large.pdf', { type: 'application/pdf' })
-    Object.defineProperty(oversized, 'size', { value: 50 * 1024 * 1024 + 1 })
+    Object.defineProperty(oversized, 'size', { value: size })
     fireEvent.change(view.container.querySelectorAll('input[type="file"]')[1], { target: { files: [oversized] } })
-    expect(screen.getByText('Attachment exceeds 50 MB.')).toBeInTheDocument()
+    expect(screen.getByText('Attachment must be less than 20 MB.')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Resubmit nomination' })).toBeDisabled()
     expect(StorageService.uploadFile).not.toHaveBeenCalled()
   })

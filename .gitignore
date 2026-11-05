@@ -57,6 +57,9 @@ coverage/
 *.sql
 *.dump
 
+# 本次 Docker 故障恢复备份包含本机数据，不进入源码仓库。
+/test/docker-recovery-20261105/
+
 # Database schema and migration source files
 !/app/hackhub-api/src/main/resources/db/migration/
 !/app/hackhub-api/src/main/resources/db/migration/**

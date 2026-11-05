@@ -376,6 +376,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [cartOpened, setCartOpened] = useState(false)
+  const [locateRequest, setLocateRequest] = useState<{ id: string } | null>(null)
   const closeVoteCart = () => {
     setCartOpened(false)
     // On mobile the trigger must be visible again before it can receive focus.
@@ -721,22 +722,23 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     if (ballotBusy.current || loading || loadError) return
     const project = projects.find((item) => item.id === projectId)
     if (!project) return
-    if (project.user_vote) { setCartOpened(true); return }
+    const removing = Boolean(project.user_vote)
     const sequence = loadSequence.current
     ballotBusy.current = true
     setSubmitting(true)
     setVoteError(null)
     try {
-      await IdeaService.submitVotes([projectId])
+      if (removing) await IdeaService.deleteVoteRecord(projectId)
+      else await IdeaService.submitVotes([projectId])
       if (sequence !== loadSequence.current) return
       setProjects((current) => current.map((item) => item.id === projectId
-        ? { ...item, user_vote: true } : item))
+        ? { ...item, user_vote: !removing, votes: Math.max(0, item.votes + (removing ? -1 : 1)) } : item))
       setSelectedProject((current) => current?.id === projectId
-        ? { ...current, user_vote: true } : current)
+        ? { ...current, user_vote: !removing, votes: Math.max(0, current.votes + (removing ? -1 : 1)) } : current)
       setCartOpened(true)
       await refreshVoteState([projectId], sequence)
     } catch (error) {
-      if (sequence === loadSequence.current) setVoteError(error instanceof Error ? error.message : 'Unable to save your vote. Please try again.')
+      if (sequence === loadSequence.current) setVoteError(error instanceof Error ? error.message : 'Unable to update your vote. Please try again.')
     } finally {
       ballotBusy.current = false
       setSubmitting(false)
@@ -794,6 +796,21 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   }, [projects, filters, canDelete, votingType])
 
   const submittedProjects = projects.filter((project) => project.user_vote)
+  const locateVotedProject = (project: Project) => {
+    setVotingType(project.nomination_type)
+    setFilters({ search: '', category: '', department: '' })
+    setLocateRequest({ id: project.id })
+    // 小屏幕先收起浮层，避免遮挡定位后的卡片。
+    if (window.matchMedia('(max-width: 767px)').matches) setCartOpened(false)
+  }
+  useEffect(() => {
+    if (!locateRequest || loading) return
+    const card = document.getElementById(`nominee-card-${locateRequest.id}`)
+    if (!card) return
+    card.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' })
+    card.focus({ preventScroll: true })
+    setLocateRequest(null)
+  }, [locateRequest, filteredProjects, loading])
   const typeProjects = canDelete ? projects : projects.filter((project) => project.nomination_type === votingType)
   const departments = useMemo(
     () => [...new Set(projects.map((project) => project.nominee_org_code.split('-')[0]).filter(Boolean))].sort(),
@@ -882,7 +899,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             <div>
               <Title id="track-choice-title" order={2}>Choose an award category</Title>
             </div>
-            <Button.Group aria-label="Nomination type">
+            <Button.Group className="dp-type-switch" aria-label="Nomination type">
               {(['individual', 'team'] as const).map((type) => <Button key={type} radius="xl"
                 variant={nominationType === type ? 'filled' : 'outline'} aria-pressed={nominationType === type}
                 disabled={Boolean(editId) || uploading} onClick={() => setNominationType(type)}>
@@ -945,7 +962,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             </Alert>
           ) : user && ownNominations.isPending ? <Text role="status">Checking your existing nominations…</Text>
             : user && ownNominations.isError ? <Alert color="red">Unable to verify your existing nominations. <Button variant="subtle" onClick={() => void ownNominations.refetch()}>Retry</Button></Alert>
-            : !editId && existingNomination ? <Alert color="blue" title="Nomination already submitted">
+            : !editId && existingNomination ? <Alert color="grape" className="dp-existing-nomination" title="Nomination already submitted">
               You can submit one Individual nomination and one Team nomination per award, across all categories.
               <Button variant="subtle" onClick={() => navigate(`/my-nominations?id=${encodeURIComponent(existingNomination.id)}`)}>View your nomination</Button>
             </Alert>
@@ -1125,22 +1142,22 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
       <Stack gap="lg">
         {loadError && <Alert color="red" title="Unable to load nominations"><Button variant="subtle" onClick={() => void loadProjects()}>Retry</Button></Alert>}
         <div className="dp-selection-header">
-          <Group justify="space-between" align="center">
+          <div className="dp-category-heading">
             <div>
               <h1 className="dp-section-title dp-selection-title">{canDelete ? (language === 'zh' ? '提名管理' : 'Manage nominees') : <>Meet this year&apos;s nominees</>}</h1>
             </div>
-            {!canDelete && <Button.Group aria-label="Voting nomination type">{(['team', 'individual'] as const).map((type) => <Button key={type} radius="xl" variant={votingType === type ? 'filled' : 'outline'} aria-pressed={votingType === type}
+            {!canDelete && <Button.Group className="dp-type-switch" aria-label="Voting nomination type">{(['team', 'individual'] as const).map((type) => <Button key={type} radius="xl" variant={votingType === type ? 'filled' : 'outline'} aria-pressed={votingType === type}
               onClick={() => { setVotingType(type); setFilters((current) => ({ ...current, department: '' })) }}>{type === 'team' ? 'Team' : 'Individual'}</Button>)}</Button.Group>}
-          </Group>
+          </div>
         </div>
 
         {!canDelete && <section className="dp-voting-rules" aria-label="Voting rules" translate="no">
           <Text fw={700}>Voting rules</Text>
           <ul>
-            <li>Click Vote to save immediately. Each nominee receives at most one of your votes.</li>
+            <li>Click Vote to save immediately; click again to cancel. Each nominee receives at most one of your votes.</li>
             {votingType === 'team' ? <li>Team: up to 3 votes per category.</li>
               : <li>Individual: up to 2 votes for your department and up to 2 votes for other departments per category. Each allowance is independent.</li>}
-            <li>You do not have to use all votes. View or delete your saved votes in the panel on the right.</li>
+            <li>You do not have to use all votes. Click a saved nominee in the panel on the right to locate their card, or delete a saved vote.</li>
           </ul>
         </section>}
 
@@ -1236,6 +1253,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             filteredProjects.map((project) => (
               <Card
                 key={project.id}
+                id={`nominee-card-${project.id}`}
+                tabIndex={-1}
                 className="dp-project-card"
                 data-voted={project.user_vote ? 'true' : undefined}
                 p={0}
@@ -1327,6 +1346,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                       variant={project.user_vote ? 'filled' : 'default'}
                       leftSection={project.user_vote ? <IconThumbUpFilled size={16} /> : <IconThumbUp size={16} />}
                       aria-label={project.user_vote ? `Submitted, ${project.votes} votes` : `Vote, ${project.votes} votes`}
+                      aria-pressed={Boolean(project.user_vote)}
+                      title={project.user_vote ? 'Click to cancel your vote' : 'Click to submit your vote'}
                       onClick={(event) => {
                         event.stopPropagation()
                         void handleVote(project.id)
@@ -1383,7 +1404,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
               : loading ? <Text role="status">Loading voting records…</Text>
               : loadError ? <Alert color="red">Unable to load voting records.</Alert>
               : submittedProjects.length === 0 ? <Text>No submitted votes yet.</Text>
-              : submittedProjects.map((project) => <div className="dp-vote-cart-item" key={project.id}>
+              : submittedProjects.map((project) => <div className="dp-vote-cart-item" key={project.id} onClick={() => locateVotedProject(project)}>
+                <UnstyledButton className="dp-vote-cart-locate" aria-label={`Locate ${project.title}`} onClick={(event) => { event.stopPropagation(); locateVotedProject(project) }}>
                 <Group wrap="nowrap" align="flex-start">
                   <Avatar src={project.images[0]} alt={project.nominee_name} size={56} radius="md"><IconUser /></Avatar>
                   <Stack gap={6} style={{ flex: 1, minWidth: 0 }}>
@@ -1391,11 +1413,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     <Text size="xs">{project.nomination_type === 'team' ? 'Team' : 'Individual'} · {project.category}</Text>
                   </Stack>
                 </Group>
+                </UnstyledButton>
                 <Group justify="space-between" mt="sm">
-                  <Button variant="subtle" size="xs" onClick={() => openProjectModal(project)}>View details</Button>
+                  <Button variant="subtle" size="xs" onClick={(event) => { event.stopPropagation(); openProjectModal(project) }}>View details</Button>
                   <Button variant="light" color="red" c="#ffb1b1" size="xs" leftSection={<IconTrash size={15} />}
                     disabled={submitting || deletingRecord} aria-label={`Delete voting record for ${project.title}`}
-                    onClick={() => { setRecordError(null); setRecordToDelete(project) }}>Delete</Button>
+                    onClick={(event) => { event.stopPropagation(); setRecordError(null); setRecordToDelete(project) }}>Delete</Button>
                 </Group>
               </div>)}
           </Stack></div>
@@ -1580,7 +1603,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                 color="red"
                 onClick={() => handleVote(selectedProject.id)}
               >
-                {selectedProject.user_vote ? 'View voting record' : 'Vote'} ({selectedProject.votes})
+                {selectedProject.user_vote ? 'Cancel vote' : 'Vote'} ({selectedProject.votes})
               </Button>
             </Stack>
             {selectedProject.documents?.map((item) => <NominationEvidence key={item.storageKey ?? item.url} attachment={item} />)}

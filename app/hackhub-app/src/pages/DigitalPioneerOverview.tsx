@@ -53,12 +53,12 @@ export function DigitalPioneerOverview(): ReactElement {
       </section>
 
       <section className="dp-section dp-categories-section" aria-labelledby="award-categories-title">
-        <Group justify="space-between" align="center" mb="xl" wrap="wrap">
+        <div className="dp-category-heading">
           <h2 id="award-categories-title" className="dp-section-title dp-categories-title" style={{ marginBottom: 0 }}>{text.categoriesTitle}</h2>
-          <Button.Group style={{ marginLeft: 'auto' }} aria-label="Nomination type">
+          <Button.Group className="dp-type-switch" aria-label="Nomination type">
             {(['individual', 'team'] as const).map((type) => <Button key={type} variant={nominationType === type ? 'filled' : 'outline'} radius="xl" aria-pressed={nominationType === type} onClick={() => setNominationType(type)}>{type === 'individual' ? 'Individual' : 'Team'}</Button>)}
           </Button.Group>
-        </Group>
+        </div>
 
         <div className="dp-track-grid">
           {getDigitalPioneerTracks(nominationType).map((track) => (

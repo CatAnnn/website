@@ -473,9 +473,9 @@
 
 .dp-categories-title {
   max-width: none;
-  font-size: clamp(1rem, 5.1cqw, 4.45rem);
-  white-space: nowrap;
-  text-wrap: nowrap;
+  font-size: clamp(1.6rem, 5.1cqw, 4.45rem);
+  white-space: normal;
+  text-wrap: balance;
 }
 
 .dp-section-copy {
@@ -893,6 +893,53 @@
   margin-bottom: 20px;
 }
 
+/* 类型切换独占标题下方一行，留出上下间距。 */
+.dp-category-heading,
+.dp-nomination-flow .dp-flow-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.dp-existing-nomination .mantine-Alert-title { color: #d98aff; }
+.dp-existing-nomination .mantine-Alert-message { color: #ffffff; }
+.dp-vote-cart-item { cursor: pointer; }
+.dp-vote-cart-locate { width: 100%; color: inherit; border-radius: 6px; }
+.dp-vote-cart-locate:focus-visible,
+.dp-project-card:focus-visible { outline: 2px solid #d98aff; outline-offset: 3px; }
+.dp-project-card { scroll-margin-block: 110px; }
+
+/* 三个页面使用同一组宽按钮，字号低于各自标题，窄屏等分可用宽度。 */
+.dp-type-switch {
+  --dp-type-size: clamp(1.125rem, 3.2vw, 2.5rem);
+  width: min(100%, 680px);
+  flex-wrap: nowrap;
+}
+.dp-type-switch .mantine-Button-root {
+  flex: 1 1 0;
+  min-width: 0;
+  height: auto;
+  min-height: 52px;
+  padding: 12px clamp(12px, 2vw, 28px);
+  font-size: var(--dp-type-size);
+  line-height: 1.25;
+}
+.dp-nomination-flow .dp-type-switch {
+  --dp-type-size: clamp(1.125rem, 2vw, 1.5rem);
+  width: min(100%, 480px);
+}
+.dp-selection-header .dp-category-heading { margin-bottom: 0; }
+.dp-selection-header .dp-selection-title { margin-bottom: 0; }
+
+/* 下拉通过 Portal 渲染，单独设置深色背景及足够对比度。 */
+.dp-member-dropdown { background: #071b3b; border-color: #8da6ca; color: #eef5ff; }
+.dp-member-dropdown .mantine-Combobox-empty,
+.dp-member-dropdown .mantine-Text-root[data-size='xs'] { color: #bcc9dc; }
+.dp-member-dropdown .mantine-Combobox-option[data-combobox-selected],
+.dp-member-dropdown .mantine-Combobox-option:hover { background: #244675; }
+
 .dp-flow-heading__hint {
   color: var(--dp-muted);
   font-size: 0.9rem;
@@ -1037,18 +1084,26 @@
 }
 
 .dp-nomination-flow > .dp-form-shell :where(.mantine-Input-input, .mantine-Textarea-input)::placeholder {
-  color: #ffffff;
+  color: #b7bfcc;
+  font-size: 0.75rem;
   opacity: 1;
 }
 
 .dp-nomination-flow > .dp-form-shell .dp-bilingual-input::placeholder {
-  color: rgb(255 255 255 / 60%);
+  color: #b7bfcc;
   font-size: 0.75rem;
 }
 
 .dp-nomination-flow > .dp-form-shell :where(.mantine-Input-section, .mantine-InputPlaceholder-placeholder, .mantine-Badge-label) {
   color: #ffffff;
 }
+
+.dp-nomination-flow > .dp-form-shell .mantine-InputPlaceholder-placeholder {
+  color: #b7bfcc;
+  font-size: 0.75rem;
+}
+
+.dp-nomination-flow > .dp-form-shell textarea { resize: vertical; }
 
 .dp-form-intro {
   margin-bottom: 26px;

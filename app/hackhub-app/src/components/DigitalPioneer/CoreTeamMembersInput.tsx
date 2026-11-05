@@ -1,6 +1,6 @@
 import { Combobox, Text, Textarea, useCombobox } from '@mantine/core'
 import { useEffect, useRef, useState } from 'react'
-import { ProfileService, type ProfileSearchResult } from '../../services/profileService'
+import { TeamMemberService, type TeamMemberMatch } from '../../services/teamMemberService'
 
 interface Props {
   value: string
@@ -11,7 +11,7 @@ interface Props {
 export function CoreTeamMembersInput({ value, onChange, disabled }: Props) {
   const input = useRef<HTMLTextAreaElement>(null)
   const [token, setToken] = useState({ query: '', start: 0, end: 0 })
-  const [results, setResults] = useState<ProfileSearchResult[]>([])
+  const [results, setResults] = useState<TeamMemberMatch[]>([])
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const combobox = useCombobox({ onDropdownClose: () => combobox.resetSelectedOption() })
 
@@ -23,9 +23,9 @@ export function CoreTeamMembersInput({ value, onChange, disabled }: Props) {
     }
     const controller = new AbortController()
     setStatus('loading')
-    // 输入防抖并取消过期请求，避免旧搜索结果覆盖当前姓名或邮箱。
+    // 输入防抖并取消过期请求，避免旧搜索结果覆盖当前名册查询。
     const timer = window.setTimeout(() => {
-      void ProfileService.searchProfiles(token.query, controller.signal).then((profiles) => {
+      void TeamMemberService.search(token.query, controller.signal).then((profiles) => {
         if (controller.signal.aborted) return
         setResults(profiles)
         setStatus('ready')
@@ -69,13 +69,13 @@ export function CoreTeamMembersInput({ value, onChange, disabled }: Props) {
         onClick={(event) => updateToken(event.currentTarget.value, event.currentTarget.selectionStart)}
         onBlur={() => combobox.closeDropdown()} />
     </Combobox.Target>
-    <Combobox.Dropdown>
+    <Combobox.Dropdown className="dp-member-dropdown">
       <Combobox.Options mah={240} style={{ overflowY: 'auto' }}>
-        {status === 'loading' && <Combobox.Empty>Searching users…</Combobox.Empty>}
-        {status === 'error' && <Combobox.Empty>Unable to search users. Edit the name or email to retry.</Combobox.Empty>}
-        {status === 'ready' && results.length === 0 && <Combobox.Empty>No matching users.</Combobox.Empty>}
+        {status === 'loading' && <Combobox.Empty>Searching team members…</Combobox.Empty>}
+        {status === 'error' && <Combobox.Empty>Unable to search team members. Edit the name to retry.</Combobox.Empty>}
+        {status === 'ready' && results.length === 0 && <Combobox.Empty>No matching team members.</Combobox.Empty>}
         {results.map((profile) => <Combobox.Option value={profile.id} key={profile.id}>
-          <Text size="sm">{profile.name}</Text><Text size="xs" c="dimmed">{profile.email}</Text>
+          <Text size="sm" c="#eef5ff">{profile.name}</Text><Text size="xs" c="#bcc9dc">{profile.orgUnit}</Text>
         </Combobox.Option>)}
       </Combobox.Options>
     </Combobox.Dropdown>

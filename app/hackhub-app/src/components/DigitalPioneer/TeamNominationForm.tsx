@@ -2,7 +2,7 @@ import { Alert, Button, Card, FileInput, Grid, Group, Image, Select, Stack, Text
 import { useEffect, useRef, useState } from 'react'
 import { getDigitalPioneerTracks } from '../../config/digitalPioneer'
 import { IdeaService, type CreateIdeaInput, type Idea, type ProjectAttachment } from '../../services/ideaService'
-import { MAX_UPLOAD_BYTES, PHOTO_ACCEPT, StorageService, validatePersonalPhoto } from '../../services/storageService'
+import { PHOTO_ACCEPT, StorageService, validatePersonalPhoto } from '../../services/storageService'
 import type { AuthUser } from '../../store/authStore'
 import { CoreTeamMembersInput } from './CoreTeamMembersInput'
 
@@ -38,7 +38,7 @@ export function TeamNominationForm({ user, hackathonId, category, onCategoryChan
   const savedDocuments = editing?.projectAttachments?.filter((item) => item.type === 'document') ?? []
   const photoError = validateTeamPhoto(photo)
   const documentError = document && (document.size === 0 ? 'The selected attachment is empty.'
-    : document.size > MAX_UPLOAD_BYTES ? 'Attachment exceeds 50 MB.' : null)
+    : document.size >= 20 * 1024 * 1024 ? 'Attachment must be less than 20 MB.' : null)
   const summaryWords = countWords(achievementSummary)
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export function TeamNominationForm({ user, hackathonId, category, onCategoryChan
         placeholder="Describe how the /team demonstrated the culture pillar of this track."
         value={cultureDemonstration} onChange={(event) => setCultureDemonstration(event.currentTarget.value)} /></div>
       <div className="dp-fieldset" translate="no"><FileInput className="dp-team-file-input dp-team-attachment" label="Attachment" clearable disabled={busy} accept={documentAccept}
-        placeholder="Optional supplementary materials; up to 50 MB per document. PDF, text, Markdown or ZIP."
+        placeholder="Optional supplementary materials, document size less than 20 MB"
         value={document} onChange={setDocument} error={documentError} />
         {savedDocuments.map((item) => <Text key={item.storageKey ?? item.url} size="sm">Retained attachment: {item.name}</Text>)}
       </div>
