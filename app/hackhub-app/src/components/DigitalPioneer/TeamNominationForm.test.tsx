@@ -6,7 +6,9 @@ import { TeamNominationForm } from './TeamNominationForm'
 import { TeamService, type Team, type TeamMember } from '../../services/teamService'
 import { IdeaService, type Idea } from '../../services/ideaService'
 import { StorageService } from '../../services/storageService'
+import { ProfileService } from '../../services/profileService'
 
+vi.mock('../../services/profileService', () => ({ ProfileService: { searchProfiles: vi.fn() } }))
 vi.mock('../../services/teamService', () => ({ TeamService: { getTeams: vi.fn(), getMyTeams: vi.fn(), createTeam: vi.fn(), joinTeam: vi.fn() } }))
 vi.mock('../../services/ideaService', () => ({ IdeaService: { createIdea: vi.fn(), updateIdea: vi.fn() } }))
 vi.mock('../../services/storageService', async (importOriginal) => ({
@@ -45,6 +47,7 @@ async function fill(view: ReturnType<typeof show>, summary = 'Test-only achievem
 
 beforeEach(() => {
   vi.clearAllMocks()
+  vi.mocked(ProfileService.searchProfiles).mockResolvedValue([])
   vi.mocked(TeamService.getTeams).mockResolvedValue([team])
   vi.mocked(TeamService.getMyTeams).mockResolvedValue([member])
   vi.mocked(StorageService.uploadFile).mockResolvedValue({ url: '/uploaded-photo', key: 'nominations/campaign/captain/upload.png' })
@@ -62,9 +65,9 @@ describe('Team nomination form', () => {
   it('submits the captain’s actual structured fields and original team photo without cropping', async () => {
     const view = show()
     await fill(view)
-    expect(screen.getByRole('textbox', { name: 'NominatorName' })).toHaveAttribute('readonly')
-    expect(screen.getByRole('textbox', { name: 'NominatorName' })).toHaveValue(user.name)
-    expect(screen.getByText(/Only BDCN team employees/)).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Nominator Name' })).toHaveAttribute('readonly')
+    expect(screen.getByRole('textbox', { name: 'Nominator Name' })).toHaveValue(user.name)
+    expect(screen.getByPlaceholderText(/Only BDCN team employees/)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Submit nomination' }))
     await waitFor(() => expect(IdeaService.createIdea).toHaveBeenCalledOnce())
     expect(StorageService.uploadFile).toHaveBeenCalledWith(expect.objectContaining({ name: 'team.png' }), 'project-attachments', 'nominations/campaign/captain')
@@ -94,7 +97,7 @@ describe('Team nomination form', () => {
     await screen.findByRole('textbox', { name: /Project Name/ })
     expect(screen.getByRole('textbox', { name: /Project Name/ })).toHaveValue('Real project')
     expect(screen.getByRole('textbox', { name: /Achievement Summary/ })).toHaveValue('Actual submitted summary')
-    expect(screen.getByRole('textbox', { name: 'NominatorName' })).toHaveValue('Saved nominator')
+    expect(screen.getByRole('textbox', { name: 'Nominator Name' })).toHaveValue('Saved nominator')
     expect(screen.getByText('Retained attachment: evidence.pdf')).toBeInTheDocument()
     fireEvent.change(screen.getByRole('textbox', { name: /Achievement Summary/ }), { target: { value: 'Revised actual summary' } })
     fireEvent.click(screen.getByRole('button', { name: 'Resubmit nomination' }))
@@ -105,6 +108,16 @@ describe('Team nomination form', () => {
     expect(StorageService.uploadFile).not.toHaveBeenCalled()
   })
 
+
+  it('rejects a team photo over 10 MB without changing the document limit', async () => {
+    const view = show()
+    const oversized = new File(['photo'], 'team.png', { type: 'image/png' })
+    Object.defineProperty(oversized, 'size', { value: 10 * 1024 * 1024 + 1 })
+    fireEvent.change(view.container.querySelector('input[type="file"]')!, { target: { files: [oversized] } })
+    expect(screen.getByText('Team photo exceeds 10 MB. Please choose a smaller photo.')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeDisabled()
+    expect(StorageService.uploadFile).not.toHaveBeenCalled()
+  })
 
   it('rejects documents over 50 MB without uploading them', async () => {
     const view = show(existing)

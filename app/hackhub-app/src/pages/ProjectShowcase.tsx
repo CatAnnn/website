@@ -1134,26 +1134,15 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           </Group>
         </div>
 
-        {!canDelete && <Stack gap="xs" aria-live="polite" aria-label="Live vote totals">
-          <Text fw={700}>Live votes: {typeProjects.reduce((total, project) => total + project.votes, 0)}</Text>
-          <Text size="xs">Live updates when connected; totals also refresh every 30 seconds and after each vote.</Text>
-          <Group>{DIGITAL_PIONEER_TRACKS.map((track) => <Badge key={track.value} variant="light">
-            {track.label}: {typeProjects.filter((project) => project.category === track.value).reduce((total, project) => total + project.votes, 0)} votes
-          </Badge>)}</Group>
-          {user && hackathons.map((award) => <Group key={award.id} aria-label={`Your ${votingType} votes for ${award.title}`}>
-            <Text size="xs">{award.title} · Your votes:</Text>
-            {DIGITAL_PIONEER_TRACKS.map((track) => <Text size="xs" key={track.value}>{track.label}: {submittedProjects.filter((project) => project.hackathon_id === award.id && project.nomination_type === votingType && project.category === track.value).length}/{votingType === 'team' ? 3 : 4}</Text>)}
-          </Group>)}
-        </Stack>}
-        {user && !canDelete && <details className="dp-voting-rules">
-          <summary>{language === 'zh' ? '查看投票规则' : 'Voting rules'}</summary>
+        {!canDelete && <section className="dp-voting-rules" aria-label="Voting rules" translate="no">
+          <Text fw={700}>Voting rules</Text>
           <ul>
             <li>Click Vote to save immediately. Each nominee receives at most one of your votes.</li>
-            {votingType === 'team' ? <li>Team: up to 3 votes per category, with no department restriction.</li>
+            {votingType === 'team' ? <li>Team: up to 3 votes per category.</li>
               : <li>Individual: up to 2 votes for your department and up to 2 votes for other departments per category. Each allowance is independent.</li>}
             <li>You do not have to use all votes. View or delete your saved votes in the panel on the right.</li>
           </ul>
-        </details>}
+        </section>}
 
         <div className="dp-category-tabs" role="group" aria-label="Filter by award category">
           <UnstyledButton

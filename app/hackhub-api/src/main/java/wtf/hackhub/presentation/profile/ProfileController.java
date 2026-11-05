@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wtf.hackhub.application.profile.UpdateProfileUseCase;
+import wtf.hackhub.application.profile.SearchProfilesUseCase;
 import wtf.hackhub.domain.Profile;
 
 import java.time.Instant;
@@ -21,9 +22,11 @@ import java.util.UUID;
 public class ProfileController {
 
 	private final UpdateProfileUseCase updateProfileUseCase;
+	private final SearchProfilesUseCase searchProfilesUseCase;
 
-	public ProfileController(UpdateProfileUseCase updateProfileUseCase) {
+	public ProfileController(UpdateProfileUseCase updateProfileUseCase, SearchProfilesUseCase searchProfilesUseCase) {
 		this.updateProfileUseCase = updateProfileUseCase;
+		this.searchProfilesUseCase = searchProfilesUseCase;
 	}
 
 	@Operation(summary = "Get the authenticated user's profile")
@@ -32,6 +35,15 @@ public class ProfileController {
 	@GetMapping("/me")
 	public ProfileResponse getMe(@AuthenticationPrincipal UUID userId) {
 		return ProfileResponse.from(updateProfileUseCase.getById(userId));
+	}
+
+	@Operation(summary = "Search existing members by name or email")
+	@ApiResponses({@ApiResponse(responseCode = "200", description = "Up to 20 matching members"),
+			@ApiResponse(responseCode = "400", description = "Query too long"),
+			@ApiResponse(responseCode = "401", description = "Not authenticated")})
+	@GetMapping("/search")
+	public List<SearchProfilesUseCase.Match> search(@RequestParam(defaultValue = "") String q) {
+		return searchProfilesUseCase.execute(q);
 	}
 
 	@Operation(summary = "Get a user profile by ID")

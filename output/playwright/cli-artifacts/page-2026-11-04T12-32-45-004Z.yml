@@ -1,0 +1,55 @@
+- generic [ref=f1e3]:
+  - banner [ref=f1e5]:
+    - link "Bosch Digital home" [ref=f1e6] [cursor=pointer]:
+      - /url: /
+      - img "BOSCH" [ref=f1e7]
+      - generic [ref=f1e9]: Bosch Digital
+    - navigation "Main navigation" [ref=f1e10]:
+      - link "Overview ›" [ref=f1e11] [cursor=pointer]:
+        - /url: /#overview
+      - link "Nomination ›" [ref=f1e12] [cursor=pointer]:
+        - /url: /nominate?type=team
+      - link "Browse & Vote ›" [ref=f1e13] [cursor=pointer]:
+        - /url: /projects
+    - button "Demo Nominator" [ref=f1e15] [cursor=pointer]:
+      - paragraph [ref=f1e21]: Demo Nominator
+  - main [ref=f1e22]:
+    - region [ref=f1e24]:
+      - generic [ref=f1e25]:
+        - heading "Choose an award category" [level=2] [ref=f1e27]
+        - group "Nomination type" [ref=f1e28]:
+          - button "Individual" [ref=f1e29] [cursor=pointer]
+          - button "Team" [pressed] [ref=f1e32] [cursor=pointer]
+      - radiogroup "Nomination track" [ref=f1e35]:
+        - radio "Customer Values 客户价值" [checked] [active] [ref=f1e36] [cursor=pointer]:
+          - generic [ref=f1e39]: Customer Values
+          - generic [ref=f1e40]: 客户价值
+        - radio "Innovation Breakthrough 创新破局" [ref=f1e41] [cursor=pointer]:
+          - generic [ref=f1e44]: Innovation Breakthrough
+          - generic [ref=f1e45]: 创新破局
+        - radio "Collaboration to Win 协作共赢" [ref=f1e46] [cursor=pointer]:
+          - generic [ref=f1e49]: Collaboration to Win
+          - generic [ref=f1e50]: 协作共赢
+      - generic [ref=f1e55]:
+        - heading "Customer Values" [level=3] [ref=f1e56]
+        - paragraph [ref=f1e57]: 客户价值
+        - list [ref=f1e58]:
+          - listitem [ref=f1e59]:
+            - text: ✓
+            - generic [ref=f1e60]:
+              - strong [ref=f1e61]: Customer Impact (40%)
+              - text: Team-level, quantified customer outcomes in 2026 (adoption/usage growth, efficiency gains, cost reduction or revenue enablement. ); impact beyond what individual contributions alone could achieve.
+          - listitem [ref=f1e62]:
+            - text: ✓
+            - generic [ref=f1e63]:
+              - strong [ref=f1e64]: Deep Customer Insight (30%)
+              - text: Team systematically captured user feedback and data; uncovered and prioritized hidden needs/pain points; insight demonstrably shaped the backlog or solution design.
+          - listitem [ref=f1e65]:
+            - text: ✓
+            - generic [ref=f1e66]:
+              - strong [ref=f1e67]: Customer Partnership & Growth (30%)
+              - text: Co-created with customers/users (joint workshops, pilots, shared roadmap); measurably grew customer capabilities and business; established a repeatable partnership model.
+      - alert [ref=f1e68]:
+        - generic [ref=f1e71]:
+          - text: Unable to verify your existing nominations.
+          - button "Retry" [ref=f1e72] [cursor=pointer]

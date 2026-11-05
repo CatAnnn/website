@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import wtf.hackhub.application.profile.UpdateProfileUseCase;
+import wtf.hackhub.application.profile.SearchProfilesUseCase;
 import wtf.hackhub.domain.Profile;
 import wtf.hackhub.infrastructure.config.SecurityConfig;
 import wtf.hackhub.infrastructure.security.JwtAuthFilter;
@@ -17,6 +18,7 @@ import wtf.hackhub.presentation.common.GlobalExceptionHandler;
 import wtf.hackhub.support.MockAuthHelper;
 
 import java.util.UUID;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -39,6 +41,8 @@ class ProfileControllerTest {
 	UpdateProfileUseCase useCase;
 	@MockBean
 	JwtProvider jwtProvider;
+	@MockBean
+	SearchProfilesUseCase searchUseCase;
 
 	static final UUID USER_ID = UUID.randomUUID();
 
@@ -72,5 +76,30 @@ class ProfileControllerTest {
 
 		mvc.perform(get("/api/v1/profiles/" + other).with(MockAuthHelper.asParticipant(USER_ID)))
 				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void search_returns_only_member_identity_fields_for_participant() throws Exception {
+		when(searchUseCase.execute("alice")).thenReturn(List.of(new SearchProfilesUseCase.Match(USER_ID, "Alice", "alice@test.com")));
+		mvc.perform(get("/api/v1/profiles/search").param("q", "alice").with(MockAuthHelper.asParticipant(USER_ID)))
+				.andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(1))
+				.andExpect(jsonPath("$[0].id").value(USER_ID.toString()))
+				.andExpect(jsonPath("$[0].name").value("Alice"))
+				.andExpect(jsonPath("$[0].email").value("alice@test.com"))
+				.andExpect(jsonPath("$[0].length()").value(3))
+				.andExpect(jsonPath("$[0].passwordHash").doesNotExist());
+	}
+
+	@Test
+	void search_unauthenticated_returns_401() throws Exception {
+		mvc.perform(get("/api/v1/profiles/search").param("q", "alice")).andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	void search_rejects_oversized_query() throws Exception {
+		String query = "a".repeat(201);
+		when(searchUseCase.execute(query)).thenThrow(new IllegalArgumentException("Search query must not exceed 200 characters."));
+		mvc.perform(get("/api/v1/profiles/search").param("q", query).with(MockAuthHelper.asParticipant(USER_ID)))
+				.andExpect(status().isBadRequest());
 	}
 }

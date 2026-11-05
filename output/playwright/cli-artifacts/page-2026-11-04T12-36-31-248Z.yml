@@ -1,0 +1,51 @@
+- generic [ref=f86e6]:
+  - banner [ref=f86e8]:
+    - link "Bosch Digital home" [ref=f86e9] [cursor=pointer]:
+      - /url: /
+      - img "BOSCH" [ref=f86e10]
+      - generic [ref=f86e12]: Bosch Digital
+    - navigation "Main navigation" [ref=f86e13]:
+      - link "Overview ›" [ref=f86e14] [cursor=pointer]:
+        - /url: /#overview
+      - link "Nomination ›" [ref=f86e15] [cursor=pointer]:
+        - /url: /nominate?type=team
+      - link "Browse & Vote ›" [ref=f86e16] [cursor=pointer]:
+        - /url: /projects
+    - button "Demo Nominator" [ref=f86e18] [cursor=pointer]:
+      - paragraph [ref=f86e24]: Demo Nominator
+  - main [ref=f86e25]:
+    - generic [ref=f86e27]:
+      - generic [ref=f86e29]:
+        - heading "Meet this year's nominees" [level=1] [ref=f86e31]
+        - group "Voting nomination type" [ref=f86e32]:
+          - button "Team" [ref=f86e33] [cursor=pointer]
+          - button "Individual" [active] [pressed] [ref=f86e36] [cursor=pointer]
+      - region "Voting rules" [ref=f86e39]:
+        - paragraph [ref=f86e40]: Voting rules
+        - list [ref=f86e41]:
+          - listitem [ref=f86e42]: Click Vote to save immediately. Each nominee receives at most one of your votes.
+          - listitem [ref=f86e43]: "Individual: up to 2 votes for your department and up to 2 votes for other departments per category. Each allowance is independent."
+          - listitem [ref=f86e44]: You do not have to use all votes. View or delete your saved votes in the panel on the right.
+      - group "Filter by award category" [ref=f86e45]:
+        - button "All nominees 0" [pressed] [ref=f86e46] [cursor=pointer]:
+          - generic [ref=f86e47]: All nominees
+          - generic [ref=f86e48]: "0"
+        - button "Customer Values 0" [ref=f86e49] [cursor=pointer]:
+          - generic [ref=f86e50]: Customer Values
+          - generic [ref=f86e51]: "0"
+        - button "Innovation Breakthrough 0" [ref=f86e52] [cursor=pointer]:
+          - generic [ref=f86e53]: Innovation Breakthrough
+          - generic [ref=f86e54]: "0"
+        - button "Collaboration to Win 0" [ref=f86e55] [cursor=pointer]:
+          - generic [ref=f86e56]: Collaboration to Win
+          - generic [ref=f86e57]: "0"
+      - generic [ref=f86e59]:
+        - textbox "Search nominees" [ref=f86e66]
+        - textbox "Filter by department" [ref=f86e69]
+      - generic [ref=f86e73]:
+        - paragraph [ref=f86e79]: No nominations match these filters.
+        - button "New nomination" [ref=f86e80] [cursor=pointer]
+      - button "My votes (0)" [ref=f86e87] [cursor=pointer]:
+        - generic [ref=f86e88]:
+          - generic [ref=f86e92]: My votes
+          - generic [ref=f86e93]: "0"

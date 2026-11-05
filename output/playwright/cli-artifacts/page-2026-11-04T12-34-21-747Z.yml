@@ -1,0 +1,89 @@
+- generic [ref=f1e3]:
+  - banner [ref=f1e5]:
+    - link "Bosch Digital home" [ref=f1e6] [cursor=pointer]:
+      - /url: /
+      - img "BOSCH" [ref=f1e7]
+      - generic [ref=f1e9]: Bosch Digital
+    - navigation "Main navigation" [ref=f1e10]:
+      - link "Overview ›" [ref=f1e11] [cursor=pointer]:
+        - /url: /#overview
+      - link "Nomination ›" [ref=f1e12] [cursor=pointer]:
+        - /url: /nominate?type=team
+      - link "Browse & Vote ›" [ref=f1e13] [cursor=pointer]:
+        - /url: /projects
+    - button "Demo Nominator" [ref=f1e15] [cursor=pointer]:
+      - paragraph [ref=f1e21]: Demo Nominator
+  - main [ref=f1e22]:
+    - region [ref=f1e24]:
+      - generic [ref=f1e25]:
+        - heading "Choose an award category" [level=2] [ref=f1e27]
+        - group "Nomination type" [ref=f1e28]:
+          - button "Individual" [ref=f1e29] [cursor=pointer]
+          - button "Team" [pressed] [ref=f1e32] [cursor=pointer]
+      - radiogroup "Nomination track" [ref=f1e35]:
+        - radio "Customer Values 客户价值" [checked] [ref=f1e36] [cursor=pointer]:
+          - generic [ref=f1e39]: Customer Values
+          - generic [ref=f1e40]: 客户价值
+        - radio "Innovation Breakthrough 创新破局" [ref=f1e41] [cursor=pointer]:
+          - generic [ref=f1e44]: Innovation Breakthrough
+          - generic [ref=f1e45]: 创新破局
+        - radio "Collaboration to Win 协作共赢" [ref=f1e46] [cursor=pointer]:
+          - generic [ref=f1e49]: Collaboration to Win
+          - generic [ref=f1e50]: 协作共赢
+      - generic [ref=f1e55]:
+        - heading "Customer Values" [level=3] [ref=f1e56]
+        - paragraph [ref=f1e57]: 客户价值
+        - list [ref=f1e58]:
+          - listitem [ref=f1e59]:
+            - text: ✓
+            - generic [ref=f1e60]:
+              - strong [ref=f1e61]: Customer Impact (40%)
+              - text: Team-level, quantified customer outcomes in 2026 (adoption/usage growth, efficiency gains, cost reduction or revenue enablement. ); impact beyond what individual contributions alone could achieve.
+          - listitem [ref=f1e62]:
+            - text: ✓
+            - generic [ref=f1e63]:
+              - strong [ref=f1e64]: Deep Customer Insight (30%)
+              - text: Team systematically captured user feedback and data; uncovered and prioritized hidden needs/pain points; insight demonstrably shaped the backlog or solution design.
+          - listitem [ref=f1e65]:
+            - text: ✓
+            - generic [ref=f1e66]:
+              - strong [ref=f1e67]: Customer Partnership & Growth (30%)
+              - text: Co-created with customers/users (joint workshops, pilots, shared roadmap); measurably grew customer capabilities and business; established a repeatable partnership model.
+      - generic [ref=f1e76]:
+        - heading "Team nomination" [level=3] [ref=f1e77]
+        - generic [ref=f1e79]:
+          - generic [ref=f1e81]:
+            - generic [ref=f1e82]: Nominator Name *
+            - textbox "Nominator Name" [ref=f1e84]: Demo Nominator
+          - generic [ref=f1e86]:
+            - generic [ref=f1e87]: Award Category *
+            - textbox "Award Category" [ref=f1e89] [cursor=pointer]: Customer Values
+          - generic [ref=f1e91]:
+            - generic [ref=f1e92]: Project Name *
+            - textbox "Project Name" [ref=f1e94]
+          - generic [ref=f1e96]:
+            - generic [ref=f1e97]: Team Photo *
+            - button "Team Photo" [ref=f1e99] [cursor=pointer]: JPG, PNG or WebP; up to 10 MB per photo.
+          - generic [ref=f1e101]:
+            - generic [ref=f1e102]: Core Team Member *
+            - textbox "Core Team Member" [active] [ref=f1e104]:
+              - /placeholder: Enter Outlook names separated by “;”. Only BDCN team employees may be included. 仅填写 BDCN 团队员工，请填写 Outlook name，用“;”分割。
+              - text: Alice Demo
+        - generic [ref=f1e105]:
+          - generic [ref=f1e106]:
+            - generic [ref=f1e107]: Achievement Summary (≤ 200 words) *
+            - textbox "Achievement Summary (≤ 200 words)" [ref=f1e109]:
+              - /placeholder: Summarize the achievement, the value created, and why it deserves the 2026 Digital Pioneer Award in this track.
+          - paragraph [ref=f1e110]: 0 / 200 words
+        - generic [ref=f1e112]:
+          - generic [ref=f1e113]: Details of Your Team Achievement in 2026 and Business Impact *
+          - textbox "Details of Your Team Achievement in 2026 and Business Impact" [ref=f1e115]:
+            - /placeholder: What were the measurable outcomes in 2026? including financial figures
+        - generic [ref=f1e117]:
+          - generic [ref=f1e118]: How you demonstrate BD China culture (especially on you applied category) ? *
+          - textbox "How you demonstrate BD China culture (especially on you applied category) ?" [ref=f1e120]:
+            - /placeholder: Describe how the /team demonstrated the culture pillar of this track.
+        - generic [ref=f1e122]:
+          - generic [ref=f1e123]: Attachment
+          - button "Attachment" [ref=f1e125] [cursor=pointer]: Optional supplementary materials; up to 50 MB per document. PDF, text, Markdown or ZIP.
+        - button "Submit nomination" [ref=f1e127] [cursor=pointer]

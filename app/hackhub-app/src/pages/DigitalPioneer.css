@@ -1425,8 +1425,20 @@
 .dp-vote-cart-header { flex-shrink: 0; padding: 16px 20px; border-bottom: 1px solid var(--mantine-color-gray-3); }
 .dp-vote-cart-body { padding: 20px; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #7593b9 transparent; }
 .dp-voting-rules { color: white; font-size: 0.875rem; line-height: 1.7; }
-.dp-voting-rules summary { cursor: pointer; width: fit-content; }
 .dp-voting-rules ul { padding-left: 22px; }
+
+/* 团队附件输入框保持紧凑，提示文字在框内换行；小屏幕使用可用全宽。 */
+.dp-team-file-input .mantine-FileInput-input {
+  height: auto;
+  min-height: 48px;
+  padding-block: 8px;
+  white-space: normal;
+}
+.dp-team-attachment { width: 45%; }
+.dp-team-nomination-form .mantine-Textarea-root { width: 100%; }
+@media (max-width: 48em) {
+  .dp-team-attachment { width: 100%; }
+}
 @media (max-width: 1023px) {
   .dp-vote-cart-panel { right: 0; bottom: 0; width: 100%; max-width: 100%; max-height: 45dvh; border-radius: 20px 20px 0 0; }
   .dp-vote-cart-body { padding: 16px 16px max(16px, env(safe-area-inset-bottom)); }

@@ -18,7 +18,17 @@ export interface UpdateProfileInput {
   skills?: string[]
 }
 
+export interface ProfileSearchResult {
+  id: string
+  name: string
+  email: string
+}
+
 export class ProfileService {
+  static async searchProfiles(query: string, signal?: AbortSignal): Promise<ProfileSearchResult[]> {
+    return api.get(`/api/v1/profiles/search?q=${encodeURIComponent(query.trim())}`, { signal })
+  }
+
   static async getCurrentProfile(): Promise<Profile> {
     return api.get('/api/v1/profiles/me')
   }

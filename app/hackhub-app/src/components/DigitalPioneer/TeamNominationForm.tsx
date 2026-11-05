@@ -4,6 +4,7 @@ import { getDigitalPioneerTracks } from '../../config/digitalPioneer'
 import { IdeaService, type CreateIdeaInput, type Idea, type ProjectAttachment } from '../../services/ideaService'
 import { MAX_UPLOAD_BYTES, PHOTO_ACCEPT, StorageService, validatePersonalPhoto } from '../../services/storageService'
 import type { AuthUser } from '../../store/authStore'
+import { CoreTeamMembersInput } from './CoreTeamMembersInput'
 
 interface Props {
   user: AuthUser
@@ -17,6 +18,8 @@ interface Props {
 
 const documentAccept = '.pdf,.txt,.md,.zip'
 const countWords = (text: string) => text.trim() ? text.trim().split(/\s+/u).length : 0
+const validateTeamPhoto = (file: File | null) => file && file.size > 10 * 1024 * 1024
+  ? 'Team photo exceeds 10 MB. Please choose a smaller photo.' : validatePersonalPhoto(file)
 
 export function TeamNominationForm({ user, hackathonId, category, onCategoryChange, canSubmit, editing, onSubmitted }: Props) {
   const metadata = editing?.projectAttachments?.find((item) => item.type === 'nomination')
@@ -33,14 +36,14 @@ export function TeamNominationForm({ user, hackathonId, category, onCategoryChan
   const busyRef = useRef(false)
   const savedPhoto = editing?.projectAttachments?.find((item) => item.type === 'screenshot')
   const savedDocuments = editing?.projectAttachments?.filter((item) => item.type === 'document') ?? []
-  const photoError = validatePersonalPhoto(photo)
+  const photoError = validateTeamPhoto(photo)
   const documentError = document && (document.size === 0 ? 'The selected attachment is empty.'
     : document.size > MAX_UPLOAD_BYTES ? 'Attachment exceeds 50 MB.' : null)
   const summaryWords = countWords(achievementSummary)
 
   useEffect(() => {
     let active = true
-    if (photo && !validatePersonalPhoto(photo)) {
+    if (photo && !validateTeamPhoto(photo)) {
       const url = URL.createObjectURL(photo)
       setPhotoPreview(url)
       return () => URL.revokeObjectURL(url)
@@ -109,39 +112,38 @@ export function TeamNominationForm({ user, hackathonId, category, onCategoryChan
     }
   }
 
-  return <Card className="dp-form-shell" p={{ base: 'lg', md: 38 }}><Stack gap="lg" id="nomination-form">
+  return <Card className="dp-form-shell dp-team-nomination-form" p={{ base: 'lg', md: 38 }}><Stack gap="lg" id="nomination-form">
     <Title order={3}>Team nomination</Title>
     {error && <Alert color="red" role="alert">{error}</Alert>}
       <Grid gutter="md">
-        <Grid.Col span={{ base: 12, sm: 6 }}><TextInput label="NominatorName" value={metadata?.nominatorName ?? user.name} readOnly required /></Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 }}><TextInput label="Nominator Name" value={metadata?.nominatorName ?? user.name} readOnly required /></Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 }}><Select label="Award Category" required allowDeselect={false} disabled={busy || Boolean(editing)}
           data={getDigitalPioneerTracks('team').map((track) => ({ value: track.value, label: track.label }))}
           value={category} onChange={(value) => { if (value) onCategoryChange(value) }} /></Grid.Col>
         <Grid.Col span={12}><TextInput label="Project Name" required value={projectName} maxLength={200} disabled={busy} onChange={(event) => setProjectName(event.currentTarget.value)} /></Grid.Col>
-        <Grid.Col span={12}>
-          <FileInput label="Team Photo" description="JPG, PNG or WebP; up to 50 MB per photo." required clearable
+        <Grid.Col span={{ base: 12, md: 4 }}>
+          <FileInput className="dp-team-file-input" label="Team Photo" placeholder="JPG, PNG or WebP; up to 10 MB per photo." required clearable
             accept={PHOTO_ACCEPT} value={photo} disabled={busy} onChange={setPhoto} error={photoError} />
           {savedPhoto && <Text size="sm">Your submitted team photo is retained unless you upload a replacement.</Text>}
           {photoPreview && <Image src={photoPreview} alt="Team photo preview" fit="contain" mah={240} mt="sm" />}
         </Grid.Col>
-        <Grid.Col span={12}><Textarea label="Core Team Member" required minRows={2} disabled={busy}
-          description={'Enter Outlook names separated by “;”. Only BDCN team employees may be included. 仅填写 BDCN 团队员工，请填写 Outlook name，用“;”分割。'}
-          value={coreTeamMembers} onChange={(event) => setCoreTeamMembers(event.currentTarget.value)} /></Grid.Col>
+        <Grid.Col span={12}><CoreTeamMembersInput disabled={busy}
+          value={coreTeamMembers} onChange={setCoreTeamMembers} /></Grid.Col>
       </Grid>
-      <div className="dp-fieldset" translate="no"><Textarea label="Achievement Summary (≤ 200 words)" required minRows={4} disabled={busy}
-        description="Summarize the achievement, the value created, and why it deserves the 2026 Digital Pioneer Award in this track."
+      <div className="dp-fieldset" translate="no"><Textarea label="Achievement Summary (≤ 200 words)" required autosize minRows={8} resize="vertical" disabled={busy}
+        placeholder="Summarize the achievement, the value created, and why it deserves the 2026 Digital Pioneer Award in this track."
         value={achievementSummary} error={summaryWords > 200 ? 'Maximum 200 words.' : undefined}
         onChange={(event) => setAchievementSummary(event.currentTarget.value)} />
         <Text size="xs" c={summaryWords > 200 ? 'red' : 'dimmed'} aria-live="polite">{summaryWords} / 200 words</Text>
       </div>
-      <div className="dp-fieldset" translate="no"><Textarea label="Details of Your Team Achievement in 2026 and Business Impact" required minRows={4} disabled={busy}
-        description="What were the measurable outcomes in 2026? including financial figures"
+      <div className="dp-fieldset" translate="no"><Textarea label="Details of Your Team Achievement in 2026 and Business Impact" required autosize minRows={4} resize="vertical" disabled={busy}
+        placeholder="What were the measurable outcomes in 2026? including financial figures"
         value={teamAchievementImpact} onChange={(event) => setTeamAchievementImpact(event.currentTarget.value)} /></div>
-      <div className="dp-fieldset" translate="no"><Textarea label="How you demonstrate BD China culture (especially on you applied category) ?" required minRows={4} disabled={busy}
-        description="Describe how the /team demonstrated the culture pillar of this track."
+      <div className="dp-fieldset" translate="no"><Textarea label="How you demonstrate BD China culture (especially on you applied category) ?" required autosize minRows={4} resize="vertical" disabled={busy}
+        placeholder="Describe how the /team demonstrated the culture pillar of this track."
         value={cultureDemonstration} onChange={(event) => setCultureDemonstration(event.currentTarget.value)} /></div>
-      <div className="dp-fieldset" translate="no"><FileInput label="Attachment" clearable disabled={busy} accept={documentAccept}
-        description="Optional supplementary materials; up to 50 MB per document. PDF, text, Markdown or ZIP."
+      <div className="dp-fieldset" translate="no"><FileInput className="dp-team-file-input dp-team-attachment" label="Attachment" clearable disabled={busy} accept={documentAccept}
+        placeholder="Optional supplementary materials; up to 50 MB per document. PDF, text, Markdown or ZIP."
         value={document} onChange={setDocument} error={documentError} />
         {savedDocuments.map((item) => <Text key={item.storageKey ?? item.url} size="sm">Retained attachment: {item.name}</Text>)}
       </div>
