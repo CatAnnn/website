@@ -1597,11 +1597,11 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #071b3b;
-  color: #fff;
-  --mantine-color-dimmed: #fff;
+  background: #fff;
+  color: #111;
+  --mantine-color-dimmed: #111;
 }
-.dp-detail-modal-header { flex-shrink: 0; background: #071b3b; color: #fff; }
+.dp-detail-modal-header { flex-shrink: 0; background: #fff; color: #111; }
 .dp-detail-modal-body { flex: 1; min-height: 0; overflow-y: auto; }
 .dp-detail-layout {
   display: grid;
@@ -1617,11 +1617,14 @@
   overflow: visible;
   overflow-wrap: anywhere;
 }
-.dp-detail-modal-body { scrollbar-width: thin; scrollbar-color: #8da6ca #071b3b; }
+.dp-detail-modal-body { scrollbar-width: thin; scrollbar-color: #999 #fff; }
 .dp-detail-sidebar { padding-right: 8px; }
 .dp-detail-sidebar > * { flex-shrink: 0; }
-.dp-detail-modal :is(.mantine-Text-root, .mantine-Title-root, .mantine-Modal-title, .mantine-Badge-root, .mantine-Button-root, .mantine-CloseButton-root) { color: #fff !important; }
-.dp-detail-modal .dp-candidate-detail-section + .dp-candidate-detail-section { border-color: rgb(180 221 255 / 30%); }
+.dp-detail-modal :is(.mantine-Text-root, .mantine-Title-root, .mantine-Modal-title, .mantine-Badge-root, .mantine-Button-root, .mantine-CloseButton-root) { color: #111 !important; }
+/* 白底详情中的深色附件条目和照片占位仍使用白字，保持对比度。 */
+.dp-detail-modal .dp-attachment :is(.mantine-Text-root, .mantine-Button-root, .mantine-Anchor-root),
+.dp-detail-modal .dp-detail-photo-placeholder .mantine-Text-root { color: #fff !important; }
+.dp-detail-modal .dp-candidate-detail-section + .dp-candidate-detail-section { border-color: #ddd; }
 .dp-detail-modal .dp-attachment { margin-top: 28px; }
 @media (max-width: 600px) {
   .dp-detail-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }

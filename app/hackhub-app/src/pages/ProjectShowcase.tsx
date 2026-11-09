@@ -1712,8 +1712,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                       <Avatar size="sm" />
                       <div>
                         <Text size="sm" fw={500} translate="no">{member.name}</Text>
-                        <Text size="sm" c="dimmed"><span>Department</span>: <span translate="no">{selectedProject.nominee_org_code || '—'}</span></Text>
-                        <Text size="sm" c="dimmed"><span>Org. code</span>: <span translate="no">{selectedProject.nominee_org_code || '—'}</span></Text>
+                        <Text size="sm" c="dimmed"><span>Org. Code</span>: <span translate="no">{selectedProject.nominee_org_code || '—'}</span></Text>
                         {member.role && <Text size="sm" c="dimmed">{member.role}</Text>}
                       </div>
                     </Group>
