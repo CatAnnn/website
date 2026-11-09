@@ -32,7 +32,7 @@ export function Profile() {
           <Stack gap="lg">
             <Group>
               <Avatar size={64} radius="xl" src={user?.avatar}>{user?.name?.charAt(0)}</Avatar>
-              <div><Text fw={600}>{user?.name}</Text><Badge variant="light" mt={6}>{user?.role}</Badge></div>
+              <div><Text fw={600} style={{ overflowWrap: 'anywhere' }}>{user?.email || user?.name}</Text><Badge variant="light" mt={6}>{user?.role}</Badge></div>
             </Group>
             <form onSubmit={form.onSubmit(save)}>
               <Stack>

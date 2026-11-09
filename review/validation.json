@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-09",
+  "environment": "local-vite-browser-with-demo-api-routes",
+  "productionAccessed": false,
+  "screenshots": 39,
+  "layout": { "passed": true, "viewportWidths": [1440, 768, 390], "accentLinePixels": [100, 4], "typeButtonFontPixels": 18.88, "horizontalOverflow": false },
+  "indexedDB": { "passed": true, "realBrowserDatabase": true, "reload": true, "fileMetadataAndBytes": true, "userCampaignTypeEditIsolation": true, "independentDeletion": true },
+  "submission": { "passed": true, "types": ["team", "individual"], "uploadsBeforeConfirmation": 0, "uploadsAfterTwoConfirmations": 4, "submissionsAfterTwoConfirmations": 2, "restoredPhotoAndPdf": true, "draftsRemovedAfterSuccess": true, "teamBackToEditPreservedText": true },
+  "preview": { "passed": true, "pdfClosedByDefault": true, "explicitOpenAndClose": true, "photoTextNoOverlap": true, "teamTagsHidden": true, "attachmentTextWhite": true, "teamDraftNoticeComputedColor": "rgb(255, 255, 255)" },
+  "visualReview": ["team-draft-restored.png", "team-submit-preview-dialog.png", "individual-submit-preview-dialog.png", "voting-team-detail-1440.png", "voting-team-detail-390.png"],
+  "limitations": ["API upload and submission responses are local fixtures", "Production deployment is not performed by these browser tests", "Local websocket backend is absent", "Existing mobile detail modal uses internal scrolling"]
+}

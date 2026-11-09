@@ -11,6 +11,12 @@ import { ProfileService } from '../services/profileService'
 import { StorageService } from '../services/storageService'
 import { TeamService } from '../services/teamService'
 
+const { loadDraft, saveDraft, removeDraft } = vi.hoisted(() => ({ loadDraft: vi.fn(), saveDraft: vi.fn(), removeDraft: vi.fn() }))
+vi.mock('../services/nominationDraftStore', () => ({
+  nominationDraftKey: ({ userId, hackathonId, nominationType, editId }: { userId: string; hackathonId: string; nominationType: string; editId?: string | null }) => JSON.stringify([userId, hackathonId, nominationType, editId ?? 'new']),
+  NominationDraftStore: { load: loadDraft, save: saveDraft, remove: removeDraft },
+}))
+
 const { createIdea, getIdea, createTeam, getOrCreateNominationTeam, getComments, addComment, getIdeas, getHackathons, updateIdea, uploadFile, voteIdea, clearMyVotes, clearTrackVotes, submitVotes, deleteVoteRecord, deleteIdea, deleteIdeas, currentUser, listNominees } = vi.hoisted(() => ({
   getIdea: vi.fn(),
   submitVotes: vi.fn().mockResolvedValue(undefined),
@@ -124,7 +130,12 @@ vi.mock('../services/judgingService', () => ({
 }))
 
 describe('ProjectShowcase', () => {
-  beforeEach(() => { localStorage.clear(); sessionStorage.clear(); vi.clearAllMocks() })
+  beforeEach(() => {
+    localStorage.clear(); sessionStorage.clear(); vi.clearAllMocks()
+    loadDraft.mockResolvedValue(null)
+    saveDraft.mockImplementation(async (_key: string, data: unknown) => ({ version: 1, savedAt: '2026-11-09T00:00:00Z', data }))
+    removeDraft.mockResolvedValue(undefined)
+  })
   afterEach(() => { currentUser.role = 'participant' })
   it('carries Team query selection into the matching criteria and team creation flow', async () => {
     render(<MantineProvider><MemoryRouter initialEntries={['/nominate?type=team']}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
@@ -475,8 +486,8 @@ describe('ProjectShowcase', () => {
     const dialog = within(screen.getByRole('dialog'))
     expect(dialog.getByText('Department').parentElement).toHaveTextContent('HRL-CN C/HRR-JMPCN')
     expect(dialog.getByRole('heading', { name: 'Executive Summary (The Elevator Pitch)' })).toBeInTheDocument()
-    expect(dialog.getByRole('heading', { name: /Details of Your Core Achievement/ })).toBeInTheDocument()
-    expect(dialog.getByRole('heading', { name: /How you demonstrate BD China culture/ })).toBeInTheDocument()
+    expect(dialog.getByRole('heading', { name: /Details Of Your Core Achievement/ })).toBeInTheDocument()
+    expect(dialog.getByRole('heading', { name: /How You Demonstrate BD China Culture/ })).toBeInTheDocument()
     for (const answer of ['Summary first paragraph.', 'Summary second paragraph.', 'Saved RMB 200,000.', 'Worked across departments.']) {
       expect(dialog.getByText(answer)).toBeInTheDocument()
     }
@@ -492,14 +503,14 @@ describe('ProjectShowcase', () => {
       </MantineProvider>
     )
 
-    expect(await screen.findByRole('heading', { name: 'Choose an award category' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Start You Nomation' })).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /Nominate a Digital Pioneer/ })).not.toBeInTheDocument()
     expect(screen.queryByRole('textbox', { name: /Executive Summary/ })).not.toBeInTheDocument()
     await user.click(screen.getByRole('radio', { name: /Innovation Breakthrough/ }))
     expect(screen.getByRole('textbox', { name: /Executive Summary \(The Elevator Pitch\)/ })).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: /Details of Your Core Achievement in 2026 and Business Impact/ })).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: /How you demonstrate BD China culture/ })).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: /Tags you want to add/ })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /Details Of Your Core Achievement In 2026 And Business Impact/ })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /How You Demonstrate BD China Culture/ })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /Tags You Want To Add/ })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: /Award Category/ })).toHaveValue('Innovation Breakthrough')
     expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeEnabled()
     expect(screen.getByRole('button', { name: 'Team', exact: true })).toHaveAttribute('aria-pressed', 'false')
@@ -519,9 +530,9 @@ describe('ProjectShowcase', () => {
       await user.click(await screen.findByRole('radio', { name: /Customer Values/ }))
       const nominee = await screen.findByRole('textbox', { name: /Outlook Name/ })
       expect(nominee).toHaveAttribute('readonly')
-      expect(nominee).toHaveValue('User (user@example.com)')
+      expect(nominee).toHaveValue('user@example.com')
       await user.type(nominee, 'Named')
-      expect(nominee).toHaveValue('User (user@example.com)')
+      expect(nominee).toHaveValue('user@example.com')
       expect(listNominees).not.toHaveBeenCalled()
       expect(screen.getByRole('textbox', { name: /Award Category/ })).toHaveValue('Customer Values')
     } finally {
@@ -531,6 +542,8 @@ describe('ProjectShowcase', () => {
 
   it('resubmits the rejected employee record with its version and retained photo', async () => {
     currentUser.role = 'participant'
+    vi.mocked(StorageService.getPresignedUrl).mockResolvedValueOnce('/storage/retained-photo.png')
+    removeDraft.mockRejectedValueOnce(new Error('Draft storage unavailable'))
     getIdea.mockResolvedValueOnce({
       id: 'rejected-1', createdBy: 'user-1', hackathonId: 'hackathon-1', category: 'Customer Values',
       description: 'Executive Summary\nOriginal summary\n\nDetails of Your Core Achievement in 2026 and Business Impact (including financial figures)\nOriginal impact\n\nHow You Demonstrate Bosch China Culture (Especially in Your Applied Category)\nOriginal culture',
@@ -541,12 +554,17 @@ describe('ProjectShowcase', () => {
     updateIdea.mockResolvedValueOnce({ id: 'rejected-1', category: 'Customer Values', approvalStatus: 'pending' })
     const user = userEvent.setup()
     render(<MantineProvider env="test"><MemoryRouter initialEntries={['/nominate?edit=rejected-1']}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
-    const impact = await screen.findByRole('textbox', { name: /Details of Your Core Achievement/ })
+    const impact = await screen.findByRole('textbox', { name: /Details Of Your Core Achievement/ })
     expect(impact).toHaveValue('Original impact')
     expect(screen.getByText('Explain the measured savings.')).toBeInTheDocument()
     await user.clear(impact)
     await user.type(impact, 'Measured savings from the submitted report.')
     await user.click(screen.getByRole('button', { name: 'Resubmit nomination' }))
+    expect(updateIdea).not.toHaveBeenCalled()
+    const review = await screen.findByRole('dialog', { name: 'Review Individual Nomination' })
+    expect(within(review).getByText('Measured savings from the submitted report.')).toBeInTheDocument()
+    expect(await within(review).findByRole('img', { name: 'Retained Nomination Photo' })).toHaveAttribute('src', '/storage/retained-photo.png')
+    await user.click(within(review).getByRole('button', { name: 'Confirm And Submit' }))
     await waitFor(() => expect(updateIdea).toHaveBeenCalledWith('rejected-1', expect.objectContaining({
       approvalVersion: 4,
       description: expect.stringContaining('Measured savings from the submitted report.'),
@@ -555,6 +573,82 @@ describe('ProjectShowcase', () => {
     expect(createIdea).not.toHaveBeenCalled()
     expect(uploadFile).not.toHaveBeenCalled()
     expect(await screen.findByRole('heading', { name: 'Nomination Submitted Successfully' })).toBeInTheDocument()
+    expect(screen.queryByText(/^Number:/)).not.toBeInTheDocument()
+    expect(await screen.findByText(/Your nomination was submitted, but its saved draft could not be removed/)).toBeInTheDocument()
+  })
+
+  it('keeps team submission successful and displays a warning when its draft cannot be removed', async () => {
+    removeDraft.mockRejectedValueOnce(new Error('Draft storage unavailable'))
+    getIdea.mockResolvedValueOnce({
+      id: 'rejected-team', createdBy: 'user-1', hackathonId: 'hackathon-1', category: 'Customer Values',
+      description: 'Saved team details', tags: [], approvalStatus: 'rejected', approvalVersion: 4,
+      projectAttachments: [
+        { type: 'nomination', nominationType: 'team', name: 'Saved project', projectName: 'Saved project', coreTeamMembers: 'Member One;Member Two', achievementSummary: 'Saved summary', teamAchievementImpact: 'Saved impact', cultureDemonstration: 'Saved culture' },
+        { type: 'screenshot', url: '/storage/team.png', name: 'team.png' },
+      ],
+    })
+    updateIdea.mockResolvedValueOnce({ id: 'rejected-team', category: 'Customer Values', approvalStatus: 'pending' })
+    const user = userEvent.setup()
+    render(<MantineProvider env="test"><MemoryRouter initialEntries={['/nominate?edit=rejected-team']}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    await user.click(await screen.findByRole('button', { name: 'Resubmit nomination' }))
+    await user.click(await screen.findByRole('button', { name: 'Confirm And Submit' }))
+    expect(await screen.findByRole('heading', { name: 'Nomination Submitted Successfully' })).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveTextContent('Your nomination was submitted, but its saved draft could not be removed.')
+    expect(updateIdea).toHaveBeenCalledOnce()
+    expect(createIdea).not.toHaveBeenCalled()
+    expect(uploadFile).not.toHaveBeenCalled()
+    expect(removeDraft).toHaveBeenCalledWith('["user-1","hackathon-1","team","rejected-team"]')
+  })
+
+  it('restores a saved individual draft with files, previews before submitting and removes it only after success', async () => {
+    const photo = new File(['photo'], 'saved-photo.png', { type: 'image/png' })
+    const documentFile = new File(['%PDF-1.7'], 'saved-evidence.pdf', { type: 'application/pdf' })
+    const data = {
+      form: { hackathonId: 'hackathon-1', category: 'Customer Values', executiveSummary: 'Saved summary', achievementImpact: 'Saved impact', cultureDemonstration: 'Saved culture', technologies: 'Customer' },
+      photo, document: documentFile,
+    }
+    loadDraft.mockResolvedValueOnce({ version: 1, savedAt: '2026-11-09T00:00:00Z', data })
+    const user = userEvent.setup()
+    render(<MantineProvider env="test"><MemoryRouter initialEntries={['/nominate?type=individual']}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    const restore = await screen.findByRole('button', { name: 'Restore Draft' })
+    expect(screen.queryByRole('textbox', { name: /Executive Summary/ })).not.toBeInTheDocument()
+    await user.click(restore)
+    expect(await screen.findByRole('textbox', { name: /Executive Summary/ })).toHaveValue('Saved summary')
+    expect(screen.getByRole('textbox', { name: /Award Category/ })).toHaveValue('Customer Values')
+    expect(screen.queryByTitle('Selected PDF preview: saved-evidence.pdf')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Save Draft' }))
+    await waitFor(() => expect(saveDraft).toHaveBeenCalledWith('["user-1","hackathon-1","individual","new"]', expect.objectContaining({ form: data.form, photo, document: documentFile })))
+    await user.click(screen.getByRole('button', { name: 'Submit nomination' }))
+    const review = await screen.findByRole('dialog', { name: 'Review Individual Nomination' })
+    expect(createIdea).not.toHaveBeenCalled()
+    expect(uploadFile).not.toHaveBeenCalled()
+    expect(removeDraft).not.toHaveBeenCalled()
+    expect(within(review).getByText('Saved summary')).toBeInTheDocument()
+    expect(within(review).getByText('saved-evidence.pdf')).toBeInTheDocument()
+    expect(within(review).queryByTitle('Selected PDF preview: saved-evidence.pdf')).not.toBeInTheDocument()
+    await user.click(within(review).getByRole('button', { name: 'Preview Attachment' }))
+    expect(await within(review).findByTitle('Selected PDF preview: saved-evidence.pdf')).toBeInTheDocument()
+    expect(within(review).getByText('Saved impact')).toBeInTheDocument()
+    await user.click(within(review).getByRole('button', { name: 'Back To Edit' }))
+    expect(screen.getByRole('textbox', { name: /Executive Summary/ })).toHaveValue('Saved summary')
+    await user.click(screen.getByRole('button', { name: 'Submit nomination' }))
+    await user.click(within(await screen.findByRole('dialog', { name: 'Review Individual Nomination' })).getByRole('button', { name: 'Confirm And Submit' }))
+    await waitFor(() => expect(createIdea).toHaveBeenCalledTimes(1))
+    expect(uploadFile).toHaveBeenCalledWith(documentFile, 'project-attachments', 'nominations/hackathon-1/user-1')
+    expect(removeDraft).toHaveBeenCalledWith('["user-1","hackathon-1","individual","new"]')
+  })
+
+  it('saves an incomplete form without uploading or submitting and reports storage failures', async () => {
+    saveDraft.mockRejectedValueOnce(new Error('Quota exceeded'))
+    const user = userEvent.setup()
+    render(<MantineProvider env="test"><MemoryRouter initialEntries={['/nominate?type=individual']}><ProjectShowcase nominationMode /></MemoryRouter></MantineProvider>)
+    await user.click(await screen.findByRole('radio', { name: /Customer Values/ }))
+    await user.type(await screen.findByRole('textbox', { name: /Executive Summary/ }), 'A partial summary')
+    await user.click(screen.getByRole('button', { name: 'Save Draft' }))
+    expect(await screen.findByText('Unable to save the draft. Keep this page open and try again.')).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /Executive Summary/ })).toHaveValue('A partial summary')
+    expect(createIdea).not.toHaveBeenCalled()
+    expect(uploadFile).not.toHaveBeenCalled()
   })
 
   it.each(['image/webp', 'image/png'])('submits a cropped %s photo in a draft award without creating a team', async (outputType) => {
@@ -571,8 +665,8 @@ describe('ProjectShowcase', () => {
 
     await user.click(await screen.findByRole('radio', { name: /Customer Values/ }))
     await user.type(screen.getByRole('textbox', { name: /Executive Summary/ }), 'A better customer experience in four clear sentences.')
-    await user.type(screen.getByRole('textbox', { name: /Details of Your Core Achievement in 2026 and Business Impact/ }), 'Reduced service time by 30% and saved RMB 200,000.')
-    await user.type(screen.getByRole('textbox', { name: /How you demonstrate BD China culture/ }), 'Listened to users and delivered an end-to-end solution.')
+    await user.type(screen.getByRole('textbox', { name: /Details Of Your Core Achievement In 2026 And Business Impact/ }), 'Reduced service time by 30% and saved RMB 200,000.')
+    await user.type(screen.getByRole('textbox', { name: /How You Demonstrate BD China Culture/ }), 'Listened to users and delivered an end-to-end solution.')
     const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')
     expect(fileInput).not.toBeNull()
     const oversized = new File(['image'], 'large.png', { type: 'image/png' })
@@ -600,7 +694,7 @@ describe('ProjectShowcase', () => {
       toBlob.mockRestore()
     }
     expect(screen.queryByText('Photo exceeds 50 MB. Please choose a smaller photo.')).not.toBeInTheDocument()
-    const tagsInput = screen.getByRole('textbox', { name: /Tags you want to add/ })
+    const tagsInput = screen.getByRole('textbox', { name: /Tags You Want To Add/ })
     await user.type(tagsInput, 'Customer、Innovation，Collaboration, Impact、Digital、Sixth、')
     expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeDisabled()
     expect(createIdea).not.toHaveBeenCalled()
@@ -608,6 +702,11 @@ describe('ProjectShowcase', () => {
     await user.type(tagsInput, 'Customer，Innovation、Collaboration, Impact、Digital、Customer、')
     expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeEnabled()
     await user.click(screen.getByRole('button', { name: 'Submit nomination' }))
+    const review = await screen.findByRole('dialog', { name: 'Review Individual Nomination' })
+    expect(createIdea).not.toHaveBeenCalled()
+    expect(uploadFile).not.toHaveBeenCalled()
+    expect(within(review).getByText('Reduced service time by 30% and saved RMB 200,000.')).toBeInTheDocument()
+    await user.click(within(review).getByRole('button', { name: 'Confirm And Submit' }))
 
     await waitFor(() => expect(createIdea).toHaveBeenCalled())
     expect(getOrCreateNominationTeam).not.toHaveBeenCalled()

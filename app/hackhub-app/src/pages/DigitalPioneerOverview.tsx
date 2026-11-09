@@ -11,9 +11,9 @@ import './DigitalPioneer.css'
 
 const copy = {
   en: {
-    nominate: 'Start a nomination',
-    browse: 'Browse & vote',
-    categoriesTitle: 'Award categories and criteria',
+    nominate: 'Start A Nomination',
+    browse: 'Browse & Vote',
+    categoriesTitle: 'Award Categories And Criteria',
     timelineTitle: '2026 Timeline',
   },
   zh: {

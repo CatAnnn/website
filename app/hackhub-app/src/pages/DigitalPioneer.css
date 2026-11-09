@@ -148,7 +148,7 @@
 .dp-mobile-navigation { display: grid; gap: 8px; }
 .dp-navlink:focus-visible { outline: 2px solid var(--dp-ink); outline-offset: 2px; }
 .dp-header-actions { flex-shrink: 0; }
-.dp-header-user-copy { max-width: 150px; overflow: hidden; }
+.dp-header-user-copy { max-width: min(28vw, 360px); overflow-wrap: anywhere; }
 .dp-header-user-copy p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .dp-comments { border-top: 1px solid var(--dp-line); padding-top: 24px; }
 .dp-comment { border-bottom: 1px solid var(--dp-line); padding-bottom: 16px; }
@@ -534,7 +534,10 @@
   content: '';
   display: block;
   width: 100px;
+  min-width: 100px;
+  max-width: 100px;
   height: 4px;
+  flex-shrink: 0;
   margin: 0 auto 28px;
   border-radius: 999px;
   background: linear-gradient(90deg, rgb(var(--track-rgb)), var(--track-light), rgb(var(--track-rgb)));
@@ -882,7 +885,7 @@
 .dp-nomination-flow {
   width: 100%;
   min-width: 0;
-  margin: clamp(30px, 4vw, 48px) 0 0;
+  margin: clamp(20px, 2.6667vw, 32px) 0 0;
 }
 
 .dp-flow-heading {
@@ -899,10 +902,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 24px;
+  gap: 16px;
   width: fit-content;
   max-width: 100%;
-  margin-bottom: 28px;
+  margin-bottom: 18.667px;
 }
 
 .dp-existing-nomination .mantine-Alert-title { color: #d98aff; }
@@ -924,8 +927,8 @@
   flex: 1 1 0;
   min-width: 0;
   height: auto;
-  min-height: clamp(52px, calc(4vw + 24px), 74px);
-  padding: 12px;
+  min-height: clamp(34.667px, calc(2.6667vw + 16px), 49.333px);
+  padding: 5px 12px;
   font-size: var(--dp-type-size);
   line-height: 1.25;
 }
@@ -934,10 +937,23 @@
   min-width: min(100%, 15rem);
 }
 .dp-nomination-flow .dp-type-switch .mantine-Button-root {
-  min-height: 54px;
+  min-height: 36px;
 }
 .dp-selection-header .dp-category-heading { margin-bottom: 0; }
 .dp-selection-header .dp-selection-title { margin-bottom: 0; }
+
+/* 标题仅调整展示大小写，保留赛道原始值和审核数据。 */
+.dp-track-title,
+.dp-nomination-track__name,
+.dp-approval-shell .mantine-Title-root { text-transform: capitalize; }
+.dp-approval-shell .mantine-Table-root { --table-highlight-on-hover-color: rgb(255 255 255 / 8%); }
+.dp-approval-shell :is(.mantine-Table-th, .mantine-Tabs-tab, .mantine-Stepper-stepLabel) { color: #fff; }
+
+/* 提交确认预览独立于旧详情布局，照片和文字按文档顺序展示。 */
+.dp-nomination-review .mantine-Modal-content,
+.dp-nomination-review .mantine-Modal-header { background: #071b3b; color: #fff; }
+.dp-nomination-review .mantine-Modal-body { overflow-wrap: anywhere; }
+.dp-nomination-review :is(.mantine-Text-root, .mantine-Title-root, .mantine-Modal-title, .mantine-Button-root, .mantine-CloseButton-root) { color: #fff; }
 
 /* 下拉通过 Portal 渲染，单独设置深色背景及足够对比度。 */
 .dp-member-dropdown { background: #071b3b; border-color: #8da6ca; color: #eef5ff; }
@@ -1601,6 +1617,8 @@
 .dp-detail-sidebar { padding-right: 8px; }
 .dp-detail-sidebar > * { flex-shrink: 0; }
 .dp-detail-modal :is(.mantine-Text-root, .mantine-Title-root, .mantine-Modal-title, .mantine-Badge-root, .mantine-Button-root, .mantine-CloseButton-root) { color: #000 !important; }
+/* 新附件条目使用独立深色底，避免详情原有黑字规则覆盖附件文字。 */
+.dp-detail-modal .dp-attachment :is(.mantine-Text-root, .mantine-Button-root, .mantine-Anchor-root) { color: #fff !important; }
 .dp-detail-modal .mantine-Text-root { font-size: 1rem; }
 .dp-detail-modal :is(.mantine-Title-root, .mantine-Modal-title) { font-size: calc(1rem + 2px); }
 .dp-detail-modal .dp-candidate-detail-section + .dp-candidate-detail-section { border-color: #ddd; }

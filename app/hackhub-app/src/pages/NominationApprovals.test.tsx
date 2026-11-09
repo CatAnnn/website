@@ -49,6 +49,9 @@ describe('Nominating HoD approval inbox', () => {
     show(true, '/?id=one')
     expect(await screen.findByText(/Submitted text one/)).toHaveTextContent('Actual employee achievements')
     expect(screen.getByText('employee@example.test', { exact: false })).toBeInTheDocument()
+    expect(screen.queryByText('Number', { exact: true })).not.toBeInTheDocument()
+    expect(screen.queryByText('Requested for', { exact: true })).not.toBeInTheDocument()
+    expect(screen.getByText('Name', { exact: true })).toBeInTheDocument()
     expect(screen.queryByText(/Computer selection/)).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: /Reject for revision/ }))
     expect(screen.getByRole('button', { name: /Confirm/ })).toBeDisabled()
@@ -82,5 +85,12 @@ describe('Nominating HoD approval inbox', () => {
     show()
     expect(screen.getByText(/not assigned as a Nominating HoD/)).toBeInTheDocument()
     expect(mocks.get).not.toHaveBeenCalled()
+  })
+
+  it('hides team tags in the submitted nomination details', async () => {
+    mocks.get.mockResolvedValue([{ ...nomination('team'), teamId: 'team-id' }])
+    show(false, '/?id=team')
+    expect(await screen.findByText(/Submitted text team/)).toBeVisible()
+    expect(screen.queryByText('Submitted tag')).not.toBeInTheDocument()
   })
 })

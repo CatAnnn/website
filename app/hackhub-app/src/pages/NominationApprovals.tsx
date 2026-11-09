@@ -68,23 +68,22 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
   if (reviewMode && !eligibility.data?.canReview) return <Container py="xl"><Alert color="orange">{eligibility.isError ? 'Unable to verify approval access. Please refresh.' : 'Your signed-in account is not assigned as a Nominating HoD.'}</Alert></Container>
 
   return <Container size={1240} py="xl" className="dp-page">
-    <Card bg="white" c="dark" p={{ base: 'md', md: 'xl' }} radius="lg">
+    <Card className="dp-form-shell dp-approval-shell" c="white" p={{ base: 'md', md: 'xl' }} radius="lg">
     <Stack>
-      <Group justify="space-between"><Title order={2}>{reviewMode ? 'Nominating HoD approvals' : 'My nominations'}</Title><Button variant="light" onClick={() => void nominations.refetch()} loading={nominations.isFetching}>Refresh</Button></Group>
+      <Group justify="space-between"><Title order={2}>{reviewMode ? 'Nominating HoD Approvals' : 'My Nominations'}</Title><Button variant="light" onClick={() => void nominations.refetch()} loading={nominations.isFetching}>Refresh</Button></Group>
       {notice && <Alert color="green" role="status">{notice}</Alert>}
       {error && <Alert color="red" role="alert">{error}</Alert>}
       {nominations.isError ? <Alert color="red">Unable to load nominations. Please refresh.</Alert>
         : nominations.isPending ? <Loader aria-label="Loading nominations" />
-          : current ? <Card bg="white" c="dark" p={0}>
+          : current ? <Card bg="transparent" c="white" p={0}>
             <Stack gap="xl">
               <Button variant="outline" radius="xl" w="fit-content" styles={{ root: { backgroundColor: 'transparent' } }} onClick={() => open()}>Go back</Button>
+              <Title order={2}>{trackName(current)}</Title>
+              <div><Text fw={700}>Name</Text><Text>{current.projectAttachments?.find((item) => item.type === 'nomination')?.nominatorName || current.projectAttachments?.find((item) => item.type === 'nomination')?.name || current.title}</Text></div>
               <Group justify="space-between" align="start">
-                <div><Text fw={700}>Number</Text><Text>{current.id}</Text></div>
                 <Group align="start"><div><Text fw={700}>Created</Text><Text>{new Date(current.createdAt).toLocaleString()}</Text></div><div><Text fw={700}>Updated</Text><Text>{new Date(current.updatedAt).toLocaleString()}</Text></div><div><Text fw={700}>State</Text><Text>{nominationState(current)}</Text></div></Group>
               </Group>
-              <Title order={2}>{trackName(current)}</Title>
               {current.approvalHeadName && <Text><strong>Nominating HoD: </strong>{current.approvalHeadName}</Text>}
-              <div><Text fw={700}>Requested for</Text><Text>{current.projectAttachments?.find((item) => item.type === 'nomination')?.name || current.title}</Text></div>
               <NominationProgress idea={current} />
               {actions}
               {!reviewMode && current.approvalStatus === 'rejected' && <Button component={Link} to={`/nominate?edit=${encodeURIComponent(current.id)}`} w="fit-content">Edit and resubmit</Button>}
@@ -103,7 +102,7 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
                     {item.nominatingHead && <Text><strong>Nominating HoD: </strong>{item.nominatingHead}</Text>}
                   </Stack>)}
                   <Text style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{current.description}</Text>
-                  <Group>{current.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}</Group>
+                  {!current.teamId && !current.projectAttachments?.some((item) => item.type === 'nomination' && item.nominationType === 'team') && <Group>{current.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}</Group>}
                 </Stack></Tabs.Panel>
                 <Tabs.Panel value="activity" pt="lg"><Stack>
                   <Text>Created: {new Date(current.createdAt).toLocaleString()}</Text>
@@ -124,7 +123,7 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
               <Table.Thead><Table.Tr>{reviewMode && <Table.Th>Select</Table.Th>}<Table.Th>Nomination</Table.Th><Table.Th>Created</Table.Th><Table.Th>State</Table.Th></Table.Tr></Table.Thead>
               <Table.Tbody>{ideas.map((idea) => <Table.Tr key={idea.id}>
                 {reviewMode && <Table.Td><Checkbox aria-label={`Select ${idea.title}`} disabled={idea.approvalStatus !== 'pending' || busy} checked={selected.includes(idea.id)} onChange={(event) => { const checked = event.currentTarget.checked; setSelected((ids) => checked ? [...ids, idea.id] : ids.filter((id) => id !== idea.id)) }} /></Table.Td>}
-                <Table.Td><Anchor component="button" onClick={() => open(idea.id)} ta="left"><Text fw={700}>{trackName(idea)}</Text><Text>{idea.projectAttachments?.find((item) => item.type === 'nomination')?.name || idea.title}</Text><Text size="xs">{idea.id}</Text></Anchor></Table.Td>
+                <Table.Td><Anchor component="button" onClick={() => open(idea.id)} ta="left" c="white"><Text fw={700}>{trackName(idea)}</Text><Text>{idea.projectAttachments?.find((item) => item.type === 'nomination')?.name || idea.title}</Text></Anchor></Table.Td>
                 <Table.Td>{new Date(idea.createdAt).toLocaleString()}</Table.Td><Table.Td>{nominationState(idea)}</Table.Td>
               </Table.Tr>)}</Table.Tbody>
             </Table></Table.ScrollContainer>

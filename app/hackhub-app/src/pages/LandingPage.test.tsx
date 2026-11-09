@@ -4,7 +4,7 @@ import { MantineProvider } from '@mantine/core'
 import { MemoryRouter } from 'react-router-dom'
 import { LandingPage } from './LandingPage'
 
-const state = vi.hoisted(() => ({ user: null as null | { id: string; name: string; role: string }, judge: false }))
+const state = vi.hoisted(() => ({ user: null as null | { id: string; name: string; email?: string; role: string }, judge: false }))
 vi.mock('../store/authStore', () => ({ useAuthStore: () => ({ user: state.user, logout: vi.fn() }) }))
 vi.mock('../hooks/useAwardAccess', () => ({ useAwardAccess: () => ({ canReview: state.user?.role === 'admin' || state.judge, canManage: state.user?.role === 'admin' }) }))
 vi.mock('../hooks/useTechBackground', () => ({ useTechBackground: vi.fn() }))
@@ -36,6 +36,14 @@ describe('LandingPage', () => {
     renderPage('/projects')
     expect(screen.getByRole('link', { name: 'Browse & Vote' })).toHaveAttribute('aria-current', 'page')
     expect(screen.queryByRole('heading', { name: '2026 BDCN Digital Pioneer Award' })).not.toBeInTheDocument()
+  })
+
+  it('uses the full sign-in email for the account display without changing the profile name', () => {
+    state.user = { id: 'u1', name: 'Lynette', email: 'Lynette.LI@cn.bosch.com', role: 'participant' }
+    renderPage('/projects')
+    expect(screen.getByRole('button', { name: 'Lynette.LI@cn.bosch.com' })).toHaveTextContent('Lynette.LI@cn.bosch.com')
+    expect(screen.queryByText('Lynette', { exact: true })).not.toBeInTheDocument()
+    expect(state.user.name).toBe('Lynette')
   })
 
   it.each([

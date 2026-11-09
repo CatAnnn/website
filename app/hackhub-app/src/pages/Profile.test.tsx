@@ -12,6 +12,8 @@ describe('Profile account details', () => {
   it('shows actual account fields without fabricated activity or editable sign-in email', () => {
     render(<MantineProvider><Profile /></MantineProvider>)
     expect(screen.getByLabelText('Email')).toHaveAttribute('readonly')
+    expect(screen.getByText('alice@example.com')).toBeInTheDocument()
+    expect(screen.queryByText('Alice', { exact: true })).not.toBeInTheDocument()
     expect(screen.queryByText('Activity Stats')).not.toBeInTheDocument()
     expect(screen.queryByText('Default Hackathon Filter')).not.toBeInTheDocument()
   })

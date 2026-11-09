@@ -59,6 +59,8 @@ import { useNominationEligibility } from '../hooks/useNominationEligibility'
 import { NominationProgress } from '../components/DigitalPioneer/NominationProgress'
 import { validateNominationPdf } from '../services/storageService'
 import { NominationEvidence } from '../components/DigitalPioneer/NominationEvidence'
+import { LocalNominationAttachment } from '../components/DigitalPioneer/LocalNominationAttachment'
+import { NominationDraftStore, nominationDraftKey, type NominationDraft } from '../services/nominationDraftStore'
 import { TeamNominationForm } from '../components/DigitalPioneer/TeamNominationForm'
 import { useNominationType } from '../hooks/useNominationType'
 import { ProfileService } from '../services/profileService'
@@ -116,6 +118,13 @@ interface ProjectUploadForm {
   technologies: string
 }
 
+interface IndividualNominationDraft {
+  form: ProjectUploadForm
+  photo: File | null
+  document: File | null
+  approvalVersion?: number
+}
+
 const emptyUploadForm = (): ProjectUploadForm => ({
   hackathonId: '',
   executiveSummary: '',
@@ -132,8 +141,8 @@ const tagHint = 'Add up to 5 tags, separated by 、, ， or commas (,).'
 
 const nominationHeadings = [
   'Executive Summary (The Elevator Pitch)',
-  'Details of Your Core Achievement in 2026 and Business Impact (including financial figures)',
-  'How you demonstrate BD China culture (especially on you applied category) ?',
+  'Details Of Your Core Achievement In 2026 And Business Impact (Including Financial Figures)',
+  'How You Demonstrate BD China Culture (Especially On You Applied Category) ?',
 ]
 
 function parseNominationDescription(description: string) {
@@ -143,7 +152,7 @@ function parseNominationDescription(description: string) {
   for (const line of description.split(/\r?\n/)) {
     const label = line.trim().replace(/^\*\*|\*\*$/g, '')
     const index = /^Executive Summary(?: \(The Elevator Pitch\))?$/i.test(label) ? 0
-      : label === nominationHeadings[1] ? 1
+      : label.toLowerCase() === nominationHeadings[1].toLowerCase() ? 1
       : /^How you demonstrate (?:Bosch|BD) China culture \(especially (?:in your|on you) applied category\)\s*\??$/i.test(label) ? 2
       : -1
     if (index >= 0) {
@@ -218,6 +227,28 @@ function usePhotoUrl(file: File | null) {
     return () => URL.revokeObjectURL(objectUrl)
   }, [file])
   return file ? url : null
+}
+
+function RetainedNominationPhoto({ attachment }: { attachment: ProjectAttachment }) {
+  const [url, setUrl] = useState<string | null>(null)
+  const [failed, setFailed] = useState(false)
+  useEffect(() => {
+    let active = true
+    setUrl(null)
+    setFailed(false)
+    // 编辑预览使用现有照片的新签名链接，不重新上传或改变附件记录。
+    const request = attachment.storageKey
+      ? StorageService.getPresignedUrl('project-attachments', attachment.storageKey)
+      : Promise.resolve(attachment.url)
+    void Promise.resolve(request).then((value) => { if (active) setUrl(value || null) })
+      .catch(() => { if (active) setFailed(true) })
+    return () => { active = false }
+  }, [attachment.storageKey, attachment.url])
+  return <Stack gap="xs">
+    <Text c="white">{attachment.name || 'Submitted Photo'}</Text>
+    {url && !failed ? <Image src={url} alt="Retained Nomination Photo" fit="contain" w="100%" h={280} onError={() => setFailed(true)} />
+      : <Text c="white" role="status">{failed ? 'The retained photo could not be previewed. Its saved file is unchanged.' : 'Loading retained photo…'}</Text>}
+  </Stack>
 }
 
 function PersonalPhotoCrop({ file, language, onConfirm, onClose }: {
@@ -324,11 +355,6 @@ function PersonalPhotoCrop({ file, language, onConfirm, onClose }: {
   )
 }
 
-function LocalPdfPreview({ file }: { file: File }) {
-  const url = usePhotoUrl(file)
-  return url ? <iframe title="Selected PDF preview" src={url} style={{ width: '100%', height: 500, marginTop: 12, border: 0 }} /> : null
-}
-
 export function ProjectShowcase({ nominationMode = false, managementMode = false }: { nominationMode?: boolean; managementMode?: boolean }) {
   const { isConnected, subscribeToHackathonUpdates } = useRealtime()
   const navigate = useNavigate()
@@ -388,12 +414,94 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [modalOpened, setModalOpened] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const uploadBusy = useRef(false)
+  const [individualPreviewOpened, setIndividualPreviewOpened] = useState(false)
+  const [individualDraft, setIndividualDraft] = useState<NominationDraft<IndividualNominationDraft> | null>(null)
+  const [savingDraft, setSavingDraft] = useState(false)
+  const [draftNotice, setDraftNotice] = useState<string | null>(null)
+  const [submissionDraftWarning, setSubmissionDraftWarning] = useState<string | null>(null)
+  const [teamDraftCategory, setTeamDraftCategory] = useState<string | null>(null)
   const [hackathons, setHackathons] = useState<AwardSummary[]>([])
   const [projectImage, setProjectImage] = useState<File | null>(null)
   const [individualDocument, setIndividualDocument] = useState<File | null>(null)
   const [photoToCrop, setPhotoToCrop] = useState<File | null>(null)
   const photoPreview = usePhotoUrl(projectImage && !validatePersonalPhoto(projectImage) ? projectImage : null)
   const [uploadForm, setUploadForm] = useState<ProjectUploadForm>(emptyUploadForm)
+  const individualDraftKey = user && uploadForm.hackathonId ? nominationDraftKey({
+    userId: user.id, hackathonId: uploadForm.hackathonId, nominationType: 'individual', editId,
+  }) : null
+  const currentDraftKey = useRef(individualDraftKey)
+  const draftUserId = user?.id
+  currentDraftKey.current = individualDraftKey
+  const individualDraftActive = nominationMode && (editingNomination
+    ? editingNomination.projectAttachments?.find((item) => item.type === 'nomination')?.nominationType ?? 'individual'
+    : preferredNominationType) === 'individual'
+  useEffect(() => {
+    setIndividualDraft(null)
+    setDraftNotice(null)
+    if (!individualDraftActive || !individualDraftKey) return
+    let active = true
+    void NominationDraftStore.load<IndividualNominationDraft>(individualDraftKey).then((draft) => {
+      if (active) setIndividualDraft(draft)
+    }).catch(() => { if (active) setDraftNotice('Saved drafts are unavailable in this browser. Your form is still editable.') })
+    return () => { active = false }
+  }, [individualDraftActive, individualDraftKey])
+
+  useEffect(() => {
+    setTeamDraftCategory(null)
+    if (!nominationMode || !draftUserId || !uploadForm.hackathonId || preferredNominationType !== 'team' || uploadForm.category || editId) return
+    let active = true
+    const key = nominationDraftKey({ userId: draftUserId, hackathonId: uploadForm.hackathonId, nominationType: 'team' })
+    void NominationDraftStore.load<{ category: string }>(key).then((draft) => {
+      if (active && draft && DIGITAL_PIONEER_TRACKS.some((track) => track.value === draft.data.category)) setTeamDraftCategory(draft.data.category)
+    }).catch(() => undefined)
+    return () => { active = false }
+  }, [nominationMode, draftUserId, uploadForm.hackathonId, uploadForm.category, preferredNominationType, editId])
+
+  const saveIndividualDraft = async () => {
+    if (!individualDraftKey || savingDraft || uploading) return
+    const key = individualDraftKey
+    setSavingDraft(true)
+    try {
+      const saved = await NominationDraftStore.save<IndividualNominationDraft>(key, {
+        form: { ...uploadForm }, photo: projectImage, document: individualDocument,
+        approvalVersion: editingNomination?.approvalVersion,
+      })
+      if (currentDraftKey.current === key) {
+        setIndividualDraft(saved)
+        setDraftNotice('Draft saved on this browser. You can reopen it when you return.')
+      }
+    } catch {
+      if (currentDraftKey.current === key) setDraftNotice('Unable to save the draft. Keep this page open and try again.')
+    } finally { setSavingDraft(false) }
+  }
+
+  const restoreIndividualDraft = () => {
+    if (!individualDraft || uploading || (editId && !editingNomination)) return
+    if (editId && individualDraft.data.approvalVersion !== editingNomination?.approvalVersion) {
+      setDraftNotice('This draft belongs to an earlier revision. Keep the current nomination or discard the draft.')
+      return
+    }
+    // 只恢复当前账户、活动和提名版本的内容，不替换服务器审批状态。
+    setUploadForm(individualDraft.data.form)
+    setProjectImage(individualDraft.data.photo)
+    setIndividualDocument(individualDraft.data.document)
+    setPhotoToCrop(null)
+    setIndividualPreviewOpened(false)
+    setDraftNotice('Draft restored. Review the information before submitting.')
+  }
+
+  const discardIndividualDraft = async () => {
+    if (!individualDraftKey || savingDraft || uploading) return
+    const key = individualDraftKey
+    setSavingDraft(true)
+    try {
+      await NominationDraftStore.remove(key)
+      if (currentDraftKey.current === key) { setIndividualDraft(null); setDraftNotice('Saved draft removed. Your current form is unchanged.') }
+    } catch {
+      if (currentDraftKey.current === key) setDraftNotice('Unable to remove the saved draft. Please try again.')
+    } finally { setSavingDraft(false) }
+  }
   useEffect(() => {
     if (!editId || !user) return
     let active = true
@@ -561,6 +669,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
     setUploadForm(emptyUploadForm())
     setProjectImage(null)
     setIndividualDocument(null)
+    setIndividualPreviewOpened(false)
     setSelectedProject(null)
     setModalOpened(false)
     setCartOpened(false)
@@ -578,8 +687,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   const photoError = validatePersonalPhoto(projectImage)
   const documentError = validateNominationPdf(individualDocument)
 
-  const handleProjectUpload = async () => {
-    if (!user || !canNominate || uploading || (!editId && (ownNominations.isPending || ownNominations.isError || existingNomination))) return
+  const handleProjectUpload = async (confirmed = false) => {
+    if (!user || !canNominate || uploading || uploadBusy.current || (!editId && (ownNominations.isPending || ownNominations.isError || existingNomination))) return
     if (editId && editingNomination?.id !== editId) return
     if (!uploadForm.hackathonId || !uploadForm.executiveSummary.trim()
       || !uploadForm.achievementImpact.trim() || !uploadForm.cultureDemonstration.trim()
@@ -602,8 +711,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
       return
     }
 
+    // 第一次点击仅展示完整预览，二次确认后才沿用原有上传和审批提交流程。
+    if (!confirmed) { setIndividualPreviewOpened(true); return }
+
     const nomineeUserId = user.id
     const nomineeName = user.name
+    uploadBusy.current = true
     setUploading(true)
     try {
       const technologies = nominationTags
@@ -635,6 +748,14 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         ? await IdeaService.updateIdea(editingNomination.id, { ...payload, approvalVersion: editingNomination.approvalVersion })
         : await IdeaService.createIdea(payload)
       setSubmittedNomination(submitted)
+      setIndividualPreviewOpened(false)
+      setSubmissionDraftWarning(null)
+      if (individualDraftKey) {
+        await NominationDraftStore.remove(individualDraftKey).catch(() => {
+          setSubmissionDraftWarning('Your nomination was submitted, but its saved draft could not be removed. Discard that draft when you return to the nomination page.')
+        })
+        setIndividualDraft(null)
+      }
       void ownNominations.refetch()
       setIndividualDocument(null)
 
@@ -655,6 +776,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         color: 'red',
       })
     } finally {
+      uploadBusy.current = false
       setUploading(false)
     }
   }
@@ -879,17 +1001,46 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   if (nominationMode) {
     if (submittedNomination) return <Container size={1240} py="xl" className="dp-page"><Card className="dp-form-shell" p="xl"><Stack gap="lg">
       <Title order={2}>Nomination Submitted Successfully</Title>
-      <Text>Your nomination for <strong>{DIGITAL_PIONEER_TRACKS.find((track) => track.value === submittedNomination.category)?.label ?? submittedNomination.category}</strong> has been submitted.</Text>
-      <Text>Number: {submittedNomination.id}</Text>
+      <Title order={3}>{DIGITAL_PIONEER_TRACKS.find((track) => track.value === submittedNomination.category)?.label ?? submittedNomination.category}</Title>
+      <Text c="white">Name: {user?.email ?? submittedNomination.title}</Text>
+      <Text>Your nomination has been submitted.</Text>
+      {submissionDraftWarning && <Text c="white" role="status">{submissionDraftWarning}</Text>}
       <NominationProgress idea={submittedNomination} />
       {submittedNomination.approvalStatus && <Text>Your Nominating HoD will review the information you submitted. Check My nominations for the decision and any requested changes.</Text>}
       <Group><Button variant="light" onClick={() => navigate('/')}>Home</Button><Button onClick={() => navigate(`/my-nominations?id=${encodeURIComponent(submittedNomination.id)}`)}>My nominations</Button></Group>
     </Stack></Card></Container>
     return (
-      <Container size={1240} py={{ base: 'md', md: 'xl' }} className="dp-page">
+      <Container size={1240} py={{ base: 'md', md: 'xl' }} className="dp-page dp-nomination-page">
         {photoToCrop && <PersonalPhotoCrop file={photoToCrop} language={language}
           onClose={() => setPhotoToCrop(null)}
           onConfirm={(file) => { setProjectImage(file); setPhotoToCrop(null) }} />}
+        <Modal opened={individualPreviewOpened} className="dp-nomination-review" onClose={() => { if (!uploading) setIndividualPreviewOpened(false) }}
+          title="Review Individual Nomination" size="lg" centered closeOnClickOutside={!uploading} closeOnEscape={!uploading}
+          withCloseButton={!uploading} styles={{ content: { background: '#071b3b', color: 'white' }, header: { background: '#071b3b', color: 'white' }, title: { color: 'white' }, close: { color: 'white' } }}>
+          <Stack gap="lg" c="white" style={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+            <Title order={3}>{selectedNominationTrack?.label}</Title>
+            <Text c="white">Name: {user?.email}</Text>
+            <Text c="white">Nomination Type: Individual</Text>
+            {photoPreview ? <Image src={photoPreview} alt="Nomination Review Photo" fit="contain" w="100%" h={280} />
+              : editingNomination?.projectAttachments?.filter((item) => item.type === 'screenshot').map((item) => <RetainedNominationPhoto key={item.storageKey ?? item.url} attachment={item} />)}
+            {[
+              { heading: nominationHeadings[0], body: uploadForm.executiveSummary },
+              { heading: nominationHeadings[1], body: uploadForm.achievementImpact },
+              { heading: nominationHeadings[2], body: uploadForm.cultureDemonstration },
+            ].map((section) => <section key={section.heading}>
+              <Title order={4} c="white">{section.heading}</Title>
+              <Text c="white" mt="xs" style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{section.body}</Text>
+            </section>)}
+            {nominationTags.length > 0 && <div><Title order={4} c="white">Tags</Title><Text c="white">{nominationTags.join(', ')}</Text></div>}
+            {individualDocument ? <LocalNominationAttachment file={individualDocument} />
+              : editingNomination?.projectAttachments?.filter((item) => item.type === 'document').map((item) => <NominationEvidence key={item.storageKey ?? item.url} attachment={item} />)}
+            <Text c="white">Please confirm the information above. Your nomination will then be sent to your assigned HoD for review.</Text>
+            <Group justify="flex-end">
+              <Button variant="light" c="white" disabled={uploading} onClick={() => setIndividualPreviewOpened(false)}>Back To Edit</Button>
+              <Button loading={uploading} disabled={!canNominate} onClick={() => void handleProjectUpload(true)}>Confirm And Submit</Button>
+            </Group>
+          </Stack>
+        </Modal>
         <section className="dp-nomination-flow" aria-labelledby="track-choice-title">
           {eligibility.isError && <Alert color="red">Unable to verify your nomination eligibility. Please refresh.</Alert>}
           {eligibility.data && !canNominate && <Alert color="orange">{eligibility.data.message || 'Your signed-in account could not be matched to an eligible employee and Nominating HoD.'}</Alert>}
@@ -898,7 +1049,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           {editingNomination?.approvalReason && <Alert color="orange" title="Requested changes">{editingNomination.approvalReason}</Alert>}
           <div className="dp-flow-heading">
             <div>
-              <Title id="track-choice-title" order={2}>Choose an award category</Title>
+              <Title id="track-choice-title" order={2}>Start You Nomation</Title>
             </div>
             <Button.Group className="dp-type-switch" aria-label="Nomination type">
               {(['individual', 'team'] as const).map((type) => <Button key={type} radius="xl"
@@ -908,6 +1059,21 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
               </Button>)}
             </Button.Group>
           </div>
+
+          {individualDraftActive && user && <Stack gap="sm" mb="lg">
+            {individualDraft && <Alert title="Saved Individual Draft" styles={{ title: { color: 'white' }, message: { color: 'white' } }}>
+              A saved draft is available from {new Date(individualDraft.savedAt).toLocaleString()}.
+              <Group mt="sm">
+                <Button variant="light" c="white" disabled={uploading || savingDraft || Boolean(editId && !editingNomination)} onClick={restoreIndividualDraft}>Restore Draft</Button>
+                <Button variant="light" c="white" disabled={uploading || savingDraft} onClick={() => void discardIndividualDraft()}>Discard Draft</Button>
+              </Group>
+            </Alert>}
+            {draftNotice && <Text c="white" role="status">{draftNotice}</Text>}
+          </Stack>}
+          {teamDraftCategory && <Alert title="Saved Team Draft" mb="lg" styles={{ title: { color: 'white' }, message: { color: 'white' } }}>
+            A team draft is available. Open its category, then choose Restore Draft to continue.
+            <Button mt="sm" variant="light" c="white" onClick={() => setUploadForm((current) => ({ ...current, category: teamDraftCategory }))}>Open Saved Team Draft</Button>
+          </Alert>}
 
           <div className="dp-nomination-tracks" role="radiogroup" aria-label="Nomination track">
             {nominationTracks.map((track) => {
@@ -971,7 +1137,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             <TeamNominationForm key={`${user.id}:${uploadForm.hackathonId}:${editingNomination?.id ?? 'new'}`}
               user={user} hackathonId={uploadForm.hackathonId} category={uploadForm.category}
               onCategoryChange={(category) => setUploadForm((current) => ({ ...current, category }))}
-              canSubmit={canNominate} editing={editingNomination} onSubmitted={(idea) => { setSubmittedNomination(idea); void ownNominations.refetch() }} />
+              canSubmit={canNominate} editing={editingNomination} onSubmitted={(idea, draftWarning) => { setSubmissionDraftWarning(draftWarning ?? null); setSubmittedNomination(idea); void ownNominations.refetch() }} />
           ) : (
             <Card className="dp-form-shell" p={{ base: 'lg', md: 38 }}>
               <Stack gap={0} id="nomination-form">
@@ -983,7 +1149,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                         </div>
                         <TextInput
                           label="Outlook Name"
-                          value={user ? `${user.name} (${user.email})` : ''}
+                          value={user?.email ?? ''}
                           readOnly
                           required
                         />
@@ -1063,7 +1229,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     <div className="dp-nomination-question">
                       <div style={{ minWidth: 0 }}>
                         <Textarea
-                          label={<><span className="dp-question-number" aria-hidden="true">02</span><span>Details of Your Core Achievement in 2026 and Business Impact (including financial figures)</span></>}
+                          label={<><span className="dp-question-number" aria-hidden="true">02</span><span>{nominationHeadings[1]}</span></>}
                           required
                           minRows={4}
                           maxLength={2400}
@@ -1080,7 +1246,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     <div className="dp-nomination-question">
                       <div style={{ minWidth: 0 }}>
                         <Textarea
-                          label={<><span className="dp-question-number" aria-hidden="true">03</span><span>How you demonstrate BD China culture (especially on you applied category) ?</span></>}
+                          label={<><span className="dp-question-number" aria-hidden="true">03</span><span>{nominationHeadings[2]}</span></>}
                           required
                           minRows={4}
                           maxLength={2000}
@@ -1097,7 +1263,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     <div className="dp-nomination-question">
                       <div style={{ minWidth: 0 }}>
                         <TextInput
-                          label={<><span className="dp-question-number" aria-hidden="true">04</span><span>Tags you want to add(Add up to 5 tags: 、 , ，)</span></>}
+                          label={<><span className="dp-question-number" aria-hidden="true">04</span><span>Tags You Want To Add (Add Up To 5 Tags: 、 , ，)</span></>}
                           styles={{ label: { whiteSpace: 'nowrap' } }}
                           error={tooManyTags ? tagHint : undefined}
                           placeholder="中英文输入都可"
@@ -1114,12 +1280,14 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                   </div>
 
                   <div className="dp-fieldset" translate="no">
-                    <FileInput label="Attachment" description="Optional PDF; up to 10 MB. Preview it on this page." accept="application/pdf,.pdf"
+                    <FileInput label="Attachment" description="Optional PDF; up to 10 MB. Open the preview when needed." accept="application/pdf,.pdf"
                       clearable value={individualDocument} error={documentError} disabled={uploading} onChange={setIndividualDocument} />
-                    {individualDocument && !documentError && <LocalPdfPreview file={individualDocument} />}
+                    {individualDocument && !documentError && <LocalNominationAttachment file={individualDocument} />}
                     {!individualDocument && editingNomination?.projectAttachments?.filter((item) => item.type === 'document').map((item) => <NominationEvidence key={item.storageKey ?? item.url} attachment={item} />)}
                   </div>
                   <Group justify="flex-end" align="center" pt="lg">
+                    <Button variant="light" c="white" loading={savingDraft} disabled={uploading || !individualDraftKey}
+                      onClick={() => void saveIndividualDraft()}>Save Draft</Button>
                     <Button
                       className="dp-primary-button"
                       rightSection={<IconArrowRight size={17} />}
@@ -1547,7 +1715,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                 </Group>
               </div>
 
-              <div>
+              {selectedProject.nomination_type !== 'team' && <div>
                 <Title order={5} mb="sm">Tags</Title>
                 <Group>
                   {selectedProject.technologies.map((tech) => (
@@ -1556,7 +1724,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                     </Badge>
                   ))}
                 </Group>
-              </div>
+              </div>}
 
               {/* Links */}
               <Group>
@@ -1607,7 +1775,6 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                 {selectedProject.user_vote ? 'Cancel vote' : 'Vote'} ({selectedProject.votes})
               </Button>
             </Stack>
-            {selectedProject.documents?.map((item) => <NominationEvidence key={item.storageKey ?? item.url} attachment={item} />)}
             {/* Description */}
             <div className="dp-candidate-detail-sections">
               {parseNominationDescription(selectedProject.description).map((section, index) => (
@@ -1618,6 +1785,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                   ))}
                 </section>
               ))}
+              {selectedProject.documents?.map((item) => <NominationEvidence key={item.storageKey ?? item.url} attachment={item} />)}
             </div>
           </div>
         )}
