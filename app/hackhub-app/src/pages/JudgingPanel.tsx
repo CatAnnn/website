@@ -106,7 +106,7 @@ function JudgingImage({ attachment }: { attachment: ProjectAttachment }) {
           style={{ display: 'block', width: '100%', height: '100%', objectFit: 'contain' }} onError={() => setImageError(true)} />
       ) : <Loader size="sm" />}
     </UnstyledButton>
-    <Modal opened={opened} onClose={() => setOpened(false)} centered size="auto" title={attachment.name || 'Image preview'}
+    <Modal opened={opened} onClose={() => setOpened(false)} centered size="auto" title={attachment.name || 'Image Preview'}
       closeButtonProps={{ 'aria-label': 'Close image preview' }} styles={{
         content: { maxWidth: 'calc(100vw - 32px)', background: 'transparent', boxShadow: 'none' },
         header: { background: 'transparent' },
@@ -215,7 +215,7 @@ function IdeaJudgingCard({
           <Stack gap="xl">
             <Group justify="space-between" align="flex-end">
               <div>
-                <Title order={3}>Score the evidence</Title>
+                <Title order={3}>Score The Evidence</Title>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <Text className="dp-utility" size="sm" c="dimmed">Weighted total</Text>
@@ -445,7 +445,7 @@ export function JudgingPanel(): ReactElement {
         <Center>
           <Stack align="center" gap="md">
             <ThemeIcon size={72} radius="xl" variant="light" color="red"><IconAlertCircle size={34} /></ThemeIcon>
-            <Title order={2}>Committee access required</Title>
+            <Title order={2}>Committee Access Required</Title>
             <Text ta="center" c="dimmed">Verified roster HoDs, assigned committee members and award managers can open this evaluation form.</Text>
             <Button variant="light" onClick={() => navigate(`/awards/${hackathonId}`)}>Back to award event</Button>
           </Stack>
@@ -476,7 +476,7 @@ export function JudgingPanel(): ReactElement {
               </ActionIcon>
               <Text className="dp-section-label" style={{ marginBottom: 0 }}>2026 Digital Pioneer · Committee</Text>
             </Group>
-            <h1 className="dp-section-title">Committee scoring</h1>
+            <h1 className="dp-section-title">Committee Scoring</h1>
           </div>
           {canManageJudging ? <Tooltip label="Open committee ranking">
             <Button

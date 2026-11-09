@@ -25,7 +25,7 @@ export const DIGITAL_PIONEER_TRACKS: readonly DigitalPioneerTrack[] = [
     standards: [
       { title: "Customer Impact (40%)", text: "Delivered measurable value to customers in 2026: adoption/usage growth, efficiency gains, cost reduction or revenue enablement. Results are quantified and verifiable.", emphasis: [] },
       { title: "Deep Customer Insight (30%)", text: "Listened actively and thought from customer perspectives; went beyond stated requirements to uncover hidden needs and pain points; translated insights into product/service improvements.", emphasis: [] },
-      { title: "Growing Together with Customers (30%)", text: "Built trust and long-term partnership; grew customer capabilities (enablement, training, co-creation); turned a one-off delivery into sustained business collaboration.", emphasis: [] },
+      { title: "Growing Together With Customers (30%)", text: "Built trust and long-term partnership; grew customer capabilities (enablement, training, co-creation); turned a one-off delivery into sustained business collaboration.", emphasis: [] },
     ],
   },
   {
@@ -42,7 +42,7 @@ export const DIGITAL_PIONEER_TRACKS: readonly DigitalPioneerTrack[] = [
   },
   {
     value: "Collaboration to Win",
-    label: "Collaboration to Win",
+    label: "Collaboration To Win",
     labelZh: "协作共赢",
     shorthand: "UNITE",
     description: "Break boundaries, share ownership, and turn collective effort into shared success.",
@@ -75,20 +75,20 @@ export const DIGITAL_PIONEER_TEAM_TRACKS: readonly DigitalPioneerTrack[] = [
     description: "Challenge the status quo, test boldly, and prove innovation through impact.",
     standards: [
       { title: "Validated Business Value (40%)", text: "Innovation validated through rapid pilots and iterations; quantified business results (efficiency, cost, revenue, risk reduction...)", emphasis: [] },
-      { title: "Level of innovation (30%)", text: "The innovation delivered a clear breakthrough against the status quo: step-change in speed, cost, quality or capability; the team can articulate “before vs. after” convincingly.", emphasis: [] },
+      { title: "Level Of Innovation (30%)", text: "The innovation delivered a clear breakthrough against the status quo: step-change in speed, cost, quality or capability; the team can articulate “before vs. after” convincingly.", emphasis: [] },
       { title: "Courage & Ownership (30%)", text: "The team took on a genuinely tough challenge, iterated through failures, and still honored commitments on quality, cost and delivery.", emphasis: [] },
     ],
   },
   {
     value: "Collaboration to Win",
-    label: "Collaboration to Win",
+    label: "Collaboration To Win",
     labelZh: "协作共赢",
     shorthand: "UNITE",
     description: "Break boundaries, share ownership, and turn collective effort into shared success.",
     standards: [
       { title: "Cross-Functional Synergy (30%)", text: "The team demonstrated Discuss–Decide–Do at scale: resolved bottlenecks through fast stakeholder alignment; broke down silos with other departments.", emphasis: [] },
       { title: "Shared Goals & Decision Speed (35%)", text: "The team operated on shared goals with clear, fast decision-making; minimal ping-pong or blame-shifting at interfaces; commitments were reliably met.", emphasis: [] },
-      { title: "Win-as-a-Team Culture (35%)", text: "Systematic support to upstream/downstream partners and peer teams.\nVisible promotion and appreciation of joint success; joint wins are celebrated.", emphasis: [] },
+      { title: "Win-As-A-Team Culture (35%)", text: "Systematic support to upstream/downstream partners and peer teams.\nVisible promotion and appreciation of joint success; joint wins are celebrated.", emphasis: [] },
     ],
   },
 ] as const
@@ -98,7 +98,7 @@ export function getDigitalPioneerTracks(type: NominationType): readonly DigitalP
 }
 
 export const DIGITAL_PIONEER_TIMELINE = [
-  { phase: 'Self-nomination', detail: 'Submit your individual nomination', period: 'Nov.16-28' },
+  { phase: 'Self-Nomination', detail: 'Submit your individual nomination', period: 'Nov.16-28' },
   { phase: 'Associate Voting', detail: 'Ten shortlisted nominees per category', period: 'Nov.30-Dec.11' },
   { phase: 'Committee Voting', detail: 'Five finalists per category', period: 'Dec.14-25' },
   { phase: 'Award Announce & Ceremony', detail: 'Winners announced at Townhall', period: 'Jan.' },

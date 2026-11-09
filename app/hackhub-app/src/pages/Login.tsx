@@ -20,7 +20,7 @@ export function Login() {
         </Anchor>
 
         <Title id="employee-login-title" order={1} className={styles.heading}>
-          {chinese ? '员工登录' : 'Login for employees'}
+          {chinese ? '员工登录' : 'Login For Employees'}
         </Title>
 
         <CompanyLogin chinese={chinese} />

@@ -230,7 +230,7 @@ export function HackathonEdit() {
       <Container className="dp-page" size="lg" py="xl">
         <Alert
           icon={<IconAlertCircle size={16} />}
-          title="Award campaign not found"
+          title="Award Campaign Not Found"
           color="red"
         >
           The award campaign you are trying to edit could not be found.
@@ -255,7 +255,7 @@ export function HackathonEdit() {
           </Group>
 
           <Title order={1} mb="xs">
-            Edit award campaign
+            Edit Award Campaign
           </Title>
           <Text c="dimmed" size="lg">
             Update your award campaign details and settings

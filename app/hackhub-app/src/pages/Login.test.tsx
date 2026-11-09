@@ -24,7 +24,7 @@ describe('Login', () => {
   it('offers company sign-in without password or registration controls', async () => {
     renderLogin()
     expect(await screen.findByRole('link', { name: 'Bosch Single-Sign-On' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Login for employees' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Login For Employees' })).toBeInTheDocument()
     expect(screen.getByText(/No separate registration is required/)).toBeInTheDocument()
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
     expect(screen.queryByLabelText(/password/i)).not.toBeInTheDocument()

@@ -98,7 +98,7 @@ export function Register() {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Title ta="center" order={2} mb="md">
-          Create your account
+          Create Your Account
         </Title>
         
         <Text c="dimmed" size="sm" ta="center" mt={5} mb="xl">

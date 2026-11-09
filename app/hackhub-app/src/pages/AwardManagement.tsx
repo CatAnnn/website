@@ -48,7 +48,7 @@ function AwardVotingResults({ hackathonId }: { hackathonId: string }) {
     ? (language === 'zh' ? '无法加载投票结果，请刷新重试。' : 'Unable to load voting results. Please refresh and try again.') : ''
 
   return <Card ref={container} className="dp-form-shell" p={{ base: 'lg', md: 32 }}>
-    <Title order={3}>{language === 'zh' ? '各赛道投票结果' : 'Voting results by category'}</Title>
+    <Title order={3}>{language === 'zh' ? '各赛道投票结果' : 'Voting Results By Category'}</Title>
     {error ? <Alert mt="md" color="red">{error}</Alert> : !results ? <Text mt="md" role="status">{language === 'zh' ? '正在加载投票结果…' : 'Loading voting results…'}</Text> : (
       <Stack mt="lg" gap="xl">
         {DIGITAL_PIONEER_TRACKS.map((track) => {
@@ -174,7 +174,7 @@ export function AwardManagement() {
       <Stack gap="xl">
         <Group justify="space-between">
           <div>
-            <Title order={1}>{canManage ? 'Award management' : 'Committee scoring'}</Title>
+            <Title order={1}>{canManage ? 'Award Management' : 'Committee Scoring'}</Title>
             <Text c="white" mt="sm">{canManage ? 'Manage committee members, review case ratings, and track the final ranking.' : 'Open an assigned award to review nominations and submit your ratings.'}</Text>
           </div>
           {canManage && <Button component={Link} to="/hackathons/create" className="dp-primary-button">Create award campaign</Button>}
@@ -223,7 +223,7 @@ export function AwardManagement() {
             </Card>
             {canManage && <AwardVotingResults key={campaign.id} hackathonId={campaign.id} />}
             {canManage && <Card className="dp-form-shell" p={{ base: 'lg', md: 32 }}>
-              <Title order={3}>Committee members</Title>
+              <Title order={3}>Committee Members</Title>
               <Stack mt="md">
                 {membersError && <Alert color="red">Unable to load associates for committee assignment. Refresh to retry.</Alert>}
                 {judgesError ? <Alert color="red">{judgesError.message}</Alert> : judgesLoading && <Text role="status">Loading committee members…</Text>}
@@ -238,14 +238,14 @@ export function AwardManagement() {
             </Card>}
             {canManage && <VotingCriteriaManager hackathonId={campaign.id} isManager />}
             <Card className="dp-form-shell" p={{ base: 'lg', md: 32 }}>
-              <Title order={3}>Evaluation standard</Title>
+              <Title order={3}>Evaluation Standard</Title>
               <Text mt="md">Individual and Team nominations use their category criteria: Customer Values / Innovation 40% / 30% / 30%; Collaboration 30% / 35% / 35%. All verified roster HoDs may score.</Text>
               {canManage && <Text mt="lg" c="white">Associate voting: Team up to 3 votes per category without department restrictions. Individual up to 4 votes per category. Up to 2 votes may go to the voter's department and up to 2 to other departments. Both allowances are optional, with no voting or withdrawal order. Department is the Org.code prefix before “-”: BD/DPA-SRE3 → BD/DPA; BD/BA-AP → BD/BA. Committee rankings use the weighted evaluation score.</Text>}
             </Card>
           </>
         )}
       </Stack>
-      <Modal opened={!!deleteTarget} onClose={() => { if (!busy) setDeleteTarget(null) }} title="Delete award campaign?" centered closeOnClickOutside={!busy} closeOnEscape={!busy} withCloseButton={!busy}>
+      <Modal opened={!!deleteTarget} onClose={() => { if (!busy) setDeleteTarget(null) }} title="Delete Award Campaign?" centered closeOnClickOutside={!busy} closeOnEscape={!busy} withCloseButton={!busy}>
         <Stack>
           <Text fw={700}>{deleteTarget?.title}</Text>
           <Text>This permanently deletes the campaign and its nominations, votes, committee assignments, and scores. This cannot be undone.</Text>

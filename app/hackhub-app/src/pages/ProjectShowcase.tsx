@@ -302,7 +302,7 @@ function PersonalPhotoCrop({ file, language, onConfirm, onClose }: {
   }
 
   return (
-    <Modal opened onClose={() => { if (!saving) onClose() }} title={zh ? '裁剪个人照片' : 'Crop personal photo'} centered size="sm"
+    <Modal opened onClose={() => { if (!saving) onClose() }} title={zh ? '裁剪个人照片' : 'Crop Personal Photo'} centered size="sm"
       closeOnClickOutside={!saving} closeOnEscape={!saving} withCloseButton={!saving}>
       <Stack>
         <Text size="sm">{zh ? '拖动照片调整位置，使用滑块缩放（3:4 证件照比例）。也可用方向键移动照片。' : 'Drag to reposition and use the slider to zoom (3:4 portrait). Arrow keys also move the photo.'}</Text>
@@ -1046,7 +1046,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           {eligibility.data && !canNominate && <Alert color="orange">{eligibility.data.message || 'Your signed-in account could not be matched to an eligible employee and Nominating HoD.'}</Alert>}
           {editError && <Alert color="red">{editError}</Alert>}
           {editId && !editingNomination && !editError && <Text>Loading your submitted nomination…</Text>}
-          {editingNomination?.approvalReason && <Alert color="orange" title="Requested changes">{editingNomination.approvalReason}</Alert>}
+          {editingNomination?.approvalReason && <Alert color="orange" title="Requested Changes">{editingNomination.approvalReason}</Alert>}
           <div className="dp-flow-heading">
             <div>
               <Title id="track-choice-title" order={2}>Start You Nomation</Title>
@@ -1129,7 +1129,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             </Alert>
           ) : user && ownNominations.isPending ? <Text role="status">Checking your existing nominations…</Text>
             : user && ownNominations.isError ? <Alert color="red">Unable to verify your existing nominations. <Button variant="subtle" onClick={() => void ownNominations.refetch()}>Retry</Button></Alert>
-            : !editId && existingNomination ? <Alert color="grape" className="dp-existing-nomination" title="Nomination already submitted">
+            : !editId && existingNomination ? <Alert color="grape" className="dp-existing-nomination" title="Nomination Already Submitted">
               You can submit one Individual nomination and one Team nomination per award, across all categories.
               <Button variant="subtle" onClick={() => navigate(`/my-nominations?id=${encodeURIComponent(existingNomination.id)}`)}>View your nomination</Button>
             </Alert>
@@ -1309,11 +1309,11 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   return (
     <Container size={1240} pt={{ base: 'sm', md: 'lg' }} className={`dp-page dp-voting-page${cartOpened ? ' dp-voting-page--cart-open' : ''}`}>
       <Stack gap="lg">
-        {loadError && <Alert color="red" title="Unable to load nominations"><Button variant="subtle" onClick={() => void loadProjects()}>Retry</Button></Alert>}
+        {loadError && <Alert color="red" title="Unable To Load Nominations"><Button variant="subtle" onClick={() => void loadProjects()}>Retry</Button></Alert>}
         <div className="dp-selection-header">
           <div className="dp-category-heading">
             <div>
-              <h1 className="dp-section-title dp-selection-title">{canDelete ? (language === 'zh' ? '提名管理' : 'Manage nominees') : <>Meet this year&apos;s nominees</>}</h1>
+              <h1 className="dp-section-title dp-selection-title">{canDelete ? (language === 'zh' ? '提名管理' : 'Manage Nominees') : <>Meet This Year&apos;s Nominees</>}</h1>
             </div>
             {!canDelete && <Button.Group className="dp-type-switch" aria-label="Voting nomination type">{(['team', 'individual'] as const).map((type) => <Button key={type} radius="xl" variant={votingType === type ? 'filled' : 'outline'} aria-pressed={votingType === type}
               onClick={() => { setVotingType(type); setFilters((current) => ({ ...current, department: '' })) }}>{type === 'team' ? 'Team' : 'Individual'}</Button>)}</Button.Group>}
@@ -1321,13 +1321,12 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         </div>
 
         {!canDelete && <section className="dp-voting-rules" aria-label="Voting rules" translate="no">
-          <Text fw={700}>Voting rules</Text>
-          <ul>
-            <li>Click Vote to save immediately; click again to cancel. Each nominee receives at most one of your votes.</li>
-            {votingType === 'team' ? <li>Team: up to 3 votes per category.</li>
-              : <li>Individual: up to 2 votes for your department and up to 2 votes for other departments per category. Each allowance is independent.</li>}
-            <li>You do not have to use all votes. Click a saved nominee in the panel on the right to locate their card, or delete a saved vote.</li>
-          </ul>
+          <Text fw={700}>{votingType === 'team' ? 'Team Awards — Voting Rules' : 'Individual Awards — Voting Rules'}</Text>
+          <ol style={{ paddingLeft: 22 }}>
+            <li>Click &quot;Vote&quot; to submit; click &quot;Submitted&quot; again to withdraw your vote.</li>
+            {votingType === 'team' ? <li>You may vote for up to 3 nominees per category.</li>
+              : <li>You may vote for up to 2 nominees within your department and up to 2 nominees in other departments per category. These two quotas are counted separately.</li>}
+          </ol>
         </section>}
 
         <div className="dp-category-tabs" role="group" aria-label="Filter by award category">
@@ -1564,7 +1563,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         {cartOpened && <section id="vote-cart" className="dp-vote-cart-panel" role="dialog" aria-modal="false"
           aria-labelledby="vote-cart-title" onKeyDown={(event) => { if (event.key === 'Escape') closeVoteCart() }}>
           <Group className="dp-vote-cart-header" justify="space-between" wrap="nowrap">
-            <Title order={2} size="h4" id="vote-cart-title" aria-live="polite">My votes ({submittedProjects.length})</Title>
+            <Title order={2} size="h4" id="vote-cart-title" aria-live="polite">My Votes ({submittedProjects.length})</Title>
             <CloseButton aria-label="Close my votes" onClick={closeVoteCart} />
           </Group>
           <div className="dp-vote-cart-body"><Stack gap="md">
@@ -1592,15 +1591,15 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
               </div>)}
           </Stack></div>
         </section>}
-        <Modal opened={Boolean(voteError)} onClose={() => setVoteError(null)} title="Vote not submitted" centered zIndex={400}>
+        <Modal opened={Boolean(voteError)} onClose={() => setVoteError(null)} title="Vote Not Submitted" centered zIndex={400}>
           <Stack><Alert color="red" role="alert">{voteError}</Alert><Button onClick={() => setVoteError(null)}>OK</Button></Stack>
         </Modal>
 
-        <Modal opened={recordsOpened} zIndex={310} onClose={closeVotingRecords} title="My voting records" size="lg" centered>
+        <Modal opened={recordsOpened} zIndex={310} onClose={closeVotingRecords} title="My Voting Records" size="lg" centered>
           <Stack>
             {!user ? <Text>Sign in to view your voting records.</Text>
               : loading ? <Text role="status">Loading voting records…</Text>
-              : loadError ? <Alert color="red" title="Unable to load voting records">
+              : loadError ? <Alert color="red" title="Unable To Load Voting Records">
                 <Button variant="subtle" onClick={() => void loadProjects()}>Retry</Button>
               </Alert>
               : <>
@@ -1630,7 +1629,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         </Modal>
 
         <Modal opened={recordToDelete !== null} onClose={() => { if (!deletingRecord) setRecordToDelete(null) }}
-          title="Delete voting record?" centered zIndex={310} closeOnClickOutside={!deletingRecord}
+          title="Delete Voting Record?" centered zIndex={310} closeOnClickOutside={!deletingRecord}
           closeOnEscape={!deletingRecord} withCloseButton={!deletingRecord}>
           <Stack>
             <Text>Delete your submitted vote for <span translate="no">{recordToDelete?.title}</span>? This action cannot be undone.</Text>
@@ -1646,7 +1645,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         <Modal
           opened={canDelete && pendingDeletion.length > 0}
           onClose={() => { if (!deleting) setPendingDeletion([]) }}
-          title={language === 'zh' ? '确认删除提名' : 'Confirm nomination deletion'}
+          title={language === 'zh' ? '确认删除提名' : 'Confirm Nomination Deletion'}
           centered
           closeOnClickOutside={false}
           closeOnEscape={!deleting}

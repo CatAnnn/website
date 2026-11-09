@@ -131,7 +131,7 @@ export function NominationApprovals({ reviewMode = false }: { reviewMode?: boole
           </>}
     </Stack>
     </Card>
-    <Modal opened={decision !== null} onClose={() => { if (!busy) setDecision(null) }} title={decision === 'approved' ? 'Approve nominations' : 'Reject for revision'} centered closeOnClickOutside={!busy} closeOnEscape={!busy} withCloseButton={!busy}>
+    <Modal opened={decision !== null} onClose={() => { if (!busy) setDecision(null) }} title={decision === 'approved' ? 'Approve Nominations' : 'Reject For Revision'} centered closeOnClickOutside={!busy} closeOnEscape={!busy} withCloseButton={!busy}>
       <Stack><Text>{decisionItems.length} nomination(s) selected.</Text><Textarea label={decision === 'rejected' ? 'Reason for revision' : 'Comment'} required={decision === 'rejected'} value={reason} onChange={(event) => setReason(event.currentTarget.value)} maxLength={2000} disabled={busy} />
         {error && <Alert color="red">{error}</Alert>}
         <Button onClick={() => void submitDecision()} loading={busy} disabled={decisionItems.length === 0 || (decision === 'rejected' && !reason.trim())}>Confirm</Button>

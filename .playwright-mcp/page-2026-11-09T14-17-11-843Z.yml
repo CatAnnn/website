@@ -1,0 +1,56 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - heading "HTTP 错误 404.0 - Not Found" [level=3] [ref=e4]
+    - heading "您要找的资源已被删除、已更名或暂时不可用。" [level=4] [ref=e5]
+  - group [ref=e7]:
+    - heading "最可能的原因:" [level=4] [ref=e8]
+    - list [ref=e9]:
+      - listitem [ref=e10]: 指定的目录或文件在 Web 服务器上不存在。
+      - listitem [ref=e11]: URL 拼写错误。
+      - listitem [ref=e12]: 某个自定义筛选器或模块(如 URLScan)限制了对该文件的访问。
+  - group [ref=e14]:
+    - heading "可尝试的操作:" [level=4] [ref=e15]
+    - list [ref=e16]:
+      - listitem [ref=e17]: 在 Web 服务器上创建内容。
+      - listitem [ref=e18]: 检查浏览器 URL。
+      - listitem [ref=e19]:
+        - text: 创建跟踪规则以跟踪此 HTTP 状态代码的失败请求，并查看是哪个模块在调用 SetStatus。有关为失败的请求创建跟踪规则的详细信息，请单击
+        - link "此处" [ref=e20] [cursor=pointer]:
+          - /url: http://go.microsoft.com/fwlink/?LinkID=66439
+        - text: 。
+  - group [ref=e22]:
+    - heading "详细错误信息:" [level=4] [ref=e23]
+    - table [ref=e25]:
+      - rowgroup [ref=e26]:
+        - row [ref=e27]:
+          - rowheader "模块" [ref=e28]
+          - cell "IIS Web Core" [ref=e29]
+        - row [ref=e30]:
+          - rowheader "通知" [ref=e31]
+          - cell "MapRequestHandler" [ref=e32]
+        - row [ref=e33]:
+          - rowheader "处理程序" [ref=e34]
+          - cell "StaticFile" [ref=e35]
+        - row [ref=e36]:
+          - rowheader "错误代码" [ref=e37]
+          - cell "0x80070002" [ref=e38]
+    - table [ref=e40]:
+      - rowgroup [ref=e41]:
+        - row [ref=e42]:
+          - rowheader "请求的 URL" [ref=e43]
+          - cell "http://localhost:80/nominate?type=individual" [ref=e44]
+        - row [ref=e45]:
+          - rowheader "物理路径" [ref=e46]
+          - cell "C:\\inetpub\\wwwroot\\nominate" [ref=e47]
+        - row [ref=e48]:
+          - rowheader "登录方法" [ref=e49]
+          - cell "匿名" [ref=e50]
+        - row [ref=e51]:
+          - rowheader "登录用户" [ref=e52]
+          - cell "匿名" [ref=e53]
+  - group [ref=e55]:
+    - heading "详细信息:" [level=4] [ref=e56]
+    - text: 此错误表明文件或目录在服务器上不存在。请创建文件或目录并重新尝试请求。
+    - paragraph [ref=e57]:
+      - link "查看详细信息 »" [ref=e58] [cursor=pointer]:
+        - /url: https://go.microsoft.com/fwlink/?LinkID=62293&IIS70Error=404,0,0x80070002,26200

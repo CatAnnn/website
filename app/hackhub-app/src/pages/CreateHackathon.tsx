@@ -211,7 +211,7 @@ const CreateHackathon = () => {
   return (
     <Container className="dp-page" size="lg" py="xl">
       <Paper shadow="sm" radius="md" p="xl">
-        <Title order={2} mb="xl">Create award campaign</Title>
+        <Title order={2} mb="xl">Create Award Campaign</Title>
 
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Grid>

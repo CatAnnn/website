@@ -91,14 +91,14 @@ describe('AwardManagement', () => {
     user.role = 'admin'
     try {
       show('/awards/award-1')
-      expect(await screen.findByRole('heading', { name: 'Committee members' })).toBeInTheDocument()
+      expect(await screen.findByRole('heading', { name: 'Committee Members' })).toBeInTheDocument()
       expect(JudgingService.getJudges).toHaveBeenCalledExactlyOnceWith('award-1')
       expect(screen.queryByRole('link', { name: 'Edit campaign & dates' })).not.toBeInTheDocument()
       const values = await screen.findByRole('region', { name: 'Customer Values voting results' })
       expect(within(values).getByText('Value nominee')).toBeInTheDocument()
       expect(within(values).getByText('3')).toBeInTheDocument()
       expect(within(values).getByText('8.00')).toBeInTheDocument()
-      for (const track of ['Innovation Breakthrough', 'Collaboration to Win']) {
+      for (const track of ['Innovation Breakthrough', 'Collaboration To Win']) {
         const results = screen.getByRole('region', { name: `${track} voting results` })
         expect(within(results).queryByText('Value nominee')).not.toBeInTheDocument()
         expect(within(results).getByText('No nominations in this category yet.')).toBeInTheDocument()

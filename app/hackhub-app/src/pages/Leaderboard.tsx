@@ -77,12 +77,12 @@ export function Leaderboard({ hackathonId: propHackathonId }: LeaderboardProps =
   const detailError = details.error ?? judges.error ?? criteria.error
   const exportRows = [['Rank', 'Nomination', 'Category', 'Committee total / 10', 'Completed judges', 'Associate votes'], ...rows.map((score) => [String(score.displayRank ?? ''), score.ideaTitle, nominations.get(score.ideaId)?.category ?? '', score.panelScore?.toFixed(2) ?? 'Not scored', String(score.judgeCount), String(score.voteCount)])]
 
-  if (!canManage) return <Container size="sm" py="xl"><Alert color="blue" title="Manager access required">Committee rankings and individual ratings are available to award managers.</Alert></Container>
+  if (!canManage) return <Container size="sm" py="xl"><Alert color="blue" title="Manager Access Required">Committee rankings and individual ratings are available to award managers.</Alert></Container>
 
   return <Container size={1320} w="100%" miw={0} style={{ maxWidth: 1320 }} py={{ base: 'md', md: 'xl' }} className="dp-page"><Stack gap="xl" miw={0}>
     <Group justify="space-between" align="flex-end">
       <div><Group gap="xs" mb="md"><ActionIcon variant="subtle" aria-label="Back to award event" onClick={() => navigate(`/awards/${hackathonId}`)}><IconArrowLeft size={18} /></ActionIcon><Text className="dp-section-label" mb={0}>Committee view · Live totals</Text></Group>
-        <h1 className="dp-section-title">Committee ranking</h1><Text className="dp-section-copy" mt="md">Average of completed committee evaluations: Behavior Demonstration 70% + Business Impact 30%. Equal totals share a rank; associate votes do not affect committee totals.</Text></div>
+        <h1 className="dp-section-title">Committee Ranking</h1><Text className="dp-section-copy" mt="md">Average of completed committee evaluations: Behavior Demonstration 70% + Business Impact 30%. Equal totals share a rank; associate votes do not affect committee totals.</Text></div>
       <Button variant="light" color="grape" leftSection={<IconDownload size={17} />} disabled={!rows.length || Boolean(error)} onClick={() => downloadCsv(exportRows)}>Export CSV</Button>
     </Group>
     <Select label="Award category" placeholder="All categories" clearable value={category} onChange={setCategory} data={DIGITAL_PIONEER_TRACKS.map((track) => track.value)} maw={360} />

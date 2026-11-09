@@ -95,7 +95,7 @@ export function AcceptInvitation() {
   if (loadError) {
     return (
       <Container size="sm" py="xl">
-        <Alert icon={<IconAlertCircle size={16} />} color="red" title="Invalid invitation">
+        <Alert icon={<IconAlertCircle size={16} />} color="red" title="Invalid Invitation">
           {loadError}
         </Alert>
         <Button mt="md" variant="light" onClick={() => navigate('/')}>
@@ -113,7 +113,7 @@ export function AcceptInvitation() {
             <ThemeIcon size={80} color="green" variant="light" radius="xl">
               <IconCheck style={{ width: rem(40), height: rem(40) }} />
             </ThemeIcon>
-            <Title order={2}>You're in!</Title>
+            <Title order={2}>You're In!</Title>
             <Text c="dimmed" ta="center">
               You joined <b>{preview!.organizationName}</b> as a{' '}
               <b>{roleLabel(preview!.invitedRole)}</b>.
@@ -138,7 +138,7 @@ export function AcceptInvitation() {
 
             <Stack align="center" gap="xs">
               <Title order={2} ta="center">
-                You've been invited to join
+                You've Been Invited To Join
               </Title>
               <Title order={1} ta="center">
                 {preview!.organizationName}

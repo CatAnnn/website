@@ -235,7 +235,7 @@ export function VotingCriteriaManager({ hackathonId, isManager }: VotingCriteria
     return (
       <Card withBorder p="lg">
         <Stack gap="md">
-          <Title order={3}>Committee evaluation criteria</Title>
+          <Title order={3}>Committee Evaluation Criteria</Title>
           <Text c="dimmed">Loading...</Text>
         </Stack>
       </Card>
@@ -248,7 +248,7 @@ export function VotingCriteriaManager({ hackathonId, isManager }: VotingCriteria
         <Stack gap="md">
           <Group justify="space-between">
             <div>
-              <Title order={3}>Committee evaluation criteria</Title>
+              <Title order={3}>Committee Evaluation Criteria</Title>
               <Text c="dimmed" size="sm">
                 Evaluate individual nominees against the official award standard
               </Text>
@@ -405,7 +405,7 @@ export function VotingCriteriaManager({ hackathonId, isManager }: VotingCriteria
           setEditingCriteria(null)
           form.reset()
         }}
-        title={editingCriteria ? 'Edit Committee evaluation criteria' : 'Add Committee evaluation criteria'}
+        title={editingCriteria ? 'Edit Committee Evaluation Criteria' : 'Add Committee Evaluation Criteria'}
         size="md"
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>

@@ -52,7 +52,7 @@ it('requires explicit scores and submits the Excel example as one complete evalu
   await user.type(screen.getByRole('textbox', { name: /Customer Impact score/ }), '8')
   expect(submit).toBeDisabled()
   await user.type(screen.getByRole('textbox', { name: /Deep Customer Insight score/ }), '5')
-  await user.type(screen.getByRole('textbox', { name: /Growing Together with Customers score/ }), '9')
+  await user.type(screen.getByRole('textbox', { name: /Growing Together With Customers score/ }), '9')
   expect(screen.getByText('7.4', { exact: true })).toBeInTheDocument()
   expect(submit).toBeDisabled()
   await user.click(screen.getByRole('textbox', { name: /Recommendation/ }))
@@ -110,7 +110,7 @@ it('repairs an unscored invalid rubric from the blocked scoring screen', async (
   expect(mocks.applyAwardTemplate).not.toHaveBeenCalled()
   await userEvent.click(screen.getByRole('button', { name: 'Confirm official criteria' }))
   await waitFor(() => expect(mocks.applyAwardTemplate).toHaveBeenCalledWith('award-1'))
-  expect(await screen.findByText('Score the evidence')).toBeInTheDocument()
+  expect(await screen.findByText('Score The Evidence')).toBeInTheDocument()
   expect(screen.queryByText('Check setup')).not.toBeInTheDocument()
 })
 
@@ -123,7 +123,7 @@ it('keeps the invalid setup visible when existing scores prevent replacement', a
   await userEvent.click(screen.getByRole('button', { name: 'Confirm official criteria' }))
   await waitFor(() => expect(mocks.notify).toHaveBeenCalledWith(expect.objectContaining({color:'red'})))
   expect(screen.getByText('Check setup')).toBeInTheDocument()
-  expect(screen.queryByText('Score the evidence')).not.toBeInTheDocument()
+  expect(screen.queryByText('Score The Evidence')).not.toBeInTheDocument()
 })
 
 it('allows a verified roster HoD to score without a committee assignment', async () => { mocks.hod = true; mocks.getJudges.mockResolvedValue([]); show(); expect(await screen.findByRole('textbox', {name:/Customer Impact score/})).toBeEnabled(); expect(mocks.getMyScores).toHaveBeenCalled(); })

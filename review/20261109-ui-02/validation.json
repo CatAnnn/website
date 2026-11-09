@@ -1,0 +1,72 @@
+{
+  "passed": true,
+  "screenshotsUseDemoData": true,
+  "results": [
+    {
+      "type": "team",
+      "width": 1440,
+      "text": [
+        "Click \"Vote\" to submit; click \"Submitted\" again to withdraw your vote.",
+        "You may vote for up to 3 nominees per category."
+      ],
+      "whiteText": true,
+      "numbered": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "type": "individual",
+      "width": 1440,
+      "text": [
+        "Click \"Vote\" to submit; click \"Submitted\" again to withdraw your vote.",
+        "You may vote for up to 2 nominees within your department and up to 2 nominees in other departments per category. These two quotas are counted separately."
+      ],
+      "whiteText": true,
+      "numbered": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "type": "team",
+      "width": 768,
+      "text": [
+        "Click \"Vote\" to submit; click \"Submitted\" again to withdraw your vote.",
+        "You may vote for up to 3 nominees per category."
+      ],
+      "whiteText": true,
+      "numbered": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "type": "individual",
+      "width": 768,
+      "text": [
+        "Click \"Vote\" to submit; click \"Submitted\" again to withdraw your vote.",
+        "You may vote for up to 2 nominees within your department and up to 2 nominees in other departments per category. These two quotas are counted separately."
+      ],
+      "whiteText": true,
+      "numbered": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "type": "team",
+      "width": 390,
+      "text": [
+        "Click \"Vote\" to submit; click \"Submitted\" again to withdraw your vote.",
+        "You may vote for up to 3 nominees per category."
+      ],
+      "whiteText": true,
+      "numbered": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "type": "individual",
+      "width": 390,
+      "text": [
+        "Click \"Vote\" to submit; click \"Submitted\" again to withdraw your vote.",
+        "You may vote for up to 2 nominees within your department and up to 2 nominees in other departments per category. These two quotas are counted separately."
+      ],
+      "whiteText": true,
+      "numbered": true,
+      "noHorizontalOverflow": true
+    }
+  ]
+}
