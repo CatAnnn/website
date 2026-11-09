@@ -21,10 +21,12 @@ class TeamMemberDirectoryIT extends PostgresIntegrationTest {
 	@Test
 	void serves_roster_members_with_an_empty_profile_database_and_keeps_authentication_required() throws Exception {
 		assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM profiles", Integer.class)).isZero();
-		mvc.perform(get("/api/v1/team-members/search").param("q", "weimin wang")
-				.with(MockAuthHelper.asParticipant(UUID.randomUUID()))).andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].name").value("WANG Weimin"))
-				.andExpect(jsonPath("$[0].orgUnit").value("BD/SLP-CO"));
+		for (String query : new String[]{"weimin wang", "@卫民", "＠卫民", "@weimin"}) {
+			mvc.perform(get("/api/v1/team-members/search").param("q", query)
+					.with(MockAuthHelper.asParticipant(UUID.randomUUID()))).andExpect(status().isOk())
+					.andExpect(jsonPath("$[0].name").value("WANG Weimin"))
+					.andExpect(jsonPath("$[0].orgUnit").value("BD/SLP-CO"));
+		}
 		mvc.perform(get("/api/v1/team-members/search").param("q", "wang weimin"))
 				.andExpect(status().isUnauthorized());
 		assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM profiles", Integer.class)).isZero();

@@ -134,7 +134,6 @@ export function TeamNominationForm({ user, hackathonId, category, onCategoryChan
         placeholder="Summarize the achievement, the value created, and why it deserves the 2026 Digital Pioneer Award in this track."
         value={achievementSummary} error={summaryWords > 200 ? 'Maximum 200 words.' : undefined}
         onChange={(event) => setAchievementSummary(event.currentTarget.value)} />
-        <Text size="xs" c={summaryWords > 200 ? 'red' : 'dimmed'} aria-live="polite">{summaryWords} / 200 words</Text>
       </div>
       <div className="dp-fieldset" translate="no"><Textarea label="Details of Your Team Achievement in 2026 and Business Impact" required autosize minRows={4} resize="vertical" disabled={busy}
         placeholder="What were the measurable outcomes in 2026? including financial figures"

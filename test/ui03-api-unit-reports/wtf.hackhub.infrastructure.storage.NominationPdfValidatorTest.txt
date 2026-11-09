@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: wtf.hackhub.infrastructure.storage.NominationPdfValidatorTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.844 s -- in wtf.hackhub.infrastructure.storage.NominationPdfValidatorTest

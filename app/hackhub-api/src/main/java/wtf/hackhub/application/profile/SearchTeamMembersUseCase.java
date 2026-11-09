@@ -30,7 +30,11 @@ public class SearchTeamMembersUseCase {
 		String raw = query == null ? "" : query.strip();
 		if (raw.length() > 200) throw new IllegalArgumentException("Search query must not exceed 200 characters.");
 		String normalized = normalize(raw.replaceFirst("^@", ""));
-		if (normalized.replace(" ", "").length() < 2) return List.of();
+		// 中文姓氏可用单字查询；英文仍至少两字符，避免空输入或标点枚举名册。
+		if (normalized.replace(" ", "").length() < 2
+				&& normalized.codePoints().noneMatch(codePoint -> Character.UnicodeScript.of(codePoint) == Character.UnicodeScript.HAN)) {
+			return List.of();
+		}
 		var tokens = normalized.split(" ");
 		// 按词匹配中英文姓名，允许姓与名调换顺序；目录独立于登录账户和审批名册。
 		return members.stream().filter(member -> Arrays.stream(tokens).allMatch(token ->

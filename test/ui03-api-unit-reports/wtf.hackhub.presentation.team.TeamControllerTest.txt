@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: wtf.hackhub.presentation.team.TeamControllerTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.316 s -- in wtf.hackhub.presentation.team.TeamControllerTest

@@ -39,6 +39,19 @@ class TeamMemberControllerTest {
 	}
 
 	@Test
+	void searches_chinese_and_english_keywords_with_at_prefixes() throws Exception {
+		for (String query : new String[]{"@卫民", "＠卫民", "@weimin", "＠WEIMIN"}) {
+			mvc.perform(get("/api/v1/team-members/search").param("q", query)
+					.with(MockAuthHelper.asParticipant(UUID.randomUUID()))).andExpect(status().isOk())
+					.andExpect(jsonPath("$.length()").value(1))
+					.andExpect(jsonPath("$[0].name").value("WANG Weimin"));
+		}
+		mvc.perform(get("/api/v1/team-members/search").param("q", "＠王")
+				.with(MockAuthHelper.asParticipant(UUID.randomUUID()))).andExpect(status().isOk())
+				.andExpect(jsonPath("$.length()").value(20));
+	}
+
+	@Test
 	void anonymous_cannot_read_the_directory() throws Exception {
 		mvc.perform(get("/api/v1/team-members/search").param("q", "wang")).andExpect(status().isUnauthorized());
 	}

@@ -796,6 +796,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
   }, [projects, filters, canDelete, votingType])
 
   const submittedProjects = projects.filter((project) => project.user_vote)
+  const currentTypeVoteCount = submittedProjects.filter((project) => project.nomination_type === votingType).length
   const locateVotedProject = (project: Project) => {
     setVotingType(project.nomination_type)
     setFilters({ search: '', category: '', department: '' })
@@ -1382,8 +1383,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
         {!canDelete && <Button
           className="dp-vote-cart-button"
           leftSection={<IconThumbUp size={22} />}
-          rightSection={<Badge className="dp-vote-cart-count" variant="filled">{submittedProjects.length}</Badge>}
-          aria-label={language === 'zh' ? `我的点赞（${submittedProjects.length}）` : `My votes (${submittedProjects.length})`}
+          rightSection={<Badge className="dp-vote-cart-count" variant="filled">{currentTypeVoteCount}</Badge>}
+          aria-label={language === 'zh' ? `我的点赞（${currentTypeVoteCount}）` : `My votes (${currentTypeVoteCount})`}
           aria-controls="vote-cart"
           aria-haspopup="dialog"
           aria-expanded={cartOpened}

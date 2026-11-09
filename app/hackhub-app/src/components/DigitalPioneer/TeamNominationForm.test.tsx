@@ -79,7 +79,8 @@ describe('Team nomination form', () => {
   it('blocks a summary over 200 words before uploading or submitting', async () => {
     const view = show()
     await fill(view, Array.from({ length: 201 }, () => 'word').join(' '))
-    expect(screen.getByText('201 / 200 words')).toBeInTheDocument()
+    expect(screen.getByText('Maximum 200 words.')).toBeInTheDocument()
+    expect(screen.queryByText(/\d+ \/ 200 words/)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Submit nomination' })).toBeDisabled()
     expect(StorageService.uploadFile).not.toHaveBeenCalled()
     expect(IdeaService.createIdea).not.toHaveBeenCalled()

@@ -349,10 +349,45 @@ describe('ProjectShowcase', () => {
     expect(screen.getByRole('button', { name: 'My votes (1)' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Submitted, 3 votes' })).toHaveAttribute('aria-pressed', 'true')
   })
+  it('counts only the selected type while keeping votes independent of search and other types', async () => {
+    const page = await getIdeas.getMockImplementation()!()
+    const base = page.content[0]
+    const content = [
+      { ...base, id: 'individual-saved', title: 'Individual saved', userHasVoted: true },
+      { ...base, id: 'individual-new', title: 'Individual new', userHasVoted: false },
+      { ...base, id: 'team-one', title: 'Team one', teamId: 'team-1', userHasVoted: true },
+      { ...base, id: 'team-two', title: 'Team two', teamId: 'team-1', userHasVoted: true },
+      { ...base, id: 'team-new', title: 'Team new', teamId: 'team-1', userHasVoted: false },
+    ]
+    getIdeas.mockResolvedValueOnce({ ...page, content })
+    renderVoting('/projects?type=team')
+    expect(await screen.findByRole('button', { name: 'My votes (2)' })).toHaveTextContent('2')
+    await userEvent.click(screen.getByRole('button', { name: 'Individual', exact: true }))
+    expect(screen.getByRole('button', { name: 'My votes (1)' })).toHaveTextContent('1')
+    const search = screen.getByPlaceholderText(/Search/)
+    await userEvent.type(search, 'no match')
+    expect(screen.getByRole('button', { name: 'My votes (1)' })).toHaveTextContent('1')
+    await userEvent.clear(search)
+    getIdeas.mockResolvedValueOnce({ ...page, content: content.map((idea) => idea.id === 'individual-new' ? { ...idea, userHasVoted: true, votes: 3 } : idea) })
+    await userEvent.click(screen.getByRole('button', { name: 'Vote, 2 votes' }))
+    const submitted = await screen.findByRole('button', { name: 'Submitted, 3 votes' })
+    await waitFor(() => expect(submitted).toBeEnabled())
+    expect(submitVotes).toHaveBeenCalledExactlyOnceWith(['individual-new'])
+    expect(screen.getByRole('button', { name: 'My votes (2)' })).toHaveTextContent('2')
+    await userEvent.click(screen.getByRole('button', { name: 'Team', exact: true }))
+    expect(screen.getByRole('button', { name: 'My votes (2)' })).toHaveTextContent('2')
+    await userEvent.click(screen.getByRole('button', { name: 'Individual', exact: true }))
+    getIdeas.mockResolvedValueOnce({ ...page, content })
+    await userEvent.click(screen.getByRole('button', { name: 'Submitted, 3 votes' }))
+    await waitFor(() => expect(deleteVoteRecord).toHaveBeenCalledExactlyOnceWith('individual-new'))
+    expect(await screen.findByRole('button', { name: 'My votes (1)' })).toHaveTextContent('1')
+    await userEvent.click(screen.getByRole('button', { name: 'Team', exact: true }))
+    expect(screen.getByRole('button', { name: 'My votes (2)' })).toHaveTextContent('2')
+  })
   it('locates a cart nominee across type and search filters without opening details', async () => {
     await mockSubmitted()
     renderVoting('/projects?type=team')
-    const cart = await screen.findByRole('button', { name: 'My votes (1)' })
+    const cart = await screen.findByRole('button', { name: 'My votes (0)' })
     const search = screen.getByPlaceholderText(/Search/)
     await userEvent.type(search, 'no match')
     await userEvent.click(cart)

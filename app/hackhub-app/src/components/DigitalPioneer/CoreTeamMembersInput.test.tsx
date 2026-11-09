@@ -42,6 +42,33 @@ describe('Core team member lookup', () => {
     expect(TeamMemberService.search).toHaveBeenCalledWith('Ali', expect.any(AbortSignal))
   })
 
+  it('matches a Chinese surname with a full-width @ and normalizes Chinese separators', async () => {
+    const member = { id: 'wang', name: 'WANG Weimin', orgUnit: 'BD/SLP-CO' }
+    vi.mocked(TeamMemberService.search).mockResolvedValue([member])
+    render(<Field />)
+    const input = screen.getByRole('textbox', { name: 'Core Team Member' })
+    fireEvent.change(input, { target: { value: 'Existing Member；＠王' } })
+    fireEvent.click(await screen.findByRole('option', { name: /WANG Weimin/ }))
+    expect(TeamMemberService.search).toHaveBeenCalledWith('王', expect.any(AbortSignal))
+    expect(input).toHaveValue('Existing Member;WANG Weimin')
+  })
+
+  it('waits for Chinese composition to finish before searching or selecting a member', async () => {
+    render(<Field />)
+    const input = screen.getByRole('textbox', { name: 'Core Team Member' })
+    fireEvent.compositionStart(input)
+    fireEvent.change(input, { target: { value: '@wang' } })
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', isComposing: true })
+    await act(async () => { await new Promise((resolve) => setTimeout(resolve, 300)) })
+    expect(TeamMemberService.search).not.toHaveBeenCalled()
+    fireEvent.change(input, { target: { value: '@王卫' } })
+    fireEvent.compositionEnd(input)
+    await screen.findByRole('option', { name: /Alice Zhang/ })
+    expect(TeamMemberService.search).toHaveBeenCalledOnce()
+    expect(TeamMemberService.search).toHaveBeenCalledWith('王卫', expect.any(AbortSignal))
+    expect(input).toHaveValue('@王卫')
+  })
+
   it('cancels stale lookups so a slower previous response cannot replace the current result', async () => {
     let finishFirst!: (profiles: TeamMemberMatch[]) => void
     vi.mocked(TeamMemberService.search).mockReturnValueOnce(new Promise((resolve) => { finishFirst = resolve }))

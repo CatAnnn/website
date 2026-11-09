@@ -8,8 +8,14 @@ interface Props {
   disabled?: boolean
 }
 
+// 中文单字可以作为姓名关键词，英文至少输入两个字符。
+const canSearch = (query: string) => query.length <= 200
+  && (/\p{Script=Han}/u.test(query) || query.replace(/\s/g, '').length >= 2)
+
 export function CoreTeamMembersInput({ value, onChange, disabled }: Props) {
   const input = useRef<HTMLTextAreaElement>(null)
+  const composing = useRef(false)
+  const [isComposing, setIsComposing] = useState(false)
   const [token, setToken] = useState({ query: '', start: 0, end: 0 })
   const [results, setResults] = useState<TeamMemberMatch[]>([])
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
@@ -17,7 +23,7 @@ export function CoreTeamMembersInput({ value, onChange, disabled }: Props) {
 
   useEffect(() => {
     setResults([])
-    if (disabled || token.query.length < 2 || token.query.length > 200) {
+    if (disabled || isComposing || !canSearch(token.query)) {
       setStatus('idle')
       return
     }
@@ -34,16 +40,16 @@ export function CoreTeamMembersInput({ value, onChange, disabled }: Props) {
       })
     }, 250)
     return () => { window.clearTimeout(timer); controller.abort() }
-  }, [token.query, disabled])
+  }, [token.query, disabled, isComposing])
 
   const updateToken = (text: string, caret: number) => {
     const start = text.lastIndexOf(';', Math.max(0, caret - 1)) + 1
     const separator = text.indexOf(';', caret)
     const end = separator < 0 ? text.length : separator
-    const query = text.slice(start, end).trim().replace(/^@/, '')
+    const query = text.slice(start, end).trim().replace(/^[@＠]/u, '').trim()
     setToken({ query, start, end })
     combobox.resetSelectedOption()
-    if (query.length >= 2 && query.length <= 200) combobox.openDropdown()
+    if (canSearch(query) && !composing.current) combobox.openDropdown()
     else combobox.closeDropdown()
   }
 
@@ -61,10 +67,26 @@ export function CoreTeamMembersInput({ value, onChange, disabled }: Props) {
   return <Combobox store={combobox} onOptionSubmit={chooseMember}>
     <Combobox.Target>
       <Textarea ref={input} label="Core Team Member" required autosize minRows={3} resize="vertical" disabled={disabled}
-        placeholder={'Enter Outlook names separated by “;”. Only BDCN team employees may be included. 仅填写 BDCN 团队员工，请填写 Outlook name，用“;”分割。'}
+        placeholder={'Type @ followed by a Chinese or English name keyword; separate members with “;”. Only BDCN team employees may be included. 输入 @ 加中文或英文姓名关键词搜索，多位员工用“;”分隔。'}
         value={value} onChange={(event) => {
-          onChange(event.currentTarget.value)
+          // 全角分号转为等长的英文分号，保留原有提交格式和光标位置。
+          const next = event.currentTarget.value.replace(/；/g, ';')
+          onChange(next)
+          if (!composing.current) updateToken(next, event.currentTarget.selectionStart)
+        }}
+        onCompositionStart={() => {
+          composing.current = true
+          setIsComposing(true)
+          combobox.closeDropdown()
+        }}
+        onCompositionEnd={(event) => {
+          composing.current = false
+          setIsComposing(false)
           updateToken(event.currentTarget.value, event.currentTarget.selectionStart)
+        }}
+        onKeyDownCapture={(event) => {
+          // 输入法确认中文时不触发候选员工的键盘选择。
+          if (composing.current) event.stopPropagation()
         }}
         onClick={(event) => updateToken(event.currentTarget.value, event.currentTarget.selectionStart)}
         onBlur={() => combobox.closeDropdown()} />

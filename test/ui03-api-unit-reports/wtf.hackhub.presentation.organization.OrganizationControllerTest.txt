@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: wtf.hackhub.presentation.organization.OrganizationControllerTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.46 s -- in wtf.hackhub.presentation.organization.OrganizationControllerTest

@@ -14,13 +14,23 @@ class SearchTeamMembersUseCaseTest {
 
 	@Test
 	void finds_workbook_member_without_a_registered_profile() {
-		for (String query : new String[]{"wang weimin", "  @WANG   Weimin ", "weimin wang", "wangweimin", "王卫民"}) {
+		for (String query : new String[]{"wang weimin", "  @WANG   Weimin ", "weimin wang", "wangweimin", "王卫民", "@王卫民", "＠王卫民", "＠WANG Weimin", "@卫民", "@weimin"}) {
 			assertThat(search.execute(query)).singleElement().satisfies(member -> {
 				assertThat(member.name()).isEqualTo("WANG Weimin");
 				assertThat(member.orgUnit()).isEqualTo("BD/SLP-CO");
 				assertThat(member.id()).isNotNull();
 			});
 		}
+	}
+
+	@Test
+	void accepts_single_chinese_keyword_and_preserves_result_limit() {
+		var result = search.execute("王");
+		assertThat(result).hasSize(20).doesNotHaveDuplicates();
+		assertThat(search.execute("@王")).isEqualTo(result);
+		assertThat(search.execute("＠王")).isEqualTo(result);
+		assertThat(search.execute("@a")).isEmpty();
+		assertThat(search.execute("＠a")).isEmpty();
 	}
 
 	@Test
