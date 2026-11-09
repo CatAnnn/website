@@ -250,7 +250,7 @@ export function TeamNominationForm({ user, hackathonId, category, onCategoryChan
         disabled={!canSubmit || summaryWords > 200 || Boolean(photoError || documentError)} onClick={() => void submit()}>
         {editing ? 'Resubmit nomination' : 'Submit nomination'}
       </Button></Group>
-      <Modal opened={reviewOpened} onClose={() => { if (!busy) setReviewOpened(false) }} title="Review Team Nomination" size="xl" centered
+      <Modal opened={reviewOpened} onClose={() => { if (!busy) setReviewOpened(false) }} title="Review Team Nomination" size="lg" centered
         closeOnClickOutside={!busy} closeOnEscape={!busy} withCloseButton={!busy} className="dp-nomination-review"
         styles={{ content: { background: '#071b3b', color: '#fff' }, header: { background: '#071b3b', color: '#fff' }, title: { color: '#fff' } }}>
         <Stack gap="lg" style={{ minWidth: 0 }}>
@@ -259,7 +259,7 @@ export function TeamNominationForm({ user, hackathonId, category, onCategoryChan
           <Title order={3} c="white">{getDigitalPioneerTracks('team').find((track) => track.value === category)?.label ?? category}</Title>
           <Text c="white"><strong>Name:</strong> {metadata?.nominatorName ?? user.name}</Text>
           <Text c="white" style={{ overflowWrap: 'anywhere' }}><strong>Project Name:</strong> {projectName}</Text>
-          {photoPreview && <Image src={photoPreview} alt="Team nomination photo" fit="contain" mah={320} style={{ display: 'block', position: 'static', maxWidth: '100%' }} />}
+          {photoPreview && <Image src={photoPreview} alt="Team nomination photo" fit="contain" w="100%" h={280} style={{ display: 'block', position: 'static', maxWidth: '100%' }} />}
           {[
             ['Core Team Member', coreTeamMembers],
             ['Achievement Summary', achievementSummary],

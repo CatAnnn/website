@@ -493,6 +493,39 @@ describe('ProjectShowcase', () => {
     }
   })
 
+  it('shows legacy team answers under title-case headings and opens its PDF only on request', async () => {
+    getIdeas.mockResolvedValueOnce({ content: [{
+      id: 'team-detail', title: 'Original Team Name', teamId: null, createdBy: 'user-1',
+      description: '**Achievement Summary**\nTeam summary in original case.\n\nDetails of Your Team Achievement in 2026 and Business Impact\nSaved RMB 300,000.\n\nHow you demonstrate BD China culture (especially on you applied category) ?\nWorked with other teams.',
+      category: 'Customer Values', tags: ['Hidden team tag'], attachments: [],
+      projectAttachments: [
+        { type: 'nomination', nominationType: 'team', name: 'Original Team Name' },
+        { type: 'document', name: 'Team evidence.pdf', storageKey: 'team/evidence.pdf', url: '/expired.pdf' },
+      ],
+      votes: 0, userHasVoted: false, status: 'submitted', createdAt: '', updatedAt: '',
+    }] })
+    vi.mocked(StorageService.getPresignedUrl).mockResolvedValue('/storage/team-evidence.pdf')
+    render(<MantineProvider env="test"><MemoryRouter initialEntries={["/projects?type=team"]}><ProjectShowcase /></MemoryRouter></MantineProvider>)
+    await screen.findByText('Original Team Name')
+    await userEvent.click(screen.getByRole('button', { name: 'View details' }))
+    const dialog = within(screen.getByRole('dialog'))
+    for (const heading of ['Achievement Summary', 'Details Of Your Team Achievement In 2026 And Business Impact', 'How You Demonstrate BD China Culture']) {
+      expect(dialog.getByRole('heading', { name: heading, exact: true })).toBeInTheDocument()
+    }
+    for (const answer of ['Team summary in original case.', 'Saved RMB 300,000.', 'Worked with other teams.']) {
+      expect(dialog.getByText(answer, { exact: true })).toBeInTheDocument()
+    }
+    expect(dialog.queryByRole('heading', { name: 'Tags' })).not.toBeInTheDocument()
+    expect(dialog.getByText('Team evidence.pdf')).toBeInTheDocument()
+    expect(dialog.queryByTitle('PDF preview: Team evidence.pdf')).not.toBeInTheDocument()
+    expect(StorageService.getPresignedUrl).not.toHaveBeenCalled()
+    await userEvent.click(dialog.getByRole('button', { name: 'Preview Attachment' }))
+    expect(await dialog.findByTitle('PDF preview: Team evidence.pdf')).toHaveAttribute('src', '/storage/team-evidence.pdf')
+    await userEvent.click(dialog.getByRole('button', { name: 'Hide Attachment' }))
+    expect(dialog.queryByTitle('PDF preview: Team evidence.pdf')).not.toBeInTheDocument()
+    expect(dialog.getByText('Saved RMB 300,000.')).toBeInTheDocument()
+  })
+
   it('presents nomination as an individual three-track flow without team controls', async () => {
     const user = userEvent.setup()
     render(

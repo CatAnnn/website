@@ -37,8 +37,8 @@ export function NominationEvidence({ attachment }: { attachment: ProjectAttachme
       <Button variant="light" c="white" onClick={() => setOpened((value) => !value)}>{opened ? 'Hide Attachment' : isPdf ? 'Preview Attachment' : 'Open Attachment'}</Button>
     </Group>}
     {(!isDocument || opened) && (error ? (
-    <Alert color="red"><Stack gap="xs"><span>Unable to load attachment.</span>
-      <Button variant="subtle" onClick={() => setRevision((value) => value + 1)}>Retry</Button>
+    <Alert color="red" c="white" styles={{ message: { color: '#fff' } }}><Stack gap="xs"><span>Unable to load attachment.</span>
+      <Button variant="subtle" c="white" onClick={() => setRevision((value) => value + 1)}>Retry</Button>
     </Stack></Alert>
   ) : (
     <Stack><Button component="a" href={url ?? undefined} aria-disabled={!url} target="_blank" rel="noopener noreferrer"

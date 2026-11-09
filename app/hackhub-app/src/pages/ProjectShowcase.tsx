@@ -145,7 +145,7 @@ const nominationHeadings = [
   'How You Demonstrate BD China Culture (Especially On You Applied Category) ?',
 ]
 
-function parseNominationDescription(description: string) {
+function parseNominationDescription(description: string, nominationType: 'individual' | 'team' = 'individual') {
   const sections: Array<{ heading: string; body: string }> = []
   let heading = ''
   let lines: string[] = []
@@ -155,9 +155,16 @@ function parseNominationDescription(description: string) {
       : label.toLowerCase() === nominationHeadings[1].toLowerCase() ? 1
       : /^How you demonstrate (?:Bosch|BD) China culture \(especially (?:in your|on you) applied category\)\s*\??$/i.test(label) ? 2
       : -1
-    if (index >= 0) {
+    // 团队历史提交使用不同的固定标题，仅在详情中规范显示，不改写保存的正文。
+    const teamHeading = nominationType === 'team'
+      ? /^Achievement Summary$/i.test(label) ? 'Achievement Summary'
+        : /^Details of Your Team Achievement in 2026 and Business Impact$/i.test(label) ? 'Details Of Your Team Achievement In 2026 And Business Impact'
+        : /^How you demonstrate (?:Bosch|BD) China culture(?: \(especially (?:in your|on you) applied category\))?\s*\??$/i.test(label) ? 'How You Demonstrate BD China Culture'
+        : ''
+      : ''
+    if (teamHeading || index >= 0) {
       if (heading || lines.join('\n').trim()) sections.push({ heading, body: lines.join('\n').trim() })
-      heading = nominationHeadings[index]
+      heading = teamHeading || nominationHeadings[index]
       lines = []
     } else {
       lines.push(line)
@@ -1019,8 +1026,8 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           withCloseButton={!uploading} styles={{ content: { background: '#071b3b', color: 'white' }, header: { background: '#071b3b', color: 'white' }, title: { color: 'white' }, close: { color: 'white' } }}>
           <Stack gap="lg" c="white" style={{ minWidth: 0, overflowWrap: 'anywhere' }}>
             <Title order={3}>{selectedNominationTrack?.label}</Title>
-            <Text c="white">Name: {user?.email}</Text>
-            <Text c="white">Nomination Type: Individual</Text>
+            <Text c="white"><strong>Name:</strong> {user?.email}</Text>
+            <Text c="white"><strong>Nomination Type:</strong> Individual</Text>
             {photoPreview ? <Image src={photoPreview} alt="Nomination Review Photo" fit="contain" w="100%" h={280} />
               : editingNomination?.projectAttachments?.filter((item) => item.type === 'screenshot').map((item) => <RetainedNominationPhoto key={item.storageKey ?? item.url} attachment={item} />)}
             {[
@@ -1672,7 +1679,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
           opened={modalOpened}
           onClose={() => setModalOpened(false)}
           title={selectedProject?.title}
-          size="min(1200px, calc((100dvh - 48px) * 16 / 9), calc(100vw - 32px))"
+          size="min(1200px, calc(100vw - 32px))"
           centered
           classNames={{ content: 'dp-detail-modal', header: 'dp-detail-modal-header', body: 'dp-detail-modal-body' }}
         >
@@ -1689,7 +1696,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
                   fit="contain"
                 />
               ) : (
-                <div className="dp-detail-photo-placeholder" style={{ backgroundColor: '#f8f9fa', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="dp-detail-photo-placeholder" style={{ backgroundColor: '#123457', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Text c="dimmed">Nominee photo</Text>
                 </div>
               )}
@@ -1776,7 +1783,7 @@ export function ProjectShowcase({ nominationMode = false, managementMode = false
             </Stack>
             {/* Description */}
             <div className="dp-candidate-detail-sections">
-              {parseNominationDescription(selectedProject.description).map((section, index) => (
+              {parseNominationDescription(selectedProject.description, selectedProject.nomination_type).map((section, index) => (
                 <section className="dp-candidate-detail-section" key={index}>
                   {section.heading && <Title order={3} className="dp-candidate-detail-heading">{section.heading}</Title>}
                   {section.body.split(/\n\s*\n/).map((paragraph, paragraphIndex) => (

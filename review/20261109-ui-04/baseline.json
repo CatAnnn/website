@@ -1,0 +1,1452 @@
+{
+  "demoData": true,
+  "details": [
+    {
+      "type": "individual",
+      "width": 1440,
+      "headings": [
+        {
+          "text": "Executive Summary (The Elevator Pitch)",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Details Of Your Core Achievement In 2026 And Business Impact (Including Financial Figures)",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "How You Demonstrate BD China Culture (Especially On You Applied Category) ?",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "paragraphs": [
+        {
+          "text": "Improved customer response time by twenty percent through coordinated digital workflows.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "跨团队协作让客户等待时间缩短，结果经过实际数据核对。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The team reduced waiting time, improved service quality and shared the solution with partner teams in 2026.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The same measured workflow now supports multiple departments without duplicate work. 通过共享流程，提高了服务质量并减少重复工作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "We listened to customers, shared ownership and worked across functions to deliver measurable value.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "我们持续倾听客户反馈，将经验分享给其他团队，形成长期合作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "closed": {
+        "dialog": {
+          "x": 72,
+          "y": 109.62935638427734,
+          "right": 1368,
+          "bottom": 838.6293563842773,
+          "width": 1296,
+          "height": 729
+        },
+        "photo": {
+          "x": 166.59375,
+          "y": 169.62936401367188,
+          "right": 380.59375,
+          "bottom": 469.2231140136719,
+          "width": 214,
+          "height": 299.59375
+        },
+        "body": {
+          "x": 495.1875,
+          "y": 169.62936401367188,
+          "right": 1352,
+          "bottom": 822.6293640136719,
+          "width": 856.8125,
+          "height": 653
+        },
+        "frame": null,
+        "paragraphs": [
+          {
+            "x": 495.1875,
+            "y": 208.62936401367188,
+            "right": 1352,
+            "bottom": 237.42623901367188,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 253.42623901367188,
+            "right": 1352,
+            "bottom": 282.2231140136719,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 378.2231140136719,
+            "right": 1352,
+            "bottom": 407.0199890136719,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 423.0199890136719,
+            "right": 1352,
+            "bottom": 480.6137390136719,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 576.6137084960938,
+            "right": 1352,
+            "bottom": 605.4105834960938,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 621.4105834960938,
+            "right": 1352,
+            "bottom": 650.2074584960938,
+            "width": 856.8125,
+            "height": 28.796875
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "opened": {
+        "dialog": {
+          "x": 72,
+          "y": 135.5,
+          "right": 1368,
+          "bottom": 864.5,
+          "width": 1296,
+          "height": 729
+        },
+        "photo": {
+          "x": 166.59375,
+          "y": 195.5,
+          "right": 380.59375,
+          "bottom": 495.09375,
+          "width": 214,
+          "height": 299.59375
+        },
+        "body": {
+          "x": 495.1875,
+          "y": 195.5,
+          "right": 1352,
+          "bottom": 848.5,
+          "width": 856.8125,
+          "height": 653
+        },
+        "frame": {
+          "x": 507.1875,
+          "y": 788.078125,
+          "right": 1340,
+          "bottom": 1348.078125,
+          "width": 832.8125,
+          "height": 560
+        },
+        "paragraphs": [
+          {
+            "x": 495.1875,
+            "y": 234.5,
+            "right": 1352,
+            "bottom": 263.296875,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 279.296875,
+            "right": 1352,
+            "bottom": 308.09375,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 404.09375,
+            "right": 1352,
+            "bottom": 432.890625,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 448.890625,
+            "right": 1352,
+            "bottom": 506.484375,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 602.484375,
+            "right": 1352,
+            "bottom": 631.28125,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 647.28125,
+            "right": 1352,
+            "bottom": 676.078125,
+            "width": 856.8125,
+            "height": 28.796875
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "pdf": {
+        "type": "application/pdf",
+        "bytes": 669,
+        "signature": "%PDF-1.4"
+      },
+      "pdfRequestsAfterClick": 2
+    },
+    {
+      "type": "team",
+      "width": 1440,
+      "headings": [
+        {
+          "text": "How You Demonstrate BD China Culture (Especially On You Applied Category) ?",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "paragraphs": [
+        {
+          "text": "Achievement Summary\nImproved customer response time by twenty percent through coordinated digital workflows.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "跨团队协作让客户等待时间缩短，结果经过实际数据核对。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Details of Your Team Achievement in 2026 and Business Impact\nThe team reduced waiting time, improved service quality and shared the solution with partner teams in 2026.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The same measured workflow now supports multiple departments without duplicate work. 通过共享流程，提高了服务质量并减少重复工作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "We listened to customers, shared ownership and worked across functions to deliver measurable value.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "我们持续倾听客户反馈，将经验分享给其他团队，形成长期合作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "closed": {
+        "dialog": {
+          "x": 72,
+          "y": 108.53007507324219,
+          "right": 1368,
+          "bottom": 837.5300750732422,
+          "width": 1296,
+          "height": 729
+        },
+        "photo": {
+          "x": 166.59375,
+          "y": 168.5300750732422,
+          "right": 380.59375,
+          "bottom": 468.1238250732422,
+          "width": 214,
+          "height": 299.59375
+        },
+        "body": {
+          "x": 495.1875,
+          "y": 168.5300750732422,
+          "right": 1352,
+          "bottom": 821.5300750732422,
+          "width": 856.8125,
+          "height": 653
+        },
+        "frame": null,
+        "paragraphs": [
+          {
+            "x": 495.1875,
+            "y": 168.5300750732422,
+            "right": 1352,
+            "bottom": 226.1238250732422,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 242.1238250732422,
+            "right": 1352,
+            "bottom": 270.92071533203125,
+            "width": 856.8125,
+            "height": 28.796890258789062
+          },
+          {
+            "x": 495.1875,
+            "y": 286.92071533203125,
+            "right": 1352,
+            "bottom": 344.51446533203125,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 360.51446533203125,
+            "right": 1352,
+            "bottom": 418.10821533203125,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 514.1082153320312,
+            "right": 1352,
+            "bottom": 542.9050903320312,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 558.9050903320312,
+            "right": 1352,
+            "bottom": 587.7019653320312,
+            "width": 856.8125,
+            "height": 28.796875
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "opened": {
+        "dialog": {
+          "x": 72,
+          "y": 135.5,
+          "right": 1368,
+          "bottom": 864.5,
+          "width": 1296,
+          "height": 729
+        },
+        "photo": {
+          "x": 166.59375,
+          "y": 195.5,
+          "right": 380.59375,
+          "bottom": 495.09375,
+          "width": 214,
+          "height": 299.59375
+        },
+        "body": {
+          "x": 495.1875,
+          "y": 195.5,
+          "right": 1352,
+          "bottom": 848.5,
+          "width": 856.8125,
+          "height": 653
+        },
+        "frame": {
+          "x": 507.1875,
+          "y": 726.671875,
+          "right": 1340,
+          "bottom": 1286.671875,
+          "width": 832.8125,
+          "height": 560
+        },
+        "paragraphs": [
+          {
+            "x": 495.1875,
+            "y": 195.5,
+            "right": 1352,
+            "bottom": 253.09375,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 269.09375,
+            "right": 1352,
+            "bottom": 297.890625,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 313.890625,
+            "right": 1352,
+            "bottom": 371.484375,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 387.484375,
+            "right": 1352,
+            "bottom": 445.078125,
+            "width": 856.8125,
+            "height": 57.59375
+          },
+          {
+            "x": 495.1875,
+            "y": 541.078125,
+            "right": 1352,
+            "bottom": 569.875,
+            "width": 856.8125,
+            "height": 28.796875
+          },
+          {
+            "x": 495.1875,
+            "y": 585.875,
+            "right": 1352,
+            "bottom": 614.671875,
+            "width": 856.8125,
+            "height": 28.796875
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "pdf": {
+        "type": "application/pdf",
+        "bytes": 669,
+        "signature": "%PDF-1.4"
+      },
+      "pdfRequestsAfterClick": 2
+    },
+    {
+      "type": "individual",
+      "width": 768,
+      "headings": [
+        {
+          "text": "Executive Summary (The Elevator Pitch)",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Details Of Your Core Achievement In 2026 And Business Impact (Including Financial Figures)",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "How You Demonstrate BD China Culture (Especially On You Applied Category) ?",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "paragraphs": [
+        {
+          "text": "Improved customer response time by twenty percent through coordinated digital workflows.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "跨团队协作让客户等待时间缩短，结果经过实际数据核对。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The team reduced waiting time, improved service quality and shared the solution with partner teams in 2026.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The same measured workflow now supports multiple departments without duplicate work. 通过共享流程，提高了服务质量并减少重复工作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "We listened to customers, shared ownership and worked across functions to deliver measurable value.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "我们持续倾听客户反馈，将经验分享给其他团队，形成长期合作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "closed": {
+        "dialog": {
+          "x": 38.390625,
+          "y": 279.6946716308594,
+          "right": 729.609375,
+          "bottom": 668.4915771484375,
+          "width": 691.21875,
+          "height": 388.7969055175781
+        },
+        "photo": {
+          "x": 54.390625,
+          "y": 339.6946716308594,
+          "right": 244.15625,
+          "bottom": 605.3665771484375,
+          "width": 189.765625,
+          "height": 265.6719055175781
+        },
+        "body": {
+          "x": 280.15625,
+          "y": 339.6946716308594,
+          "right": 713.609375,
+          "bottom": 652.4915771484375,
+          "width": 433.453125,
+          "height": 312.7969055175781
+        },
+        "frame": null,
+        "paragraphs": [
+          {
+            "x": 280.15625,
+            "y": 378.6946716308594,
+            "right": 713.609375,
+            "bottom": 436.2884216308594,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 452.2884216308594,
+            "right": 713.609375,
+            "bottom": 481.0852966308594,
+            "width": 433.453125,
+            "height": 28.796875
+          },
+          {
+            "x": 280.15625,
+            "y": 604.0853271484375,
+            "right": 713.609375,
+            "bottom": 661.6790771484375,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 677.6790771484375,
+            "right": 713.609375,
+            "bottom": 764.0697021484375,
+            "width": 433.453125,
+            "height": 86.390625
+          },
+          {
+            "x": 280.15625,
+            "y": 887.0697021484375,
+            "right": 713.609375,
+            "bottom": 944.6634521484375,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 960.6634521484375,
+            "right": 713.609375,
+            "bottom": 1018.2572021484375,
+            "width": 433.453125,
+            "height": 57.59375
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "opened": {
+        "dialog": {
+          "x": 38.390625,
+          "y": 305.59375,
+          "right": 729.609375,
+          "bottom": 694.390625,
+          "width": 691.21875,
+          "height": 388.796875
+        },
+        "photo": {
+          "x": 54.390625,
+          "y": 365.59375,
+          "right": 244.15625,
+          "bottom": 631.265625,
+          "width": 189.765625,
+          "height": 265.671875
+        },
+        "body": {
+          "x": 280.15625,
+          "y": 365.59375,
+          "right": 713.609375,
+          "bottom": 678.390625,
+          "width": 433.453125,
+          "height": 312.796875
+        },
+        "frame": {
+          "x": 292.15625,
+          "y": 730.15625,
+          "right": 701.609375,
+          "bottom": 1290.15625,
+          "width": 409.453125,
+          "height": 560
+        },
+        "paragraphs": [
+          {
+            "x": 280.15625,
+            "y": -21.40625,
+            "right": 713.609375,
+            "bottom": 36.1875,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 52.1875,
+            "right": 713.609375,
+            "bottom": 80.984375,
+            "width": 433.453125,
+            "height": 28.796875
+          },
+          {
+            "x": 280.15625,
+            "y": 203.984375,
+            "right": 713.609375,
+            "bottom": 261.578125,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 277.578125,
+            "right": 713.609375,
+            "bottom": 363.96875,
+            "width": 433.453125,
+            "height": 86.390625
+          },
+          {
+            "x": 280.15625,
+            "y": 486.96875,
+            "right": 713.609375,
+            "bottom": 544.5625,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 560.5625,
+            "right": 713.609375,
+            "bottom": 618.15625,
+            "width": 433.453125,
+            "height": 57.59375
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "pdf": {
+        "type": "application/pdf",
+        "bytes": 669,
+        "signature": "%PDF-1.4"
+      },
+      "pdfRequestsAfterClick": 2
+    },
+    {
+      "type": "team",
+      "width": 768,
+      "headings": [
+        {
+          "text": "How You Demonstrate BD China Culture (Especially On You Applied Category) ?",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "paragraphs": [
+        {
+          "text": "Achievement Summary\nImproved customer response time by twenty percent through coordinated digital workflows.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "跨团队协作让客户等待时间缩短，结果经过实际数据核对。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Details of Your Team Achievement in 2026 and Business Impact\nThe team reduced waiting time, improved service quality and shared the solution with partner teams in 2026.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The same measured workflow now supports multiple departments without duplicate work. 通过共享流程，提高了服务质量并减少重复工作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "We listened to customers, shared ownership and worked across functions to deliver measurable value.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "我们持续倾听客户反馈，将经验分享给其他团队，形成长期合作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "closed": {
+        "dialog": {
+          "x": 38.390625,
+          "y": 275.59375,
+          "right": 729.609375,
+          "bottom": 664.390625,
+          "width": 691.21875,
+          "height": 388.796875
+        },
+        "photo": {
+          "x": 54.390625,
+          "y": 335.59375,
+          "right": 244.15625,
+          "bottom": 601.265625,
+          "width": 189.765625,
+          "height": 265.671875
+        },
+        "body": {
+          "x": 280.15625,
+          "y": 335.59375,
+          "right": 713.609375,
+          "bottom": 648.390625,
+          "width": 433.453125,
+          "height": 312.796875
+        },
+        "frame": null,
+        "paragraphs": [
+          {
+            "x": 280.15625,
+            "y": 335.59375,
+            "right": 713.609375,
+            "bottom": 421.984375,
+            "width": 433.453125,
+            "height": 86.390625
+          },
+          {
+            "x": 280.15625,
+            "y": 437.984375,
+            "right": 713.609375,
+            "bottom": 466.78125,
+            "width": 433.453125,
+            "height": 28.796875
+          },
+          {
+            "x": 280.15625,
+            "y": 482.78125,
+            "right": 713.609375,
+            "bottom": 597.96875,
+            "width": 433.453125,
+            "height": 115.1875
+          },
+          {
+            "x": 280.15625,
+            "y": 613.96875,
+            "right": 713.609375,
+            "bottom": 700.359375,
+            "width": 433.453125,
+            "height": 86.390625
+          },
+          {
+            "x": 280.15625,
+            "y": 823.359375,
+            "right": 713.609375,
+            "bottom": 880.953125,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 896.953125,
+            "right": 713.609375,
+            "bottom": 954.546875,
+            "width": 433.453125,
+            "height": 57.59375
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "opened": {
+        "dialog": {
+          "x": 38.390625,
+          "y": 305.59375,
+          "right": 729.609375,
+          "bottom": 694.390625,
+          "width": 691.21875,
+          "height": 388.796875
+        },
+        "photo": {
+          "x": 54.390625,
+          "y": 365.59375,
+          "right": 244.15625,
+          "bottom": 631.265625,
+          "width": 189.765625,
+          "height": 265.671875
+        },
+        "body": {
+          "x": 280.15625,
+          "y": 365.59375,
+          "right": 713.609375,
+          "bottom": 678.390625,
+          "width": 433.453125,
+          "height": 312.796875
+        },
+        "frame": {
+          "x": 292.15625,
+          "y": 730.546875,
+          "right": 701.609375,
+          "bottom": 1290.546875,
+          "width": 409.453125,
+          "height": 560
+        },
+        "paragraphs": [
+          {
+            "x": 280.15625,
+            "y": -0.40625,
+            "right": 713.609375,
+            "bottom": 85.984375,
+            "width": 433.453125,
+            "height": 86.390625
+          },
+          {
+            "x": 280.15625,
+            "y": 101.984375,
+            "right": 713.609375,
+            "bottom": 130.78125,
+            "width": 433.453125,
+            "height": 28.796875
+          },
+          {
+            "x": 280.15625,
+            "y": 146.78125,
+            "right": 713.609375,
+            "bottom": 261.96875,
+            "width": 433.453125,
+            "height": 115.1875
+          },
+          {
+            "x": 280.15625,
+            "y": 277.96875,
+            "right": 713.609375,
+            "bottom": 364.359375,
+            "width": 433.453125,
+            "height": 86.390625
+          },
+          {
+            "x": 280.15625,
+            "y": 487.359375,
+            "right": 713.609375,
+            "bottom": 544.953125,
+            "width": 433.453125,
+            "height": 57.59375
+          },
+          {
+            "x": 280.15625,
+            "y": 560.953125,
+            "right": 713.609375,
+            "bottom": 618.546875,
+            "width": 433.453125,
+            "height": 57.59375
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "pdf": {
+        "type": "application/pdf",
+        "bytes": 669,
+        "signature": "%PDF-1.4"
+      },
+      "pdfRequestsAfterClick": 2
+    },
+    {
+      "type": "individual",
+      "width": 390,
+      "headings": [
+        {
+          "text": "Executive Summary (The Elevator Pitch)",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Details Of Your Core Achievement In 2026 And Business Impact (Including Financial Figures)",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "How You Demonstrate BD China Culture (Especially On You Applied Category) ?",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "paragraphs": [
+        {
+          "text": "Improved customer response time by twenty percent through coordinated digital workflows.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "跨团队协作让客户等待时间缩短，结果经过实际数据核对。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The team reduced waiting time, improved service quality and shared the solution with partner teams in 2026.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The same measured workflow now supports multiple departments without duplicate work. 通过共享流程，提高了服务质量并减少重复工作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "We listened to customers, shared ownership and worked across functions to deliver measurable value.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "我们持续倾听客户反馈，将经验分享给其他团队，形成长期合作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "closed": {
+        "dialog": {
+          "x": 19.5,
+          "y": 375.3873596191406,
+          "right": 370.5,
+          "bottom": 572.8248291015625,
+          "width": 351,
+          "height": 197.43746948242188
+        },
+        "photo": {
+          "x": 35.5,
+          "y": 435.3873596191406,
+          "right": 123.1875,
+          "bottom": 558.1373291015625,
+          "width": 87.6875,
+          "height": 122.74996948242188
+        },
+        "body": {
+          "x": 159.1875,
+          "y": 435.3873596191406,
+          "right": 354.5,
+          "bottom": 556.8248291015625,
+          "width": 195.3125,
+          "height": 121.43746948242188
+        },
+        "frame": null,
+        "paragraphs": [
+          {
+            "x": 159.1875,
+            "y": 501.3873596191406,
+            "right": 354.5,
+            "bottom": 645.3717041015625,
+            "width": 195.3125,
+            "height": 143.98434448242188
+          },
+          {
+            "x": 159.1875,
+            "y": 661.3717041015625,
+            "right": 354.5,
+            "bottom": 747.7623291015625,
+            "width": 195.3125,
+            "height": 86.390625
+          },
+          {
+            "x": 159.1875,
+            "y": 951.7623291015625,
+            "right": 354.5,
+            "bottom": 1095.7467041015625,
+            "width": 195.3125,
+            "height": 143.984375
+          },
+          {
+            "x": 159.1875,
+            "y": 1111.7467041015625,
+            "right": 354.5,
+            "bottom": 1284.5279541015625,
+            "width": 195.3125,
+            "height": 172.78125
+          },
+          {
+            "x": 159.1875,
+            "y": 1488.5279541015625,
+            "right": 354.5,
+            "bottom": 1632.5123291015625,
+            "width": 195.3125,
+            "height": 143.984375
+          },
+          {
+            "x": 159.1875,
+            "y": 1648.5123291015625,
+            "right": 354.5,
+            "bottom": 1734.9029541015625,
+            "width": 195.3125,
+            "height": 86.390625
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "opened": {
+        "dialog": {
+          "x": 19.5,
+          "y": 401.28125,
+          "right": 370.5,
+          "bottom": 598.71875,
+          "width": 351,
+          "height": 197.4375
+        },
+        "photo": {
+          "x": 35.5,
+          "y": 461.28125,
+          "right": 123.1875,
+          "bottom": 584.03125,
+          "width": 87.6875,
+          "height": 122.75
+        },
+        "body": {
+          "x": 159.1875,
+          "y": 461.28125,
+          "right": 354.5,
+          "bottom": 582.71875,
+          "width": 195.3125,
+          "height": 121.4375
+        },
+        "frame": {
+          "x": 171.1875,
+          "y": 633.796875,
+          "right": 342.5,
+          "bottom": 1193.796875,
+          "width": 171.3125,
+          "height": 560
+        },
+        "paragraphs": [
+          {
+            "x": 159.1875,
+            "y": -755.71875,
+            "right": 354.5,
+            "bottom": -611.734375,
+            "width": 195.3125,
+            "height": 143.984375
+          },
+          {
+            "x": 159.1875,
+            "y": -595.734375,
+            "right": 354.5,
+            "bottom": -509.34375,
+            "width": 195.3125,
+            "height": 86.390625
+          },
+          {
+            "x": 159.1875,
+            "y": -305.34375,
+            "right": 354.5,
+            "bottom": -161.359375,
+            "width": 195.3125,
+            "height": 143.984375
+          },
+          {
+            "x": 159.1875,
+            "y": -145.359375,
+            "right": 354.5,
+            "bottom": 27.421875,
+            "width": 195.3125,
+            "height": 172.78125
+          },
+          {
+            "x": 159.1875,
+            "y": 231.421875,
+            "right": 354.5,
+            "bottom": 375.40625,
+            "width": 195.3125,
+            "height": 143.984375
+          },
+          {
+            "x": 159.1875,
+            "y": 391.40625,
+            "right": 354.5,
+            "bottom": 477.796875,
+            "width": 195.3125,
+            "height": 86.390625
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "pdf": {
+        "type": "application/pdf",
+        "bytes": 669,
+        "signature": "%PDF-1.4"
+      },
+      "pdfRequestsAfterClick": 2
+    },
+    {
+      "type": "team",
+      "width": 390,
+      "headings": [
+        {
+          "text": "How You Demonstrate BD China Culture (Especially On You Applied Category) ?",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "18px",
+          "weight": "700",
+          "lineHeight": "27px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "paragraphs": [
+        {
+          "text": "Achievement Summary\nImproved customer response time by twenty percent through coordinated digital workflows.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "跨团队协作让客户等待时间缩短，结果经过实际数据核对。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Details of Your Team Achievement in 2026 and Business Impact\nThe team reduced waiting time, improved service quality and shared the solution with partner teams in 2026.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "The same measured workflow now supports multiple departments without duplicate work. 通过共享流程，提高了服务质量并减少重复工作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "We listened to customers, shared ownership and worked across functions to deliver measurable value.",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "我们持续倾听客户反馈，将经验分享给其他团队，形成长期合作。",
+          "family": "\"Award Sans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif",
+          "size": "16px",
+          "weight": "400",
+          "lineHeight": "28.8px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "closed": {
+        "dialog": {
+          "x": 19.5,
+          "y": 374.33135986328125,
+          "right": 370.5,
+          "bottom": 571.7688598632812,
+          "width": 351,
+          "height": 197.4375
+        },
+        "photo": {
+          "x": 35.5,
+          "y": 442.33135986328125,
+          "right": 123.1875,
+          "bottom": 565.0813598632812,
+          "width": 87.6875,
+          "height": 122.75
+        },
+        "body": {
+          "x": 159.1875,
+          "y": 442.33135986328125,
+          "right": 354.5,
+          "bottom": 555.7688598632812,
+          "width": 195.3125,
+          "height": 113.4375
+        },
+        "frame": null,
+        "paragraphs": [
+          {
+            "x": 159.1875,
+            "y": 442.33135986328125,
+            "right": 354.5,
+            "bottom": 615.1126098632812,
+            "width": 195.3125,
+            "height": 172.78125
+          },
+          {
+            "x": 159.1875,
+            "y": 631.1126098632812,
+            "right": 354.5,
+            "bottom": 717.5032348632812,
+            "width": 195.3125,
+            "height": 86.390625
+          },
+          {
+            "x": 159.1875,
+            "y": 733.5032348632812,
+            "right": 354.5,
+            "bottom": 963.8782348632812,
+            "width": 195.3125,
+            "height": 230.375
+          },
+          {
+            "x": 159.1875,
+            "y": 979.8782348632812,
+            "right": 354.5,
+            "bottom": 1152.659423828125,
+            "width": 195.3125,
+            "height": 172.78118896484375
+          },
+          {
+            "x": 159.1875,
+            "y": 1356.659423828125,
+            "right": 354.5,
+            "bottom": 1500.643798828125,
+            "width": 195.3125,
+            "height": 143.984375
+          },
+          {
+            "x": 159.1875,
+            "y": 1516.643798828125,
+            "right": 354.5,
+            "bottom": 1603.034423828125,
+            "width": 195.3125,
+            "height": 86.390625
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "opened": {
+        "dialog": {
+          "x": 19.5,
+          "y": 401.28125,
+          "right": 370.5,
+          "bottom": 598.71875,
+          "width": 351,
+          "height": 197.4375
+        },
+        "photo": {
+          "x": 35.5,
+          "y": 469.28125,
+          "right": 123.1875,
+          "bottom": 592.03125,
+          "width": 87.6875,
+          "height": 122.75
+        },
+        "body": {
+          "x": 159.1875,
+          "y": 469.28125,
+          "right": 354.5,
+          "bottom": 582.71875,
+          "width": 195.3125,
+          "height": 113.4375
+        },
+        "frame": {
+          "x": 171.1875,
+          "y": 633.984375,
+          "right": 342.5,
+          "bottom": 1193.984375,
+          "width": 171.3125,
+          "height": 560
+        },
+        "paragraphs": [
+          {
+            "x": 159.1875,
+            "y": -682.71875,
+            "right": 354.5,
+            "bottom": -509.9375,
+            "width": 195.3125,
+            "height": 172.78125
+          },
+          {
+            "x": 159.1875,
+            "y": -493.9375,
+            "right": 354.5,
+            "bottom": -407.546875,
+            "width": 195.3125,
+            "height": 86.390625
+          },
+          {
+            "x": 159.1875,
+            "y": -391.546875,
+            "right": 354.5,
+            "bottom": -161.171875,
+            "width": 195.3125,
+            "height": 230.375
+          },
+          {
+            "x": 159.1875,
+            "y": -145.171875,
+            "right": 354.5,
+            "bottom": 27.609375,
+            "width": 195.3125,
+            "height": 172.78125
+          },
+          {
+            "x": 159.1875,
+            "y": 231.609375,
+            "right": 354.5,
+            "bottom": 375.59375,
+            "width": 195.3125,
+            "height": 143.984375
+          },
+          {
+            "x": 159.1875,
+            "y": 391.59375,
+            "right": 354.5,
+            "bottom": 477.984375,
+            "width": 195.3125,
+            "height": 86.390625
+          }
+        ],
+        "horizontalOverflow": false
+      },
+      "pdf": {
+        "type": "application/pdf",
+        "bytes": 669,
+        "signature": "%PDF-1.4"
+      },
+      "pdfRequestsAfterClick": 2
+    }
+  ],
+  "previews": []
+}

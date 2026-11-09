@@ -954,6 +954,11 @@
 .dp-nomination-review .mantine-Modal-header { background: #071b3b; color: #fff; }
 .dp-nomination-review .mantine-Modal-body { overflow-wrap: anywhere; }
 .dp-nomination-review :is(.mantine-Text-root, .mantine-Title-root, .mantine-Modal-title, .mantine-Button-root, .mantine-CloseButton-root) { color: #fff; }
+/* 个人、团队的预览和详情使用同一正文、标题字号与行距。 */
+.dp-nomination-review .mantine-Text-root,
+.dp-detail-modal .mantine-Text-root { font-family: var(--app-font-body); font-size: 1rem; font-weight: 400; line-height: 1.8; }
+.dp-nomination-review :is(.mantine-Title-root, .mantine-Modal-title),
+.dp-detail-modal :is(.mantine-Title-root, .mantine-Modal-title) { font-family: var(--app-font-body); font-size: 1.125rem; font-weight: 700; line-height: 1.5; }
 
 /* 下拉通过 Portal 渲染，单独设置深色背景及足够对比度。 */
 .dp-member-dropdown { background: #071b3b; border-color: #8da6ca; color: #eef5ff; }
@@ -1586,18 +1591,18 @@
 .dp-candidate-detail-heading { margin: 0 0 12px; font-size: 1.125rem; font-weight: 700; line-height: 1.5; color: #fff; }
 .dp-candidate-detail-paragraph { margin: 0; font-size: 1rem; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
 .dp-candidate-detail-paragraph + .dp-candidate-detail-paragraph { margin-top: 16px; }
-/* View details only: a white 16:9 dialog with independently scrolling columns. */
+/* 详情按内容自然伸展，正文与附件在同一滚动区域内，避免窄屏固定比例挤压文字。 */
 .dp-detail-modal {
-  aspect-ratio: 16 / 9;
+  max-height: calc(100dvh - 48px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #fff;
-  color: #000;
-  --mantine-color-dimmed: #000;
+  background: #071b3b;
+  color: #fff;
+  --mantine-color-dimmed: #fff;
 }
-.dp-detail-modal-header { flex-shrink: 0; background: #fff; color: #000; }
-.dp-detail-modal-body { flex: 1; min-height: 0; display: flex; }
+.dp-detail-modal-header { flex-shrink: 0; background: #071b3b; color: #fff; }
+.dp-detail-modal-body { flex: 1; min-height: 0; overflow-y: auto; }
 .dp-detail-layout {
   display: grid;
   grid-template-columns: minmax(0, 30%) minmax(0, 1fr);
@@ -1609,19 +1614,19 @@
 .dp-detail-modal .dp-candidate-detail-sections {
   min-width: 0;
   min-height: 0;
-  overflow-y: auto;
+  overflow: visible;
   overflow-wrap: anywhere;
-  scrollbar-width: thin;
-  scrollbar-color: #999 #fff;
 }
+.dp-detail-modal-body { scrollbar-width: thin; scrollbar-color: #8da6ca #071b3b; }
 .dp-detail-sidebar { padding-right: 8px; }
 .dp-detail-sidebar > * { flex-shrink: 0; }
-.dp-detail-modal :is(.mantine-Text-root, .mantine-Title-root, .mantine-Modal-title, .mantine-Badge-root, .mantine-Button-root, .mantine-CloseButton-root) { color: #000 !important; }
-/* 新附件条目使用独立深色底，避免详情原有黑字规则覆盖附件文字。 */
-.dp-detail-modal .dp-attachment :is(.mantine-Text-root, .mantine-Button-root, .mantine-Anchor-root) { color: #fff !important; }
-.dp-detail-modal .mantine-Text-root { font-size: 1rem; }
-.dp-detail-modal :is(.mantine-Title-root, .mantine-Modal-title) { font-size: calc(1rem + 2px); }
-.dp-detail-modal .dp-candidate-detail-section + .dp-candidate-detail-section { border-color: #ddd; }
+.dp-detail-modal :is(.mantine-Text-root, .mantine-Title-root, .mantine-Modal-title, .mantine-Badge-root, .mantine-Button-root, .mantine-CloseButton-root) { color: #fff !important; }
+.dp-detail-modal .dp-candidate-detail-section + .dp-candidate-detail-section { border-color: rgb(180 221 255 / 30%); }
+.dp-detail-modal .dp-attachment { margin-top: 28px; }
+@media (max-width: 600px) {
+  .dp-detail-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .dp-detail-sidebar { padding-right: 0; }
+}
 .dp-detail-photo-placeholder { width: min(100%, 214px); aspect-ratio: 5 / 7; align-self: center; }
 .dp-overview-logo-wrap { position: relative; width: 100%; max-width: 520px; margin-inline: auto; }
 /* Reuse the exact logo alpha silhouette for its lower lettering. */
